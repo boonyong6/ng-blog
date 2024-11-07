@@ -1,65 +1,94 @@
-<nav>
-  <mat-toolbar>
-    <span>AngularBlog</span>
-    <span class="example-spacer"></span>
-
-    <!-- TODO: Refactor to links to navigate to page components. -->
-    <div class="menu">
-      <button mat-button>Blog</button>
-      <button mat-button>Tags</button>
-      <button mat-button>Projects</button>
-      <button mat-button>About</button>
+<mat-drawer-container class="container mat-typography" autosize>
+  <mat-drawer #drawer class="sidenav" mode="over" position="end">
+    <div class="close">
+      <button
+        mat-icon-button
+        aria-label="icon-button with close icon"
+        (click)="drawer.close()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
     </div>
 
-    <button
-      mat-icon-button
-      class="example-icon"
-      aria-label="Example icon-button with search icon"
-    >
-      <mat-icon>search</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      class="example-icon"
-      aria-label="Example icon-button with color scheme icon"
-    >
-      @if (isDarkMode) {
-      <mat-icon>dark_mode</mat-icon>
-      } @else {
-      <mat-icon>light_mode</mat-icon>
+    <ul>
+      @for (item of menuItems; track $index) {
+      <li>
+        <a mat-button routerLink="{{ item.url }}" (click)="drawer.close()">{{
+          item.name
+        }}</a>
+      </li>
       }
-    </button>
+    </ul>
+  </mat-drawer>
 
-    <!-- TODO: Implement drawer menu. -->
-    <button
-      mat-icon-button
-      class="burger-menu"
-      aria-label="Example icon-button with menu icon"
-    >
-      <mat-icon>menu</mat-icon>
-    </button>
-  </mat-toolbar>
-</nav>
+  <nav>
+    <mat-toolbar>
+      <span><a class="nav-title" routerLink="/">AngularBlog</a></span>
+      <span class="spacer"></span>
 
-<main>
-  <router-outlet />
-</main>
+      <div class="menu">
+        @for (item of menuItems; track $index) {
+        <a
+          *ngIf="item.name.toLowerCase() != 'home'"
+          mat-button
+          routerLink="{{ item.url }}"
+          >{{ item.name }}</a
+        >
+        }
+      </div>
 
-<footer>
-  <div class="social-links">
-    @for (link of socialLinks; track link.url) {
-    <div>
-      <a href="{{ link.url }}" target="_blank">
-        <img
-          class="icon"
-          ngSrc="{{ link.logoUrl }}"
-          alt="{{ link.description }}"
-          width="24"
-          height="24"
-        />
-      </a>
+      <button
+        mat-icon-button
+        class="icon-button"
+        aria-label="icon-button with search icon"
+      >
+        <mat-icon>search</mat-icon>
+      </button>
+
+      <!-- TODO: Color scheme switch. -->
+      <button
+        mat-icon-button
+        class="icon-button"
+        aria-label="icon-button with color scheme icon"
+      >
+        @if (isDarkMode) {
+        <mat-icon>dark_mode</mat-icon>
+        } @else {
+        <mat-icon>light_mode</mat-icon>
+        }
+      </button>
+
+      <button
+        mat-icon-button
+        class="burger-menu"
+        aria-label="icon-button with menu icon"
+        (click)="drawer.toggle()"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+    </mat-toolbar>
+  </nav>
+
+  <main>
+    <router-outlet />
+  </main>
+
+  <footer>
+    <div class="social-links">
+      @for (link of socialLinks; track $index) {
+      <div>
+        <a href="{{ link.url }}" target="_blank">
+          <img
+            class="icon"
+            ngSrc="{{ link.logoUrl }}"
+            alt="{{ link.description }}"
+            width="24"
+            height="24"
+          />
+        </a>
+      </div>
+      }
     </div>
-    }
-  </div>
-  <div><p>Boon Yong · &copy; 2024 · Angular Blog</p></div>
-</footer>
+    <div><p>Boon Yong · &copy; 2024 · Angular Blog</p></div>
+  </footer>
+</mat-drawer-container>
