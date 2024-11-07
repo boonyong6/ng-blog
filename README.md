@@ -5,6 +5,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## TODO
 
 - [ ] Serve Google Font locally?
+- [ ] Color scheme switch (light/dark)
 
 ## Development server
 

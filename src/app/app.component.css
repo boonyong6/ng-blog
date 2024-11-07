@@ -1,0 +1,37 @@
+footer p {
+  text-align: center;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+}
+
+.social-links > div {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .icon {
+    filter: invert(1);
+  }
+}
+
+/* Medium */
+@media (min-width: 960px) {
+  .burger-menu {
+    display: None;
+  }
+}
+
+/* Small */
+@media (max-width: 959.98px) {
+  .menu {
+    display: None;
+  }
+}
