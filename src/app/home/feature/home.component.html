@@ -1,0 +1,8 @@
+<h1>Latest</h1>
+<hr />
+
+@if (posts$ | async; as posts) { @for (post of posts.results; track post.id) {
+<p>{{ post.title }}</p>
+} } @else {
+<p>Loading...</p>
+}

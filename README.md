@@ -4,8 +4,23 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## TODO
 
+- [ ] Search dialog component - https://material.angular.io/components/dialog/overview
 - [ ] Serve Google Font locally?
 - [ ] Color scheme switch (light/dark)
+- [ ] Save chosen theme
+
+## Notes
+
+- Request made by `HttpClient` returns RxJS `Observable`.
+
+### NX structure technique
+
+- Specific feature folder under `/src/app/`.
+  - Sub-folders in each feature folder - data-access (services), feature (smart/page components (complex)), ui (dumb components (simple)), utils
+    - If a feature has multiple routes, use "shell" (using a `NgModule`) to contain the routing setup.
+- `shared` feature folder - probably don't have `feature` subfolder (smart components).
+  - Using Single Component Angular Module (SCAM) approach
+- Use module to export UI related components.
 
 ## Development server
 
