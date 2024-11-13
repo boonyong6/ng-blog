@@ -51,7 +51,7 @@ export class AppComponent {
     },
     {
       name: 'Blog',
-      url: '/posts',
+      url: '/blog',
     },
     {
       name: 'Tags',
