@@ -1,0 +1,12 @@
+h1 {
+  margin-bottom: 1rem;
+}
+
+hr {
+  opacity: 0.6;
+  margin-bottom: 3rem;
+}
+
+.all-posts {
+  text-align: right;
+}

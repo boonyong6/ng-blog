@@ -13,9 +13,7 @@
     <ul>
       @for (item of menuItems; track $index) {
       <li>
-        <a mat-button routerLink="{{ item.url }}" (click)="drawer.close()">{{
-          item.name
-        }}</a>
+        <a mat-button routerLink="{{ item.url }}">{{ item.name }}</a>
       </li>
       }
     </ul>
@@ -23,7 +21,17 @@
 
   <nav>
     <mat-toolbar>
-      <span><a class="nav-title" routerLink="/">AngularBlog</a></span>
+      <span
+        ><a class="nav-title" routerLink="/"
+          ><img
+            class="logo"
+            ngSrc="logo.png"
+            alt="Blog logo"
+            width="40"
+            height="40"
+          /><span>Blog</span></a
+        ></span
+      >
       <span class="spacer"></span>
 
       <div class="menu">

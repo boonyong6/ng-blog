@@ -1,4 +1,4 @@
-type Post = {
+export type Post = {
   url: string;
   id: number;
   author: string;
@@ -7,8 +7,8 @@ type Post = {
   title: string;
   slug: string;
   body: string;
-  publish: Date;
-  created: Date;
-  updated: Date;
+  publish: string;
+  created: string;
+  updated: string;
   status: string;
 };

@@ -2,7 +2,13 @@
 <hr />
 
 @if (posts$ | async; as posts) { @for (post of posts.results; track post.id) {
-<p>{{ post.title }}</p>
-} } @else {
+<app-post-list-item [post]="post"></app-post-list-item>
+}
+<div class="all-posts">
+  <a mat-button routerLink="/posts"
+    ><mat-icon>trending_flat</mat-icon>All Posts</a
+  >
+</div>
+} @else {
 <p>Loading...</p>
 }

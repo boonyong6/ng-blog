@@ -1,11 +1,17 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Component, ViewChild } from '@angular/core';
+import {
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterOutlet,
+} from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -45,7 +51,7 @@ export class AppComponent {
     },
     {
       name: 'Blog',
-      url: '/blog',
+      url: '/posts',
     },
     {
       name: 'Tags',
@@ -61,9 +67,24 @@ export class AppComponent {
     },
   ];
 
-  constructor(mediaMatcher: MediaMatcher) {
+  @ViewChild('drawer') drawer!: MatDrawer;
+  private routerSub!: Subscription;
+
+  constructor(mediaMatcher: MediaMatcher, private router: Router) {
     this.isDarkMode = mediaMatcher.matchMedia(
       '(prefers-color-scheme: dark)'
     ).matches;
+  }
+
+  ngOnInit() {
+    this.routerSub = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.drawer.close();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.routerSub.unsubscribe();
   }
 }

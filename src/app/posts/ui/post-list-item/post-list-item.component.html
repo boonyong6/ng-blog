@@ -1,0 +1,25 @@
+<div [ngClass]="isFullWidth ? 'full-width' : ''" class="content">
+  <div>
+    <p class="date">{{ post.publish | date : "MMM dd, y" }}</p>
+  </div>
+  <div>
+    <p class="title">
+      <a [routerLink]="postUrl">{{ post.title }}</a>
+    </p>
+    <p>
+      @for (tag of post.tags; track tag) {
+      <a mat-button class="tag" [routerLink]="UrlHelper.populateTagUrl(tag)">{{
+        tag | uppercase
+      }}</a>
+      }
+    </p>
+    <p class="summary">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus qui odio
+      dolore magnam molestias exercitationem a earum, placeat adipisci ab odit
+      numquam minus tempora quasi quia blanditiis id, sit veritatis?
+    </p>
+    <a mat-button [routerLink]="postUrl"
+      ><mat-icon>trending_flat</mat-icon>Read more</a
+    >
+  </div>
+</div>

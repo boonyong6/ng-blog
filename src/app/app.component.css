@@ -17,6 +17,12 @@ footer p {
 .nav-title {
   color: inherit;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.nav-title > .logo {
+  margin-right: 0.5rem;
 }
 
 .spacer {
