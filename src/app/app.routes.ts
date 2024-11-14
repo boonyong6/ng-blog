@@ -8,7 +8,11 @@ const getFullTitle = (title: string) => `${title} • Blog`;
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, title: getFullTitle('Home') },
-  { path: 'blog', component: PostListComponent, title: getFullTitle('blog') },
+  {
+    path: 'blog/page/:pageNum',
+    component: PostListComponent,
+    title: getFullTitle('blog'),
+  },
   { path: 'about', component: AboutComponent, title: getFullTitle('About') },
   {
     path: '**',

@@ -1,1 +1,41 @@
-<p>post-list works!</p>
+<div class="content">
+  <div>
+    <app-tag-sidenav
+      [tags]="tags"
+      [more]="tagsNextUrl !== null"
+      [loadMore]="loadMoreTags.bind(this)"
+    />
+  </div>
+  <div>
+    @if (posts$ | async; as posts) { @for (post of posts.results; track post.id)
+    {
+    <app-post-list-item [post]="post" [isFullWidth]="false" />
+    }
+    <div class="pagination">
+      <div class="action">
+        <a
+          [routerLink]="['/blog/page', this.curPage - 1]"
+          mat-button
+          [disabled]="!posts.previous"
+          >Previous</a
+        >
+      </div>
+      <!-- TODO: (Improvement) Link for page numbers. E.g. 1, 2, 3 -->
+      <div>
+        {{ this.pageNum }} of
+        {{ this.calculateTotalPage(posts.count, 5) }}
+      </div>
+      <div class="action">
+        <a
+          [routerLink]="['/blog/page', this.curPage + 1]"
+          mat-button
+          [disabled]="!posts.next"
+          >Next</a
+        >
+      </div>
+    </div>
+    } @else {
+    <app-loading-overlay />
+    }
+  </div>
+</div>

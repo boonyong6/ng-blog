@@ -13,7 +13,7 @@
     <ul>
       @for (item of menuItems; track $index) {
       <li>
-        <a mat-button routerLink="{{ item.url }}">{{ item.name }}</a>
+        <a mat-button [routerLink]="item.url">{{ item.name }}</a>
       </li>
       }
     </ul>
@@ -39,7 +39,7 @@
         <a
           *ngIf="item.name.toLowerCase() != 'home'"
           mat-button
-          routerLink="{{ item.url }}"
+          [routerLink]="item.url"
           >{{ item.name }}</a
         >
         }

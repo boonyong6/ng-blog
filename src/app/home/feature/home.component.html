@@ -5,7 +5,7 @@
 <app-post-list-item [post]="post" />
 }
 <div class="all-posts">
-  <a mat-button routerLink="/posts"
+  <a mat-button [routerLink]="['/blog/page', 1]"
     ><mat-icon>trending_flat</mat-icon>All Posts</a
   >
 </div>

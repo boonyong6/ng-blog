@@ -1,0 +1,22 @@
+<mat-card appearance="raised">
+  <mat-card-header>
+    <mat-card-title>ALL POSTS</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ul>
+      @for (tag of tags; track $index) {
+      <li>
+        <a mat-button>{{ tag.name | uppercase }} ({{ tag.count }})</a>
+      </li>
+      }
+    </ul>
+    <!-- TODO: (Improvement) Implement next/previous. -->
+    @if (more) {
+    <div class="action-container">
+      <button mat-button (click)="loadMore()">
+        <mat-icon>trending_flat</mat-icon> More
+      </button>
+    </div>
+    }
+  </mat-card-content>
+</mat-card>

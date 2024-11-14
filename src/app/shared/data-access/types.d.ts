@@ -1,6 +1,13 @@
 export type Page<Type> = {
   count: number;
-  next: null;
-  previous: null;
+  next: string | null;
+  previous: string | null;
   results: Type[];
+};
+
+export type Tag = {
+  url: string;
+  count: number;
+  name: string;
+  slug: string;
 };
