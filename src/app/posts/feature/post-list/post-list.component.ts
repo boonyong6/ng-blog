@@ -9,6 +9,7 @@ import { AsyncPipe } from '@angular/common';
 import { PostListItemComponent } from '../../ui/post-list-item/post-list-item.component';
 import { LoadingOverlayComponent } from '../../../shared/ui/loading-overlay/loading-overlay.component';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-post-list',
@@ -31,9 +32,11 @@ export class PostListComponent implements OnInit, OnDestroy {
   @Input() pageNum!: string; // Route fragment binding.
   curPage: number = 1;
   destroyed = new Subject<void>();
+  isSmallScreen: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
+    private breakpointObserver: BreakpointObserver,
     private postService: PostService
   ) {}
 
@@ -44,7 +47,13 @@ export class PostListComponent implements OnInit, OnDestroy {
       this.posts$ = this.postService.getPosts({ page: this.curPage });
     });
 
-    this._loadTags();
+    this.isSmallScreen = this.breakpointObserver.isMatched(
+      '(max-width: 959.98px)'
+    );
+
+    if (!this.isSmallScreen) {
+      this._loadTags();
+    }
   }
 
   ngOnDestroy(): void {
@@ -64,9 +73,12 @@ export class PostListComponent implements OnInit, OnDestroy {
   }
 
   private _loadTags(url: string = '') {
-    this.postService.getTags({ url }).subscribe((value) => {
-      this.tags.push(...value.results);
-      this.tagsNextUrl = value.next;
-    });
+    this.postService
+      .getTags({ url })
+      .pipe(takeUntil(this.destroyed))
+      .subscribe((value) => {
+        this.tags.push(...value.results);
+        this.tagsNextUrl = value.next;
+      });
   }
 }

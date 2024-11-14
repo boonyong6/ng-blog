@@ -1,4 +1,5 @@
 <div class="content">
+  @if (!this.isSmallScreen){
   <div>
     <app-tag-sidenav
       [tags]="tags"
@@ -6,9 +7,13 @@
       [loadMore]="loadMoreTags.bind(this)"
     />
   </div>
+  }
+
   <div>
-    @if (posts$ | async; as posts) { @for (post of posts.results; track post.id)
-    {
+    @if (this.isSmallScreen) {
+    <h1>All Posts</h1>
+    } @if (posts$ | async; as posts) { @for (post of posts.results; track
+    post.id) {
     <app-post-list-item [post]="post" [isFullWidth]="false" />
     }
     <div class="pagination">
