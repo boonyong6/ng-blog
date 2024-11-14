@@ -1,0 +1,20 @@
+<div class="content">
+  <div>
+    <h1>Tags</h1>
+  </div>
+  <div>
+    @if (tagPage$ | async; as tagPage) { @for (tag of this.tags; track $index) {
+    <a [routerLink]="['/tags', tag.slug, 'page', 1]" mat-button
+      >{{ tag.name | uppercase }} ({{ tag.count }})</a
+    >
+    } @if (tagsNextUrl){
+    <div class="action-container">
+      <button mat-button (click)="loadMoreTags()">
+        <mat-icon>trending_flat</mat-icon>More
+      </button>
+    </div>
+    } } @else {
+    <app-loading-overlay />
+    }
+  </div>
+</div>

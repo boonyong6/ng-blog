@@ -13,6 +13,6 @@ export class UrlHelper {
 
   public static populateTagUrl(tag: string) {
     const tagSlug = tag.replaceAll(' ', '-');
-    return `tags/${tagSlug}`;
+    return `/tags/${tagSlug}`;
   }
 }

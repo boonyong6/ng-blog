@@ -10,6 +10,10 @@ type CommonParams = {
   page?: number;
 };
 
+type GetPostsParams = CommonParams & {
+  tagSlug?: string;
+};
+
 // TODO: Implement error handling.
 @Injectable({
   providedIn: 'root',
@@ -21,10 +25,18 @@ export class PostService {
     return this.http.get<Page<Post>>(`${env.apiBaseUrl}/posts/latest/`);
   }
 
-  public getPosts({ url, page = 1 }: CommonParams): Observable<Page<Post>> {
-    return this.http.get<Page<Post>>(
-      url ? url : `${env.apiBaseUrl}/posts/?page=${page}`
-    );
+  public getPosts({
+    url,
+    page = 1,
+    tagSlug,
+  }: GetPostsParams): Observable<Page<Post>> {
+    let endpoint = `${env.apiBaseUrl}/posts/?page=${page}`;
+
+    if (tagSlug) {
+      endpoint = `${env.apiBaseUrl}/tags/${tagSlug}/posts/?page=${page}`;
+    }
+
+    return this.http.get<Page<Post>>(url ? url : endpoint);
   }
 
   public getTags({ url, page = 1 }: CommonParams): Observable<Page<Tag>> {

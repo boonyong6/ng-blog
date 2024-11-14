@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TagSidenavComponent } from '../../../shared/ui/tag-sidenav/tag-sidenav.component';
 import { Page, Tag } from '../../../shared/data-access/types';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,11 +26,12 @@ import { BreakpointObserver } from '@angular/cdk/layout';
   styleUrl: './post-list.component.css',
 })
 export class PostListComponent implements OnInit, OnDestroy {
+  curPage: number = 1;
+  tagSlug?: string;
+
   tags: Tag[] = [];
   tagsNextUrl: string | null = null;
   posts$!: Observable<Page<Post>>;
-  @Input() pageNum!: string; // Route fragment binding.
-  curPage: number = 1;
   destroyed = new Subject<void>();
   isSmallScreen: boolean = false;
 
@@ -43,8 +44,12 @@ export class PostListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroyed)).subscribe((params) => {
       this.curPage = +params['pageNum'] || 1;
+      this.tagSlug = params['tagSlug'];
       // TODO: Error handling. E.g. 404 (page not found)
-      this.posts$ = this.postService.getPosts({ page: this.curPage });
+      this.posts$ = this.postService.getPosts({
+        page: this.curPage,
+        tagSlug: this.tagSlug,
+      });
     });
 
     this.isSmallScreen = this.breakpointObserver.isMatched(
