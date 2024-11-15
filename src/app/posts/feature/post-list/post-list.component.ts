@@ -8,7 +8,6 @@ import { PostService } from '../../data-access/post.service';
 import { AsyncPipe } from '@angular/common';
 import { PostListItemComponent } from '../../ui/post-list-item/post-list-item.component';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-post-list',
@@ -31,11 +30,9 @@ export class PostListComponent implements OnInit, OnDestroy {
   tagsNextUrl: string | null = null;
   posts$!: Observable<Page<Post>>;
   destroyed = new Subject<void>();
-  isSmallScreen: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
-    private breakpointObserver: BreakpointObserver,
     private postService: PostService
   ) {}
 
@@ -50,13 +47,7 @@ export class PostListComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.isSmallScreen = this.breakpointObserver.isMatched(
-      '(max-width: 959.98px)'
-    );
-
-    if (!this.isSmallScreen) {
-      this._loadTags();
-    }
+    this._loadTags();
   }
 
   ngOnDestroy(): void {

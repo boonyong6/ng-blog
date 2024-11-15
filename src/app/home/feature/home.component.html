@@ -1,10 +1,10 @@
 <h1>Latest</h1>
-<hr />
+<hr class="opacity-40 mb-12" />
 
 @if (posts$ | async; as posts) { @for (post of posts.results; track post.id) {
 <app-post-list-item [post]="post" />
 }
-<div class="all-posts">
+<div class="text-right">
   <a mat-button [routerLink]="['/blog/page', 1]"
     ><mat-icon>trending_flat</mat-icon>All Posts</a
   >

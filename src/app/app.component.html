@@ -1,6 +1,9 @@
-<mat-drawer-container class="container mat-typography" autosize>
-  <mat-drawer #drawer class="sidenav" mode="over" position="end">
-    <div class="close">
+<mat-drawer-container
+  class="mat-typography min-h-screen max-w-5xl mx-auto"
+  autosize
+>
+  <mat-drawer #drawer class="sidenav pt-5" mode="over" position="end">
+    <div class="flex justify-end mr-4">
       <button
         mat-icon-button
         aria-label="icon-button with close icon"
@@ -10,31 +13,35 @@
       </button>
     </div>
 
-    <ul>
+    <ul class="ml-8">
       @for (item of menuItems; track $index) {
       <li>
-        <a mat-button [routerLink]="item.url">{{ item.name }}</a>
+        <a
+          class="!text-2xl mb-6"
+          mat-button
+          [routerLink]="item.url"
+          (click)="drawer.close()"
+          >{{ item.name }}</a
+        >
       </li>
       }
     </ul>
   </mat-drawer>
 
   <nav>
-    <mat-toolbar>
-      <span
-        ><a class="nav-title" routerLink="/"
-          ><img
-            class="logo"
-            ngSrc="logo.png"
-            alt="Blog logo"
-            width="40"
-            height="40"
-          /><span>Blog</span></a
-        ></span
+    <mat-toolbar class="!py-14 !px-4">
+      <a class="flex items-center" routerLink="/"
+        ><img
+          class="mr-2"
+          ngSrc="logo.png"
+          alt="Blog logo"
+          width="40"
+          height="40"
+        /><span>Blog</span></a
       >
-      <span class="spacer"></span>
+      <span class="flex-auto"></span>
 
-      <div class="menu">
+      <div class="hidden md:inline-block">
         @for (item of menuItems; track $index) {
         <a
           *ngIf="item.name.toLowerCase() != 'home'"
@@ -68,7 +75,7 @@
 
       <button
         mat-icon-button
-        class="burger-menu"
+        class="md:!hidden"
         aria-label="icon-button with menu icon"
         (click)="drawer.toggle()"
       >
@@ -77,17 +84,17 @@
     </mat-toolbar>
   </nav>
 
-  <main>
+  <main class="pl-4 pr-4">
     <router-outlet />
   </main>
 
-  <footer>
-    <div class="social-links">
+  <footer class="pt-12">
+    <div class="flex justify-center">
       @for (link of socialLinks; track $index) {
-      <div>
+      <div class="mx-2">
         <a href="{{ link.url }}" target="_blank">
           <img
-            class="icon"
+            class="dark:invert"
             ngSrc="{{ link.logoUrl }}"
             alt="{{ link.description }}"
             width="24"
@@ -97,10 +104,10 @@
       </div>
       }
     </div>
-    <div class="copyright">
-      <span class="text">Boon Yong · &copy; 2024 · Created with</span>
+    <div class="mt-2 flex justify-center items-center mb-4 opacity-60">
+      <span class="mr-1">Boon Yong · &copy; 2024 · Created with</span>
       <img
-        class="icon"
+        class="dark:invert"
         ngSrc="icons/angular.svg"
         alt="Angular logo"
         width="16"

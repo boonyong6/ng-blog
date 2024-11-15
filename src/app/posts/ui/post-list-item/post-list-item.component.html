@@ -1,19 +1,22 @@
-<div [ngClass]="isFullWidth ? 'full-width' : ''" class="content">
-  <div>
-    <p class="date">{{ post.publish | date : "MMM dd, y" }}</p>
+<div
+  class="flex flex-col md:flex-row mb-12"
+  [ngClass]="{ 'md:flex-col': !isFullWidth }"
+>
+  <div class="flex-initial w-64" [ngClass]="{ 'pl-3': !isFullWidth }">
+    <p class="opacity-70 !mb-1">{{ post.publish | date : "MMM dd, y" }}</p>
   </div>
-  <div>
-    <p class="title">
+  <div class="flex-1">
+    <p class="text-2xl font-medium !mb-0 pl-3">
       <a [routerLink]="postUrl">{{ post.title }}</a>
     </p>
     <p>
       @for (tag of post.tags; track tag) {
-      <a mat-button class="tag" [routerLink]="UrlHelper.populateTagUrl(tag)">{{
+      <a mat-button [routerLink]="UrlHelper.populateTagUrl(tag)">{{
         tag | uppercase
       }}</a>
       }
     </p>
-    <p class="summary">
+    <p class="my-4 pl-3 opacity-70">
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
       corrupti mollitia at animi voluptates quam ipsa delectus est magnam
       incidunt.
