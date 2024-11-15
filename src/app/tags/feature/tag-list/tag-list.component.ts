@@ -3,7 +3,6 @@ import { PostService } from '../../../posts/data-access/post.service';
 import { map, Observable } from 'rxjs';
 import { Page, Tag } from '../../../shared/data-access/types';
 import { AsyncPipe, UpperCasePipe } from '@angular/common';
-import { LoadingOverlayComponent } from '../../../shared/ui/loading-overlay/loading-overlay.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
@@ -17,7 +16,6 @@ import { RouterLink } from '@angular/router';
     UpperCasePipe,
     MatButtonModule,
     MatIconModule,
-    LoadingOverlayComponent,
   ],
   templateUrl: './tag-list.component.html',
   styleUrl: './tag-list.component.css',

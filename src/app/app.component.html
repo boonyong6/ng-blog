@@ -108,4 +108,8 @@
       />
     </div>
   </footer>
+
+  @if (loadingService.isLoading$ | async) {
+  <app-loading-overlay />
+  }
 </mat-drawer-container>

@@ -1,4 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   NavigationEnd,
   Router,
@@ -8,10 +15,12 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, CommonModule, NgOptimizedImage } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
+import { LoadingService } from './shared/data-access/loading.service';
+import { LoadingOverlayComponent } from './shared/ui/loading-overlay/loading-overlay.component';
 
 @Component({
   selector: 'app-root',
@@ -19,17 +28,19 @@ import { Subscription } from 'rxjs';
   imports: [
     RouterLink,
     RouterOutlet,
+    NgOptimizedImage,
+    CommonModule,
+    AsyncPipe,
     MatButtonModule,
     MatIconModule,
     MatToolbarModule,
-    NgOptimizedImage,
     MatSidenavModule,
-    CommonModule,
+    LoadingOverlayComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   title = 'ng-blog';
   isDarkMode;
   socialLinks = [
@@ -68,16 +79,21 @@ export class AppComponent {
   ];
 
   @ViewChild('drawer') drawer!: MatDrawer;
-  private routerSub!: Subscription;
+  private destroyed = new Subject<void>();
 
-  constructor(mediaMatcher: MediaMatcher, private router: Router) {
+  constructor(
+    mediaMatcher: MediaMatcher,
+    private router: Router,
+    public loadingService: LoadingService,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {
     this.isDarkMode = mediaMatcher.matchMedia(
       '(prefers-color-scheme: dark)'
     ).matches;
   }
 
   ngOnInit() {
-    this.routerSub = this.router.events.subscribe((event) => {
+    this.router.events.pipe(takeUntil(this.destroyed)).subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.drawer.close();
       }
@@ -85,6 +101,16 @@ export class AppComponent {
   }
 
   ngOnDestroy() {
-    this.routerSub.unsubscribe();
+    this.destroyed.next();
+    this.destroyed.complete();
+  }
+
+  ngAfterViewInit() {
+    // Subscribe to loading changes to trigger manual detection
+    this.loadingService.isLoading$
+      .pipe(takeUntil(this.destroyed))
+      .subscribe(() => {
+        this.changeDetectorRef.detectChanges();
+      });
   }
 }

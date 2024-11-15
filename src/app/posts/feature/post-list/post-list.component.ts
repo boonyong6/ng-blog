@@ -7,7 +7,6 @@ import { Post } from '../../data-access/post';
 import { PostService } from '../../data-access/post.service';
 import { AsyncPipe } from '@angular/common';
 import { PostListItemComponent } from '../../ui/post-list-item/post-list-item.component';
-import { LoadingOverlayComponent } from '../../../shared/ui/loading-overlay/loading-overlay.component';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 
@@ -20,7 +19,6 @@ import { BreakpointObserver } from '@angular/cdk/layout';
     MatButtonModule,
     TagSidenavComponent,
     PostListItemComponent,
-    LoadingOverlayComponent,
   ],
   templateUrl: './post-list.component.html',
   styleUrl: './post-list.component.css',
