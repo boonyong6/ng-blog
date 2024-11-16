@@ -7,6 +7,7 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 import { TagLinkComponent } from '../../../tags/ui/tag-link/tag-link.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
   selector: 'app-post-detail',
@@ -17,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
     DatePipe,
     MatButtonModule,
     MatIconModule,
+    MarkdownComponent,
     TagLinkComponent,
   ],
   templateUrl: './post-detail.component.html',
