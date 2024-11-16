@@ -16,9 +16,7 @@
     </p>
     <p>
       @for (tag of post.tags; track tag) {
-      <a mat-button [routerLink]="UrlHelper.populateTagUrl(tag)">{{
-        tag | uppercase
-      }}</a>
+      <app-tag-link [tagName]="tag" />
       }
     </p>
     <p class="my-4 pl-3 opacity-70">

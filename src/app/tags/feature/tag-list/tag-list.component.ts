@@ -2,21 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { PostService } from '../../../posts/data-access/post.service';
 import { map, Observable } from 'rxjs';
 import { Page, Tag } from '../../../shared/data-access/types';
-import { AsyncPipe, UpperCasePipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
+import { TagLinkComponent } from '../tag-link/tag-link.component';
 
 @Component({
   selector: 'app-tag-list',
   standalone: true,
-  imports: [
-    RouterLink,
-    AsyncPipe,
-    UpperCasePipe,
-    MatButtonModule,
-    MatIconModule,
-  ],
+  imports: [AsyncPipe, MatButtonModule, MatIconModule, TagLinkComponent],
   templateUrl: './tag-list.component.html',
   styleUrl: './tag-list.component.css',
 })

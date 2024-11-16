@@ -10,9 +10,4 @@ export class UrlHelper {
 
     return `/posts/${year}/${month}/${day}/${post.slug}`;
   }
-
-  public static populateTagUrl(tag: string) {
-    const tagSlug = tag.replaceAll(' ', '-');
-    return `/tags/${tagSlug}`;
-  }
 }

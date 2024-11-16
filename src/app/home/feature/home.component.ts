@@ -8,7 +8,6 @@ import { Post } from '../../posts/data-access/post';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import { LoadingOverlayComponent } from '../../shared/ui/loading-overlay/loading-overlay.component';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +18,6 @@ import { LoadingOverlayComponent } from '../../shared/ui/loading-overlay/loading
     MatIconModule,
     RouterLink,
     PostListItemComponent,
-    LoadingOverlayComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
