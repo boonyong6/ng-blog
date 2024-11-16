@@ -16,7 +16,7 @@ export const commonErrorHandlingInterceptor: HttpInterceptorFn = (
   return next(req).pipe(
     catchError((err: HttpErrorResponse) => {
       if (err.status === HttpStatusCode.NotFound) {
-        router.navigate(['not-found']);
+        router.navigate(['not-found'], { replaceUrl: true });
       }
       return throwError(() => err);
     })
