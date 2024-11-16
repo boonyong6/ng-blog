@@ -28,7 +28,7 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   tags: Tag[] = [];
   tagsNextUrl: string | null = null;
-  posts$!: Observable<Page<Post>>;
+  postPage$!: Observable<Page<Post>>;
   destroyed = new Subject<void>();
 
   constructor(
@@ -36,12 +36,14 @@ export class PostListComponent implements OnInit, OnDestroy {
     private postService: PostService
   ) {}
 
+  // TODO: Set route title dynamically.
+
   ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroyed)).subscribe((params) => {
       this.curPage = +params['pageNum'] || 1;
       this.tagSlug = params['tagSlug'];
-      // TODO: Error handling. E.g. 404 (page not found)
-      this.posts$ = this.postService.getPosts({
+
+      this.postPage$ = this.postService.getPosts({
         page: this.curPage,
         tagSlug: this.tagSlug,
       });

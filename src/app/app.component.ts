@@ -62,7 +62,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     },
     {
       name: 'Blog',
-      url: ['/blog/page', 1],
+      url: '/blog/page/1',
     },
     {
       name: 'Tags',

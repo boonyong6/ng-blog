@@ -6,7 +6,7 @@
     <ul>
       @for (tag of tags; track $index) {
       <li>
-        <a mat-button>{{ tag.name | uppercase }} ({{ tag.count }})</a>
+        <app-tag-link [tagName]="tag.name" [tagCount]="tag.count" />
       </li>
       }
     </ul>
@@ -14,7 +14,7 @@
     @if (more) {
     <div class="action-container">
       <button mat-button (click)="loadMore()">
-        <mat-icon>trending_flat</mat-icon> More
+        <mat-icon>arrow_forward</mat-icon> More
       </button>
     </div>
     }

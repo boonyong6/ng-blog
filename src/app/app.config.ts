@@ -5,12 +5,15 @@ import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { loadingInterceptor } from './shared/data-access/loading.interceptor';
+import { commonErrorHandlingInterceptor } from './shared/data-access/common-error-handling.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withComponentInputBinding()),
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptors([loadingInterceptor])),
+    provideHttpClient(
+      withInterceptors([loadingInterceptor, commonErrorHandlingInterceptor])
+    ),
   ],
 };

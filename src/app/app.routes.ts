@@ -4,6 +4,7 @@ import { PageNotFoundComponent } from './page-not-found/feature/page-not-found.c
 import { AboutComponent } from './about/feature/about.component';
 import { PostListComponent } from './posts/feature/post-list/post-list.component';
 import { TagListComponent } from './tags/feature/tag-list/tag-list.component';
+import { PostDetailComponent } from './posts/feature/post-detail/post-detail.component';
 
 // TODO: https://angular.dev/guide/routing/common-router-tasks#setting-the-page-title
 const getFullTitle = (title: string) => `${title} • Blog`;
@@ -21,10 +22,19 @@ export const routes: Routes = [
     component: PostListComponent,
     title: getFullTitle('Posts by tag'),
   },
+  {
+    path: 'posts/:year/:month/:day/:slug',
+    component: PostDetailComponent,
+    title: getFullTitle('Post Detail'),
+  },
   { path: 'about', component: AboutComponent, title: getFullTitle('About') },
   {
-    path: '**',
+    path: 'not-found',
     component: PageNotFoundComponent,
     title: getFullTitle('Not Found'),
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found',
   },
 ];

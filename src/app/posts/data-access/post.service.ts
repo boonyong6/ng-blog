@@ -5,13 +5,18 @@ import { Observable } from 'rxjs';
 import { Post } from './post';
 import { environment as env } from '../../../environments/environment';
 
-type CommonParams = {
+type ListParams = {
   url?: string;
   page?: number;
+  tagSlug?: string;
 };
 
-type GetPostsParams = CommonParams & {
-  tagSlug?: string;
+type GetPostParams = {
+  url?: string;
+  year?: string;
+  month?: string;
+  day?: string;
+  slug?: string;
 };
 
 // TODO: Implement error handling.
@@ -29,7 +34,7 @@ export class PostService {
     url,
     page = 1,
     tagSlug,
-  }: GetPostsParams): Observable<Page<Post>> {
+  }: ListParams): Observable<Page<Post>> {
     let endpoint = `${env.apiBaseUrl}/posts/?page=${page}`;
 
     if (tagSlug) {
@@ -39,7 +44,19 @@ export class PostService {
     return this.http.get<Page<Post>>(url ? url : endpoint);
   }
 
-  public getTags({ url, page = 1 }: CommonParams): Observable<Page<Tag>> {
+  public getPost({
+    url,
+    year,
+    month,
+    day,
+    slug,
+  }: GetPostParams): Observable<Post> {
+    return this.http.get<Post>(
+      url ? url : `${env.apiBaseUrl}/posts/${year}/${month}/${day}/${slug}/`
+    );
+  }
+
+  public getTags({ url, page = 1 }: ListParams): Observable<Page<Tag>> {
     return this.http.get<Page<Tag>>(
       url ? url : `${env.apiBaseUrl}/tags/?page=${page}`
     );

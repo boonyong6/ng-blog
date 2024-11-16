@@ -1,1 +1,23 @@
-<p>post-detail works!</p>
+@if (post$ | async; as post) {
+<p class="text-center opacity-70 !mb-1">
+  {{ post.publish | date : "EEEE, MMM, d, yyyy" }}
+</p>
+<h1 class="text-center">{{ post.title }}</h1>
+<hr class="opacity-40 mb-8" />
+
+<div class="flex">
+  <div class="flex-initial w-60">
+    <div class="pl-3 mb-2">TAGS</div>
+    @for (tag of post.tags; track $index) {
+    <app-tag-link [tagName]="tag" />
+    }
+    <hr class="opacity-40 my-6" />
+    <a routerLink="/blog/page/1" mat-button
+      ><mat-icon>arrow_back</mat-icon> Back to the blog</a
+    >
+  </div>
+  <div class="flex-1 pl-6">
+    {{ post.body }}
+  </div>
+</div>
+}

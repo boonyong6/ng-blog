@@ -12,7 +12,9 @@
   </div>
   <div class="flex-1">
     <p class="text-2xl font-medium !mb-0 pl-3">
-      <a [routerLink]="postUrl">{{ post.title }}</a>
+      <a [routerLink]="postUrl" [state]="{ apiUrl: post.url }">{{
+        post.title
+      }}</a>
     </p>
     <p>
       @for (tag of post.tags; track tag) {
@@ -24,8 +26,8 @@
       corrupti mollitia at animi voluptates quam ipsa delectus est magnam
       incidunt.
     </p>
-    <a mat-button [routerLink]="postUrl"
-      ><mat-icon>trending_flat</mat-icon>Read more</a
+    <a [routerLink]="postUrl" [state]="{ apiUrl: post.url }" mat-button
+      ><mat-icon>arrow_forward</mat-icon>Read more</a
     >
   </div>
 </div>
