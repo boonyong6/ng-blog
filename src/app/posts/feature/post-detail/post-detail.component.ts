@@ -3,7 +3,7 @@ import { Post } from '../../data-access/post';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PostService } from '../../data-access/post.service';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, ViewportScroller } from '@angular/common';
 import { TagLinkComponent } from '../../../tags/ui/tag-link/tag-link.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,12 +25,15 @@ import { MarkdownComponent } from 'ngx-markdown';
   styleUrl: './post-detail.component.css',
 })
 export class PostDetailComponent implements OnInit, OnDestroy {
+  fragment: string | null = null;
+
   post$!: Observable<Post>;
   destroyed = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
-    private postService: PostService
+    private postService: PostService,
+    private viewportScroller: ViewportScroller
   ) {}
 
   ngOnInit(): void {
@@ -45,10 +48,23 @@ export class PostDetailComponent implements OnInit, OnDestroy {
         slug: params['slug'],
       });
     });
+
+    this.route.fragment
+      .pipe(takeUntil(this.destroyed))
+      .subscribe((fragment) => {
+        this.fragment = fragment;
+      });
   }
 
   ngOnDestroy(): void {
     this.destroyed.next();
     this.destroyed.complete();
+  }
+
+  scrollToFragment() {
+    // Manually delay until markdown is fully rendered in the DOM.
+    setTimeout(() => {
+      this.viewportScroller.scrollToAnchor(this.fragment ?? '');
+    }, 100);
   }
 }

@@ -2,7 +2,9 @@
 <p class="text-center opacity-70 !mb-1">
   {{ post.publish | date : "EEEE, MMM, d, yyyy" }}
 </p>
-<h1 class="text-center">{{ post.title }}</h1>
+<h1 class="text-center !text-3xl !font-medium md:!text-5xl">
+  {{ post.title }}
+</h1>
 <hr class="opacity-40 mb-8" />
 
 <div class="flex flex-col md:flex-row">
@@ -20,7 +22,12 @@
     </div>
   </div>
   <div class="flex-1 pr-1 md:pl-6 md:w-96">
-    <markdown [data]="post.body"></markdown>
+    <markdown
+      #markdown
+      [data]="post.body"
+      [disableSanitizer]="true"
+      (ready)="scrollToFragment()"
+    ></markdown>
   </div>
 </div>
 }

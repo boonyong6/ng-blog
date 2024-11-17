@@ -78,7 +78,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     },
   ];
 
-  @ViewChild('drawer') drawer!: MatDrawer;
+  @ViewChild(MatDrawer) drawer!: MatDrawer;
   private destroyed = new Subject<void>();
 
   constructor(

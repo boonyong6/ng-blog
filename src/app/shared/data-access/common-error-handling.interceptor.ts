@@ -18,6 +18,9 @@ export const commonErrorHandlingInterceptor: HttpInterceptorFn = (
       if (err.status === HttpStatusCode.NotFound) {
         router.navigate(['not-found'], { replaceUrl: true });
       }
+
+      // TODO: Handle no network connection error.
+
       return throwError(() => err);
     })
   );
