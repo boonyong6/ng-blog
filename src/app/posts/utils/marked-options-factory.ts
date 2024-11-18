@@ -72,7 +72,7 @@ export function markedOptionsFactory(): MarkedOptions {
     return `
       <div class="flex italic">
         <span class="border-l-4 opacity-70 mb-5 mr-4"></span>
-        "${quote}"
+        ${quote}
       </div>`;
   };
 

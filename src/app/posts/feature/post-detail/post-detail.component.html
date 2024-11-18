@@ -8,7 +8,7 @@
 <hr class="opacity-40 mb-8" />
 
 <div class="flex flex-col md:flex-row">
-  <div class="flex-none order-last md:w-60 md:order-first">
+  <div class="flex-none order-last md:w-56 md:order-first">
     <hr class="opacity-40 my-8 md:hidden" />
     <div class="pl-3 mb-2">TAGS</div>
     @for (tag of post.tags; track $index) {
@@ -21,7 +21,7 @@
       >
     </div>
   </div>
-  <div class="flex-1 pr-1 md:pl-6 md:w-96">
+  <div class="flex-1 pr-1 md:pl-9 md:w-96">
     <markdown
       #markdown
       [data]="post.body"
