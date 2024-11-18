@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  HostListener,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -18,9 +19,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AsyncPipe, CommonModule, NgOptimizedImage } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { map, Subject, takeUntil } from 'rxjs';
 import { LoadingService } from './shared/data-access/loading.service';
 import { LoadingOverlayComponent } from './shared/ui/loading-overlay/loading-overlay.component';
+import { MatDialog } from '@angular/material/dialog';
+import { SearchResult } from './shared/ui/search-dialog/types';
+import { SearchDialogComponent } from './shared/ui/search-dialog/search-dialog.component';
+import { PostService } from './posts/data-access/post.service';
+import { UrlHelper } from './posts/utils/url-helper';
 
 @Component({
   selector: 'app-root',
@@ -45,7 +51,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   isDarkMode;
   socialLinks = [
     {
-      url: 'https://github.com/boonyong6',
+      url: 'https://github.com/boonyong6/ng-blo',
       logoUrl: 'icons/github.svg',
       description: 'GitHub link',
     },
@@ -80,12 +86,15 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild(MatDrawer) drawer!: MatDrawer;
   private destroyed = new Subject<void>();
+  public isSearchDialogOpened = false;
 
   constructor(
     mediaMatcher: MediaMatcher,
     private router: Router,
     public loadingService: LoadingService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private dialogService: MatDialog,
+    private postService: PostService
   ) {
     this.isDarkMode = mediaMatcher.matchMedia(
       '(prefers-color-scheme: dark)'
@@ -98,6 +107,9 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         this.drawer.close();
       }
     });
+
+    // ! For testing only.
+    // this.openSearchDialog();
   }
 
   ngOnDestroy() {
@@ -112,5 +124,42 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(() => {
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+  openSearchDialog() {
+    if (this.isSearchDialogOpened) {
+      return;
+    }
+
+    const searchResults$ = this.postService.getLatestPosts().pipe(
+      map((postPage) => {
+        const searchResults: SearchResult[] = postPage.results.map((post) => {
+          return {
+            date: post.publish,
+            title: post.title,
+            url: UrlHelper.populatePostUrl(post),
+          };
+        });
+
+        return searchResults;
+      })
+    );
+
+    const dialogRef = this.dialogService.open(SearchDialogComponent, {
+      data: { searchResults$ },
+    });
+    this.isSearchDialogOpened = true;
+
+    dialogRef.beforeClosed().subscribe(() => {
+      this.isSearchDialogOpened = false;
+    });
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardShortcut(evt: KeyboardEvent) {
+    if (evt.ctrlKey && evt.key === 'k') {
+      evt.preventDefault();
+      this.openSearchDialog();
+    }
   }
 }
