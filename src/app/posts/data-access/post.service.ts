@@ -61,4 +61,10 @@ export class PostService {
       url ? url : `${env.apiBaseUrl}/tags/?page=${page}`
     );
   }
+
+  public searchPosts({ query }: { query: string }): Observable<Page<Post>> {
+    return this.http.get<Page<Post>>(
+      `${env.apiBaseUrl}/posts/search/?query=${query}`
+    );
+  }
 }

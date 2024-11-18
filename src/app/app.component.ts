@@ -107,9 +107,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         this.drawer.close();
       }
     });
-
-    // ! For testing only.
-    // this.openSearchDialog();
   }
 
   ngOnDestroy() {
@@ -131,7 +128,27 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    const searchResults$ = this.postService.getLatestPosts().pipe(
+    const dialogRef = this.dialogService.open(SearchDialogComponent, {
+      data: { searchResults$: this.getSearchResults() },
+    });
+    this.isSearchDialogOpened = true;
+
+    dialogRef.beforeClosed().subscribe(() => {
+      this.isSearchDialogOpened = false;
+    });
+
+    const dialogComponent = dialogRef.componentInstance;
+    dialogComponent.searchInputChange.subscribe((searchQuery: string) => {
+      dialogComponent.data.searchResults$ = this.getSearchResults(searchQuery);
+    });
+  }
+
+  private getSearchResults(searchQuery = '') {
+    let postPage$ = searchQuery
+      ? this.postService.searchPosts({ query: searchQuery })
+      : this.postService.getLatestPosts();
+
+    return postPage$.pipe(
       map((postPage) => {
         const searchResults: SearchResult[] = postPage.results.map((post) => {
           return {
@@ -144,15 +161,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         return searchResults;
       })
     );
-
-    const dialogRef = this.dialogService.open(SearchDialogComponent, {
-      data: { searchResults$ },
-    });
-    this.isSearchDialogOpened = true;
-
-    dialogRef.beforeClosed().subscribe(() => {
-      this.isSearchDialogOpened = false;
-    });
   }
 
   @HostListener('document:keydown', ['$event'])
