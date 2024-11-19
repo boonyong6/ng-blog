@@ -54,7 +54,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   isDarkMode;
   socialLinks = [
     {
-      url: 'https://github.com/boonyong6/ng-blo',
+      url: 'https://github.com/boonyong6/ng-blog/',
       logoUrl: 'icons/github.svg',
       description: 'GitHub link',
     },

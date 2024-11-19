@@ -10,16 +10,18 @@
     <hr class="mt-7 mb-3 opacity-40 md:hidden" />
   </div>
   <div class="md:pl-6 md:max-w-lg">
-    @if (tagPage$ | async; as tagPage) { @for (tag of this.tags; track $index) {
-    <app-tag-link [tagName]="tag.name" [tagCount]="tag.count" />
-    } }
+    @if (tagPage$ | async; as tagPage) {
+      @for (tag of this.tags; track $index) {
+        <app-tag-link [tagName]="tag.name" [tagCount]="tag.count" />
+      }
+    }
   </div>
 </div>
 
-@if (tagsNextUrl){
-<div class="text-center mt-4">
-  <button mat-button (click)="loadMoreTags()">
-    <mat-icon>arrow_forward</mat-icon>More
-  </button>
-</div>
+@if (tagsNextUrl) {
+  <div class="text-center mt-4">
+    <button mat-button (click)="loadMoreTags()">
+      <mat-icon>arrow_forward</mat-icon>More
+    </button>
+  </div>
 }

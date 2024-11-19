@@ -5,18 +5,18 @@
   <mat-card-content>
     <ul>
       @for (tag of tags; track $index) {
-      <li>
-        <app-tag-link [tagName]="tag.name" [tagCount]="tag.count" />
-      </li>
+        <li>
+          <app-tag-link [tagName]="tag.name" [tagCount]="tag.count" />
+        </li>
       }
     </ul>
     <!-- TODO: (Improvement) Implement next/previous. -->
     @if (more) {
-    <div class="action-container">
-      <button mat-button (click)="loadMore()">
-        <mat-icon>arrow_forward</mat-icon> More
-      </button>
-    </div>
+      <div class="action-container">
+        <button mat-button (click)="loadMore()">
+          <mat-icon>arrow_forward</mat-icon> More
+        </button>
+      </div>
     }
   </mat-card-content>
 </mat-card>

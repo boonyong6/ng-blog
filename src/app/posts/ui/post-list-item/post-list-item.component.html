@@ -7,7 +7,7 @@
       class="opacity-70 !mb-1 pl-3 md:pl-0"
       [ngClass]="{ 'md:pl-3': !isFullWidth }"
     >
-      {{ post.publish | date : "MMM dd, y" }}
+      {{ post.publish | date: "MMM dd, y" }}
     </p>
   </div>
   <div class="flex-1">
@@ -18,7 +18,7 @@
     </p>
     <p>
       @for (tag of post.tags; track tag) {
-      <app-tag-link [tagName]="tag" />
+        <app-tag-link [tagName]="tag" />
       }
     </p>
     <p class="my-4 pl-3 opacity-70">

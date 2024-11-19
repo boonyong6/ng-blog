@@ -1,12 +1,13 @@
 <h1>Latest</h1>
 <hr class="opacity-40 mb-12" />
 
-@if (posts$ | async; as posts) { @for (post of posts.results; track post.id) {
-<app-post-list-item [post]="post" />
-}
-<div class="text-right">
-  <a mat-button routerLink="/blog/page/1"
-    ><mat-icon>arrow_forward</mat-icon>All Posts</a
-  >
-</div>
+@if (posts$ | async; as posts) {
+  @for (post of posts.results; track post.id) {
+    <app-post-list-item [post]="post" />
+  }
+  <div class="text-right">
+    <a mat-button routerLink="/blog/page/1"
+      ><mat-icon>arrow_forward</mat-icon>All Posts</a
+    >
+  </div>
 }

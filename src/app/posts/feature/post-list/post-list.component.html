@@ -11,33 +11,33 @@
     <h1 class="!text-3xl !font-medium !ml-3 !mt-4 !mb-8 md:hidden">
       All Posts
     </h1>
-    @if (postPage$ | async; as postPage) { @for (post of postPage.results; track
-    post.id) {
-    <app-post-list-item [post]="post" [isFullWidth]="false" />
-    }
-    <div class="flex items-center">
-      <div class="flex-1">
-        <a
-          [routerLink]="['/blog/page', this.curPage - 1]"
-          mat-button
-          [disabled]="!postPage.previous"
-          >Previous</a
-        >
+    @if (postPage$ | async; as postPage) {
+      @for (post of postPage.results; track post.id) {
+        <app-post-list-item [post]="post" [isFullWidth]="false" />
+      }
+      <div class="flex items-center">
+        <div class="flex-1">
+          <a
+            [routerLink]="['/blog/page', this.curPage - 1]"
+            mat-button
+            [disabled]="!postPage.previous"
+            >Previous</a
+          >
+        </div>
+        <!-- TODO: (Improvement) Link for page numbers. E.g. 1, 2, 3 -->
+        <div>
+          {{ this.curPage }} of
+          {{ this.calculateTotalPage(postPage.count, 5) }}
+        </div>
+        <div class="flex-1 text-right">
+          <a
+            [routerLink]="['/blog/page', this.curPage + 1]"
+            mat-button
+            [disabled]="!postPage.next"
+            >Next</a
+          >
+        </div>
       </div>
-      <!-- TODO: (Improvement) Link for page numbers. E.g. 1, 2, 3 -->
-      <div>
-        {{ this.curPage }} of
-        {{ this.calculateTotalPage(postPage.count, 5) }}
-      </div>
-      <div class="flex-1 text-right">
-        <a
-          [routerLink]="['/blog/page', this.curPage + 1]"
-          mat-button
-          [disabled]="!postPage.next"
-          >Next</a
-        >
-      </div>
-    </div>
     }
   </div>
 </div>

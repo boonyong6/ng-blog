@@ -1,3 +1,6 @@
 <a [routerLink]="['/tags', tagSlug, 'page', 1]" mat-button
-  >{{ tagName | uppercase }} @if (tagCount) { ({{ tagCount }}) }
+  >{{ tagName | uppercase }}
+  @if (tagCount) {
+    ({{ tagCount }})
+  }
 </a>
