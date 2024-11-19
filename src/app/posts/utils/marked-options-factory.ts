@@ -65,7 +65,7 @@ export function markedOptionsFactory(): MarkedOptions {
   };
 
   renderer.link = (href: string, title: string | null, text: string) => {
-    return `<a class="mat-mdc-button !px-0 underline underline-offset-4" href="${href}">${text}</a>`;
+    return `<a class="mat-mdc-button !px-0 underline underline-offset-4" href="${href}" target="_blank">${text}</a>`;
   };
 
   renderer.blockquote = (quote: string) => {

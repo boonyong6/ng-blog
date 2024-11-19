@@ -13,7 +13,11 @@
 
   <mat-dialog-content class="mat-typography !p-0 !pb-6">
     <p class="text-blue-500 font-medium px-4 pt-4 pb-2 !m-0">CONTENT</p>
-    @if (data.searchResults$ | async; as searchResults) {
+    @if (data.searchResults$ | async; as searchResults) { @if
+    (searchResults.length === 0) {
+    <p class="text-base px-4">No results.</p>
+    }
+
     <ul>
       @for (result of searchResults; track $index) {
       <li class="hover:bg-blue-500 px-4 py-2">
@@ -27,7 +31,7 @@
       }
     </ul>
     } @else { @for (i of [1, 2, 3, 4, 5]; track $index) {
-    <li class="px-4 py-2 animate-pulse">
+    <li class="px-4 py-2 animate-pulse list-none">
       <div class="h-3 w-28 bg-slate-700 rounded mb-3"></div>
       <div class="h-4 w-72 md:w-96 bg-slate-700 rounded"></div>
     </li>

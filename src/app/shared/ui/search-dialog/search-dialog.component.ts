@@ -37,4 +37,6 @@ export class SearchDialogComponent implements OnInit {
         this.searchInputChange.emit(searchQuery ?? '');
       });
   }
+
+  // TODO: Infinite scrolling to load more search results if available.
 }
