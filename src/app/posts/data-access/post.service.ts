@@ -11,12 +11,18 @@ type ListParams = {
   tagSlug?: string;
 };
 
-type GetPostParams = {
+type GetParams = {
   url?: string;
   year?: string;
   month?: string;
   day?: string;
   slug?: string;
+};
+
+type SearchParams = {
+  url?: string;
+  page?: number;
+  query?: string;
 };
 
 // TODO: Implement error handling.
@@ -44,27 +50,25 @@ export class PostService {
     return this.http.get<Page<Post>>(url ? url : endpoint);
   }
 
-  public getPost({
-    url,
-    year,
-    month,
-    day,
-    slug,
-  }: GetPostParams): Observable<Post> {
+  public getPost({ url, year, month, day, slug }: GetParams): Observable<Post> {
     return this.http.get<Post>(
-      url ? url : `${env.apiBaseUrl}/posts/${year}/${month}/${day}/${slug}/`
+      url ? url : `${env.apiBaseUrl}/posts/${year}/${month}/${day}/${slug}/`,
     );
   }
 
   public getTags({ url, page = 1 }: ListParams): Observable<Page<Tag>> {
     return this.http.get<Page<Tag>>(
-      url ? url : `${env.apiBaseUrl}/tags/?page=${page}`
+      url ? url : `${env.apiBaseUrl}/tags/?page=${page}`,
     );
   }
 
-  public searchPosts({ query }: { query: string }): Observable<Page<Post>> {
+  public searchPosts({
+    url,
+    page = 1,
+    query,
+  }: SearchParams): Observable<Page<Post>> {
     return this.http.get<Page<Post>>(
-      `${env.apiBaseUrl}/posts/search/?query=${query}`
+      url ? url : `${env.apiBaseUrl}/posts/search/?page=${page}&query=${query}`,
     );
   }
 }

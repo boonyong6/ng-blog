@@ -1,4 +1,4 @@
-<div class="min-h-[20rem] md:min-w-[35rem]">
+<div #dialogContainer class="min-h-[20rem] md:min-w-[35rem]">
   <div class="border-b border-white/40 flex items-center gap-3 p-4">
     <mat-icon>search</mat-icon>
     <input
@@ -13,28 +13,38 @@
 
   <mat-dialog-content class="mat-typography !p-0 !pb-6">
     <p class="text-blue-500 font-medium px-4 pt-4 pb-2 !m-0">CONTENT</p>
-    @if (data.searchResults$ | async; as searchResults) { @if
-    (searchResults.length === 0) {
-    <p class="text-base px-4">No results.</p>
+
+    @if (isLoaded && searchResult.items.length === 0) {
+      <p class="text-base px-4">No results.</p>
     }
 
     <ul>
-      @for (result of searchResults; track $index) {
-      <li class="hover:bg-blue-500 px-4 py-2">
-        <a [routerLink]="result.url" mat-dialog-close>
-          <div class="text-xs opacity-70">
-            {{ result.date | date : "EEE, MMM, d, yyyy" }}
-          </div>
-          <div class="text-base">{{ result.title }}</div>
-        </a>
-      </li>
+      @for (item of searchResult.items; track $index) {
+        <li class="hover:bg-blue-500 px-4 py-2">
+          <a [routerLink]="item.url" mat-dialog-close>
+            <div class="text-xs opacity-70">
+              {{ item.date | date: "EEE, MMM, d, yyyy" }}
+            </div>
+            <div class="text-base">{{ item.title }}</div>
+          </a>
+        </li>
+      }
+
+      @if (!isLoaded) {
+        @for (i of [1, 2, 3]; track $index) {
+          <li class="px-4 py-2 animate-pulse list-none">
+            <div class="h-3 w-28 bg-slate-700 rounded mb-3"></div>
+            <div class="h-4 w-72 md:w-96 bg-slate-700 rounded"></div>
+          </li>
+        }
+      }
+
+      @if (isLoaded && searchResult.next) {
+        <li #skeletonLoader class="px-4 py-2 animate-pulse list-none">
+          <div class="h-3 w-28 bg-slate-700 rounded mb-3"></div>
+          <div class="h-4 w-72 md:w-96 bg-slate-700 rounded"></div>
+        </li>
       }
     </ul>
-    } @else { @for (i of [1, 2, 3, 4, 5]; track $index) {
-    <li class="px-4 py-2 animate-pulse list-none">
-      <div class="h-3 w-28 bg-slate-700 rounded mb-3"></div>
-      <div class="h-4 w-72 md:w-96 bg-slate-700 rounded"></div>
-    </li>
-    } }
   </mat-dialog-content>
 </div>

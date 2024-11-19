@@ -19,11 +19,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AsyncPipe, CommonModule, NgOptimizedImage } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
-import { map, Subject, takeUntil } from 'rxjs';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { LoadingService } from './shared/data-access/loading.service';
 import { LoadingOverlayComponent } from './shared/ui/loading-overlay/loading-overlay.component';
 import { MatDialog } from '@angular/material/dialog';
-import { SearchResult } from './shared/ui/search-dialog/types';
+import {
+  SearchResult,
+  SearchResultItem,
+} from './shared/ui/search-dialog/types';
 import { SearchDialogComponent } from './shared/ui/search-dialog/search-dialog.component';
 import { PostService } from './posts/data-access/post.service';
 import { UrlHelper } from './posts/utils/url-helper';
@@ -94,10 +97,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     public loadingService: LoadingService,
     private changeDetectorRef: ChangeDetectorRef,
     private dialogService: MatDialog,
-    private postService: PostService
+    private postService: PostService,
   ) {
     this.isDarkMode = mediaMatcher.matchMedia(
-      '(prefers-color-scheme: dark)'
+      '(prefers-color-scheme: dark)',
     ).matches;
   }
 
@@ -128,29 +131,40 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    const dialogRef = this.dialogService.open(SearchDialogComponent, {
-      data: { searchResults$: this.getSearchResults() },
-    });
+    const dialogRef = this.dialogService.open(SearchDialogComponent);
     this.isSearchDialogOpened = true;
+
+    const dialogComponent = dialogRef.componentInstance;
+    dialogComponent.appendSearchResult(this.getSearchResult());
+
+    dialogComponent.searchInputChanged.subscribe((searchQuery: string) => {
+      dialogComponent.appendSearchResult(this.getSearchResult({ searchQuery }));
+    });
+
+    dialogComponent.nextPageTriggered.subscribe((nextUrl) => {
+      dialogComponent.appendSearchResult(
+        this.getSearchResult({ url: nextUrl }),
+      );
+    });
 
     dialogRef.beforeClosed().subscribe(() => {
       this.isSearchDialogOpened = false;
     });
-
-    const dialogComponent = dialogRef.componentInstance;
-    dialogComponent.searchInputChange.subscribe((searchQuery: string) => {
-      dialogComponent.data.searchResults$ = this.getSearchResults(searchQuery);
-    });
   }
 
-  private getSearchResults(searchQuery = '') {
-    let postPage$ = searchQuery
-      ? this.postService.searchPosts({ query: searchQuery })
-      : this.postService.getLatestPosts();
+  private getSearchResult(
+    params: { searchQuery?: string; url?: string } = {},
+  ): Observable<SearchResult> {
+    const { searchQuery, url } = params;
+
+    let postPage$ =
+      searchQuery || url
+        ? this.postService.searchPosts({ url, query: searchQuery })
+        : this.postService.getLatestPosts();
 
     return postPage$.pipe(
       map((postPage) => {
-        const searchResults: SearchResult[] = postPage.results.map((post) => {
+        const items: SearchResultItem[] = postPage.results.map((post) => {
           return {
             date: post.publish,
             title: post.title,
@@ -158,8 +172,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
           };
         });
 
-        return searchResults;
-      })
+        return {
+          items,
+          next: postPage.next,
+        };
+      }),
     );
   }
 

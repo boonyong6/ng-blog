@@ -15,15 +15,15 @@
 
     <ul class="ml-8">
       @for (item of menuItems; track $index) {
-      <li>
-        <a
-          class="!text-2xl mb-6"
-          mat-button
-          [routerLink]="item.url"
-          (click)="drawer.close()"
-          >{{ item.name }}</a
-        >
-      </li>
+        <li>
+          <a
+            class="!text-2xl mb-6"
+            mat-button
+            [routerLink]="item.url"
+            (click)="drawer.close()"
+            >{{ item.name }}</a
+          >
+        </li>
       }
     </ul>
   </mat-drawer>
@@ -43,12 +43,12 @@
 
       <div class="hidden md:inline-block">
         @for (item of menuItems; track $index) {
-        <a
-          *ngIf="item.name.toLowerCase() != 'home'"
-          mat-button
-          [routerLink]="item.url"
-          >{{ item.name }}</a
-        >
+          <a
+            *ngIf="item.name.toLowerCase() != 'home'"
+            mat-button
+            [routerLink]="item.url"
+            >{{ item.name }}</a
+          >
         }
       </div>
 
@@ -68,9 +68,9 @@
         aria-label="icon-button with color scheme icon"
       >
         @if (isDarkMode) {
-        <mat-icon>dark_mode</mat-icon>
+          <mat-icon>dark_mode</mat-icon>
         } @else {
-        <mat-icon>light_mode</mat-icon>
+          <mat-icon>light_mode</mat-icon>
         }
       </button>
 
@@ -92,17 +92,17 @@
   <footer class="pt-12">
     <div class="flex justify-center">
       @for (link of socialLinks; track $index) {
-      <div class="mx-2">
-        <a href="{{ link.url }}" target="_blank">
-          <img
-            class="dark:invert"
-            ngSrc="{{ link.logoUrl }}"
-            alt="{{ link.description }}"
-            width="24"
-            height="24"
-          />
-        </a>
-      </div>
+        <div class="mx-2">
+          <a href="{{ link.url }}" target="_blank">
+            <img
+              class="dark:invert"
+              ngSrc="{{ link.logoUrl }}"
+              alt="{{ link.description }}"
+              width="24"
+              height="24"
+            />
+          </a>
+        </div>
       }
     </div>
     <div class="mt-2 flex justify-center items-center mb-4 opacity-60">
@@ -117,7 +117,9 @@
     </div>
   </footer>
 
-  @if (loadingService.isLoading$ | async) { @if (!isSearchDialogOpened) {
-  <app-loading-overlay />
-  } }
+  @if (loadingService.isLoading$ | async) {
+    @if (!isSearchDialogOpened) {
+      <app-loading-overlay />
+    }
+  }
 </mat-drawer-container>
