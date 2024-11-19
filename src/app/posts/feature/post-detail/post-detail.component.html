@@ -23,7 +23,8 @@
   </div>
   <div class="flex-1 pr-1 md:pl-9 md:w-96">
     <markdown
-      #markdown
+      clipboard
+      [clipboardButtonComponent]="clipboardButton"
       [data]="post.body"
       [disableSanitizer]="true"
       (ready)="scrollToFragment()"

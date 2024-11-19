@@ -8,6 +8,7 @@ import { TagLinkComponent } from '../../../tags/ui/tag-link/tag-link.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MarkdownComponent } from 'ngx-markdown';
+import { ClipboardButtonComponent } from '../../../shared/ui/clipboard-button/clipboard-button.component';
 
 @Component({
   selector: 'app-post-detail',
@@ -25,10 +26,12 @@ import { MarkdownComponent } from 'ngx-markdown';
   styleUrl: './post-detail.component.css',
 })
 export class PostDetailComponent implements OnInit, OnDestroy {
-  fragment: string | null = null;
+  urlFragment: string | null = null;
 
   post$!: Observable<Post>;
   destroyed = new Subject<void>();
+
+  readonly clipboardButton = ClipboardButtonComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -51,8 +54,8 @@ export class PostDetailComponent implements OnInit, OnDestroy {
 
     this.route.fragment
       .pipe(takeUntil(this.destroyed))
-      .subscribe((fragment) => {
-        this.fragment = fragment;
+      .subscribe((urlFragment) => {
+        this.urlFragment = urlFragment;
       });
   }
 
@@ -64,7 +67,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   scrollToFragment() {
     // Manually delay until markdown is fully rendered in the DOM.
     setTimeout(() => {
-      this.viewportScroller.scrollToAnchor(this.fragment ?? '');
+      this.viewportScroller.scrollToAnchor(this.urlFragment ?? '');
     }, 100);
   }
 }

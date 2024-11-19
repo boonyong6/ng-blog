@@ -1,0 +1,11 @@
+<button
+  class="opacity-40 hover:opacity-100"
+  mat-icon-button
+  (click)="onClick()"
+>
+  @if (isCopied) {
+  <mat-icon>check</mat-icon>
+  } @else {
+  <mat-icon>content_copy</mat-icon>
+  }
+</button>
