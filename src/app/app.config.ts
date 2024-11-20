@@ -1,5 +1,9 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
+import {
+  provideRouter,
+  TitleStrategy,
+  withComponentInputBinding,
+} from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import {
@@ -12,14 +16,16 @@ import { routes } from './app.routes';
 import { loadingInterceptor } from './shared/data-access/loading.interceptor';
 import { commonErrorHandlingInterceptor } from './shared/data-access/common-error-handling.interceptor';
 import { markedOptionsFactory } from './posts/utils/marked-options-factory';
+import { TemplatePageTitleStrategy } from './shared/utils/template-page-title-strategy.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withComponentInputBinding()),
+    { provide: TitleStrategy, useClass: TemplatePageTitleStrategy },
     provideAnimationsAsync(),
     provideHttpClient(
-      withInterceptors([loadingInterceptor, commonErrorHandlingInterceptor])
+      withInterceptors([loadingInterceptor, commonErrorHandlingInterceptor]),
     ),
     provideMarkdown({
       markedOptions: {

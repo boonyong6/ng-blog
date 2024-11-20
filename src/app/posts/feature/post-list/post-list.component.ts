@@ -33,10 +33,8 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private postService: PostService
+    private postService: PostService,
   ) {}
-
-  // TODO: Set route title dynamically.
 
   ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroyed)).subscribe((params) => {
