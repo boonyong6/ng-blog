@@ -45,21 +45,39 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
 
   constructor() {
     afterRender(() => {
-      if (this.skeletonLoaderRef && !this.isIntersectionObserverSet) {
-        // TODO: WIP
-        this.intersectionObserver = new IntersectionObserver(this.callback(), {
-          root: this.dialogContainerRef.nativeElement,
-          rootMargin: '0px',
-          threshold: 1.0,
-        });
-
-        this.intersectionObserver.observe(
-          this.skeletonLoaderRef!.nativeElement,
-        );
-
-        this.isIntersectionObserverSet = true;
-      }
+      this.setupIntersectionObserver();
     });
+  }
+
+  private setupIntersectionObserver() {
+    if (!this.skeletonLoaderRef || this.isIntersectionObserverSet) {
+      return;
+    }
+
+    this.intersectionObserver = new IntersectionObserver(
+      this.onIntersection(),
+      {
+        root: this.dialogContainerRef.nativeElement,
+      },
+    );
+    this.intersectionObserver.observe(this.skeletonLoaderRef.nativeElement);
+    this.isIntersectionObserverSet = true;
+  }
+
+  private onIntersection(): IntersectionObserverCallback {
+    return (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          this.resetIntersectionObserver();
+          this.nextPageTriggered.emit(this.searchResult.next!);
+        }
+      });
+    };
+  }
+
+  private resetIntersectionObserver() {
+    this.intersectionObserver?.disconnect();
+    this.isIntersectionObserverSet = false;
   }
 
   ngOnInit(): void {
@@ -81,31 +99,20 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
   appendSearchResult(searchResult$: Observable<SearchResult>) {
     this.isLoaded = false;
 
-    searchResult$.pipe(takeUntil(this.destroyed)).subscribe((response) => {
-      this.searchResult = {
-        ...response,
-        items: [...this.searchResult.items, ...response.items],
-      };
+    searchResult$.pipe(takeUntil(this.destroyed)).subscribe({
+      next: (response) => {
+        this.searchResult = {
+          ...response,
+          items: [...this.searchResult.items, ...response.items],
+        };
 
-      this.isLoaded = true;
+        this.isLoaded = true;
+      },
+      error: (err) => {
+        console.error('Error loading search result:', err);
+        this.isLoaded = true;
+      },
     });
-  }
-
-  // TODO: WIP
-  private callback(): IntersectionObserverCallback {
-    return (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.intersectionRatio > 0.9) {
-          this.resetIntersectionObserver();
-          this.nextPageTriggered.emit(this.searchResult.next!);
-        }
-      });
-    };
-  }
-
-  private resetIntersectionObserver() {
-    this.intersectionObserver?.disconnect();
-    this.isIntersectionObserverSet = false;
   }
 
   private resetSearch() {
