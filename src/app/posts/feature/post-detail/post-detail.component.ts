@@ -11,6 +11,8 @@ import { MarkdownComponent } from 'ngx-markdown';
 import { ClipboardButtonComponent } from '../../../shared/ui/clipboard-button/clipboard-button.component';
 import { Title } from '@angular/platform-browser';
 import { environment as env } from '../../../../environments/environment';
+import { Page } from '../../../shared/data-access/types';
+import { UrlHelper } from '../../utils/url-helper';
 
 @Component({
   selector: 'app-post-detail',
@@ -29,11 +31,11 @@ import { environment as env } from '../../../../environments/environment';
 })
 export class PostDetailComponent implements OnInit, OnDestroy {
   urlFragment: string | null = null;
-
   post$!: Observable<Post>;
+  similarPostPage$!: Observable<Page<Post>>;
   destroyed = new Subject<void>();
-
   readonly clipboardButton = ClipboardButtonComponent;
+  readonly UrlHelper = UrlHelper;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,24 +45,21 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const apiUrl = history.state.apiUrl;
-
     this.route.params.pipe(takeUntil(this.destroyed)).subscribe((params) => {
-      this.post$ = this.postService
-        .getPost({
-          url: apiUrl,
-          year: params['year'],
-          month: params['month'],
-          day: params['day'],
-          slug: params['slug'],
-        })
-        .pipe(
-          tap((post) => {
-            this.titleService.setTitle(
-              `${post.title}${env.documentTitleSuffix}`,
-            );
-          }),
-        );
+      const getParams = {
+        year: params['year'],
+        month: params['month'],
+        day: params['day'],
+        slug: params['slug'],
+      };
+
+      this.post$ = this.postService.getPost(getParams).pipe(
+        tap((post) => {
+          this.titleService.setTitle(`${post.title}${env.documentTitleSuffix}`);
+        }),
+      );
+
+      this.similarPostPage$ = this.postService.getSimilarPosts(getParams);
     });
 
     this.route.fragment

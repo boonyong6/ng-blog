@@ -56,6 +56,20 @@ export class PostService {
     );
   }
 
+  public getSimilarPosts({
+    url,
+    year,
+    month,
+    day,
+    slug,
+  }: GetParams): Observable<Page<Post>> {
+    return this.http.get<Page<Post>>(
+      url
+        ? url
+        : `${env.apiBaseUrl}/posts/${year}/${month}/${day}/${slug}/similar/`,
+    );
+  }
+
   public getTags({ url, page = 1 }: ListParams): Observable<Page<Tag>> {
     return this.http.get<Page<Tag>>(
       url ? url : `${env.apiBaseUrl}/tags/?page=${page}`,

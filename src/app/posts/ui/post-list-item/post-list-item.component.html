@@ -12,9 +12,7 @@
   </div>
   <div class="flex-1">
     <p class="text-2xl font-medium !mb-0 pl-3">
-      <a [routerLink]="postUrl" [state]="{ apiUrl: post.url }">{{
-        post.title
-      }}</a>
+      <a [routerLink]="postUrl">{{ post.title }}</a>
     </p>
     <p>
       @for (tag of post.tags; track tag) {
