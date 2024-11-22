@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TagSidenavComponent } from '../../../shared/ui/tag-sidenav/tag-sidenav.component';
 import { Page, Tag } from '../../../shared/data-access/types';
 import { MatButtonModule } from '@angular/material/button';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { Post } from '../../data-access/post';
 import { PostService } from '../../data-access/post.service';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, ViewportScroller } from '@angular/common';
 import { PostListItemComponent } from '../../ui/post-list-item/post-list-item.component';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
@@ -25,6 +25,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 export class PostListComponent implements OnInit, OnDestroy {
   curPage: number = 1;
   tagSlug?: string;
+  prevPageUrl: string | null = null;
+  nextPageUrl: string | null = null;
 
   tags: Tag[] = [];
   tagsNextUrl: string | null = null;
@@ -34,6 +36,7 @@ export class PostListComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private postService: PostService,
+    private viewportScroller: ViewportScroller,
   ) {}
 
   ngOnInit(): void {
@@ -41,10 +44,24 @@ export class PostListComponent implements OnInit, OnDestroy {
       this.curPage = +params['pageNum'] || 1;
       this.tagSlug = params['tagSlug'];
 
-      this.postPage$ = this.postService.getPosts({
-        page: this.curPage,
-        tagSlug: this.tagSlug,
-      });
+      const basePageUrl = this.tagSlug
+        ? `/tags/${this.tagSlug}/page`
+        : `/blog/page`;
+      this.prevPageUrl = `${basePageUrl}/${this.curPage - 1}`;
+      this.nextPageUrl = `${basePageUrl}/${this.curPage + 1}`;
+
+      this.postPage$ = this.postService
+        .getPosts({
+          page: this.curPage,
+          tagSlug: this.tagSlug,
+        })
+        .pipe(
+          tap(() => {
+            // TODO: Preserve scroll position on history navigation.
+            // Scroll to the top.
+            this.viewportScroller.scrollToPosition([0, 0]);
+          }),
+        );
     });
 
     this._loadTags();

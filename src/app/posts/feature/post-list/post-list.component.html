@@ -18,7 +18,7 @@
       <div class="flex items-center">
         <div class="flex-1">
           <a
-            [routerLink]="['/blog/page', this.curPage - 1]"
+            [routerLink]="prevPageUrl"
             mat-button
             [disabled]="!postPage.previous"
             >Previous</a
@@ -30,10 +30,7 @@
           {{ this.calculateTotalPage(postPage.count, 5) }}
         </div>
         <div class="flex-1 text-right">
-          <a
-            [routerLink]="['/blog/page', this.curPage + 1]"
-            mat-button
-            [disabled]="!postPage.next"
+          <a [routerLink]="nextPageUrl" mat-button [disabled]="!postPage.next"
             >Next</a
           >
         </div>
