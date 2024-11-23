@@ -1,7 +1,7 @@
-import { Post } from '../data-access/post';
+import { Post, PostPreview } from '../data-access/post';
 
 export class UrlHelper {
-  public static populatePostUrl(post: Post) {
+  public static populatePostUrl(post: PostPreview) {
     const publishedDate = new Date(post.publish);
 
     const year = publishedDate.getFullYear();

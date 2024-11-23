@@ -9,7 +9,7 @@ import { catchError, throwError } from 'rxjs';
 
 export const commonErrorHandlingInterceptor: HttpInterceptorFn = (
   req,
-  next
+  next,
 ) => {
   const router = inject(Router);
 
@@ -20,8 +20,9 @@ export const commonErrorHandlingInterceptor: HttpInterceptorFn = (
       }
 
       // TODO: Handle no network connection error.
+      router.navigate(['server-error'], { replaceUrl: true });
 
       return throwError(() => err);
-    })
+    }),
   );
 };

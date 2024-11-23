@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## TODO
 
-- [ ] Search dialog component - https://material.angular.io/components/dialog/overview
+- [x] Search dialog component - https://material.angular.io/components/dialog/overview
 - [ ] Serve Google Font locally?
 - [ ] Color scheme switch (light/dark)
 - [ ] Save chosen theme

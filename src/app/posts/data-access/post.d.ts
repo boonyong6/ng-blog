@@ -11,4 +11,11 @@ export type Post = {
   created: string;
   updated: string;
   status: string;
+  previous: PostPreview | null;
+  next: PostPreview | null;
 };
+
+type PostPreview = Pick<
+  Post,
+  'url' | 'urlAlt' | 'id' | 'title' | 'slug' | 'publish'
+>;

@@ -13,13 +13,13 @@
   <div class="flex flex-col md:flex-row">
     <div class="flex-none order-last md:w-56 md:order-first">
       <hr class="opacity-40 my-8 md:hidden" />
-      <div class="pl-3 mb-2">TAGS</div>
+      <div class="pl-3 mb-2 text-xs font-medium opacity-70">TAGS</div>
       @for (tag of post.tags; track $index) {
         <app-tag-link [tagName]="tag" />
       }
       <hr class="hidden opacity-40 my-6 md:block" />
       <!-- TODO: Styling -->
-      <div class="pl-3 mb-2">SIMILAR POSTS</div>
+      <div class="pl-3 mb-2 text-xs font-medium opacity-70">SIMILAR POSTS</div>
       <ul>
         @for (similarPost of similarPostPage.results; track $index) {
           <li>
@@ -31,6 +31,22 @@
           </li>
         }
       </ul>
+      <hr class="hidden opacity-40 my-6 md:block" />
+      <!-- TODO: Styling -->
+      @if (post.previous) {
+        <div class="pl-3 mb-2 text-xs font-medium opacity-70">
+          PREVIOUS POST
+        </div>
+        <a mat-button [routerLink]="UrlHelper.populatePostUrl(post.previous)">{{
+          post.previous.title
+        }}</a>
+      }
+      @if (post.next) {
+        <div class="pl-3 mb-2 text-xs font-medium opacity-70">NEXT POST</div>
+        <a mat-button [routerLink]="UrlHelper.populatePostUrl(post.next)">{{
+          post.next.title
+        }}</a>
+      }
       <hr class="hidden opacity-40 my-6 md:block" />
       <div class="mt-4">
         <a routerLink="/blog/page/1" mat-button
