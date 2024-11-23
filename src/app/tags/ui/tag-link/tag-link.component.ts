@@ -5,11 +5,10 @@ import { UpperCasePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-tag-link',
-  standalone: true,
-  imports: [RouterLink, UpperCasePipe, MatButtonModule],
-  templateUrl: './tag-link.component.html',
-  styleUrl: './tag-link.component.css',
+    selector: 'app-tag-link',
+    imports: [RouterLink, UpperCasePipe, MatButtonModule],
+    templateUrl: './tag-link.component.html',
+    styleUrl: './tag-link.component.css'
 })
 export class TagLinkComponent implements OnInit {
   @Input() tagName!: string;

@@ -15,19 +15,18 @@ import { Page } from '../../../shared/data-access/types';
 import { UrlHelper } from '../../utils/url-helper';
 
 @Component({
-  selector: 'app-post-detail',
-  standalone: true,
-  imports: [
-    RouterLink,
-    AsyncPipe,
-    DatePipe,
-    MatButtonModule,
-    MatIconModule,
-    MarkdownComponent,
-    TagLinkComponent,
-  ],
-  templateUrl: './post-detail.component.html',
-  styleUrl: './post-detail.component.css',
+    selector: 'app-post-detail',
+    imports: [
+        RouterLink,
+        AsyncPipe,
+        DatePipe,
+        MatButtonModule,
+        MatIconModule,
+        MarkdownComponent,
+        TagLinkComponent,
+    ],
+    templateUrl: './post-detail.component.html',
+    styleUrl: './post-detail.component.css'
 })
 export class PostDetailComponent implements OnInit, OnDestroy {
   urlFragment: string | null = null;

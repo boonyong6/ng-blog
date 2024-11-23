@@ -8,18 +8,17 @@ import { UrlHelper } from '../../utils/url-helper';
 import { TagLinkComponent } from '../../../tags/ui/tag-link/tag-link.component';
 
 @Component({
-  selector: 'app-post-list-item',
-  standalone: true,
-  imports: [
-    RouterLink,
-    NgClass,
-    DatePipe,
-    MatButtonModule,
-    MatIconModule,
-    TagLinkComponent,
-  ],
-  templateUrl: './post-list-item.component.html',
-  styleUrl: './post-list-item.component.css',
+    selector: 'app-post-list-item',
+    imports: [
+        RouterLink,
+        NgClass,
+        DatePipe,
+        MatButtonModule,
+        MatIconModule,
+        TagLinkComponent,
+    ],
+    templateUrl: './post-list-item.component.html',
+    styleUrl: './post-list-item.component.css'
 })
 export class PostListItemComponent implements OnInit {
   @Input() post!: Post;

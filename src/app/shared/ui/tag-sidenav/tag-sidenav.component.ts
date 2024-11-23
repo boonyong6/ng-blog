@@ -6,11 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { TagLinkComponent } from '../../../tags/ui/tag-link/tag-link.component';
 
 @Component({
-  selector: 'app-tag-sidenav',
-  standalone: true,
-  imports: [MatCardModule, MatButtonModule, MatIconModule, TagLinkComponent],
-  templateUrl: './tag-sidenav.component.html',
-  styleUrl: './tag-sidenav.component.css',
+    selector: 'app-tag-sidenav',
+    imports: [MatCardModule, MatButtonModule, MatIconModule, TagLinkComponent],
+    templateUrl: './tag-sidenav.component.html',
+    styleUrl: './tag-sidenav.component.css'
 })
 export class TagSidenavComponent {
   @Input() tags!: Tag[];

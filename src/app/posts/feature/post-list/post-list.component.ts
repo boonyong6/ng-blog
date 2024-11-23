@@ -10,17 +10,16 @@ import { PostListItemComponent } from '../../ui/post-list-item/post-list-item.co
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-post-list',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    RouterLink,
-    MatButtonModule,
-    TagSidenavComponent,
-    PostListItemComponent,
-  ],
-  templateUrl: './post-list.component.html',
-  styleUrl: './post-list.component.css',
+    selector: 'app-post-list',
+    imports: [
+        AsyncPipe,
+        RouterLink,
+        MatButtonModule,
+        TagSidenavComponent,
+        PostListItemComponent,
+    ],
+    templateUrl: './post-list.component.html',
+    styleUrl: './post-list.component.css'
 })
 export class PostListComponent implements OnInit, OnDestroy {
   curPage: number = 1;

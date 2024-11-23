@@ -17,17 +17,16 @@ import { SearchResult } from './types';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-search-dialog',
-  standalone: true,
-  imports: [
-    DatePipe,
-    RouterLink,
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatIconModule,
-  ],
-  templateUrl: './search-dialog.component.html',
-  styleUrl: './search-dialog.component.css',
+    selector: 'app-search-dialog',
+    imports: [
+        DatePipe,
+        RouterLink,
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatIconModule,
+    ],
+    templateUrl: './search-dialog.component.html',
+    styleUrl: './search-dialog.component.css'
 })
 export class SearchDialogComponent implements OnInit, OnDestroy {
   searchResult: SearchResult = { items: [], next: null };

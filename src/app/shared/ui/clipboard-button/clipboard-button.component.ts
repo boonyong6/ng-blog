@@ -4,11 +4,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { Subject, takeUntil, timer } from 'rxjs';
 
 @Component({
-  selector: 'app-clipboard-button',
-  standalone: true,
-  imports: [MatButtonModule, MatIconModule],
-  templateUrl: './clipboard-button.component.html',
-  styleUrl: './clipboard-button.component.css',
+    selector: 'app-clipboard-button',
+    imports: [MatButtonModule, MatIconModule],
+    templateUrl: './clipboard-button.component.html',
+    styleUrl: './clipboard-button.component.css'
 })
 export class ClipboardButtonComponent implements OnDestroy {
   private destroyed = new Subject<void>();

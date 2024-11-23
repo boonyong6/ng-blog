@@ -10,17 +10,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    MatButtonModule,
-    MatIconModule,
-    RouterLink,
-    PostListItemComponent,
-  ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+    selector: 'app-home',
+    imports: [
+        AsyncPipe,
+        MatButtonModule,
+        MatIconModule,
+        RouterLink,
+        PostListItemComponent,
+    ],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.css'
 })
 export class HomeComponent {
   posts$!: Observable<Page<Post>>;

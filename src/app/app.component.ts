@@ -32,22 +32,21 @@ import { PostService } from './posts/data-access/post.service';
 import { UrlHelper } from './posts/utils/url-helper';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-    RouterLink,
-    RouterOutlet,
-    NgOptimizedImage,
-    CommonModule,
-    AsyncPipe,
-    MatButtonModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    LoadingOverlayComponent,
-  ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+    selector: 'app-root',
+    imports: [
+        RouterLink,
+        RouterOutlet,
+        NgOptimizedImage,
+        CommonModule,
+        AsyncPipe,
+        MatButtonModule,
+        MatIconModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        LoadingOverlayComponent,
+    ],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   title = 'ng-blog';

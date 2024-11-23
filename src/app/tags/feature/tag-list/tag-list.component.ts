@@ -8,11 +8,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { TagLinkComponent } from '../../ui/tag-link/tag-link.component';
 
 @Component({
-  selector: 'app-tag-list',
-  standalone: true,
-  imports: [AsyncPipe, MatButtonModule, MatIconModule, TagLinkComponent],
-  templateUrl: './tag-list.component.html',
-  styleUrl: './tag-list.component.css',
+    selector: 'app-tag-list',
+    imports: [AsyncPipe, MatButtonModule, MatIconModule, TagLinkComponent],
+    templateUrl: './tag-list.component.html',
+    styleUrl: './tag-list.component.css'
 })
 export class TagListComponent implements OnInit {
   tagPage$!: Observable<Page<Tag>>;
