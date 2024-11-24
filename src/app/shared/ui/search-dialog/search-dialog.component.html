@@ -1,3 +1,4 @@
+<!-- TODO: Use Angular Material theme's CSS variables to set the color. -->
 <div #dialogContainer class="min-h-[20rem] md:min-w-[35rem]">
   <div class="border-b border-white/40 flex items-center gap-3 p-4">
     <mat-icon>search</mat-icon>
@@ -11,7 +12,7 @@
     <span class="text-xs border rounded px-1 opacity-70">ESC</span>
   </div>
 
-  <mat-dialog-content class="mat-typography !p-0 !pb-6">
+  <mat-dialog-content class="!p-0 !pb-6">
     <p class="text-[#00dddd] font-medium px-4 pt-4 pb-2 !m-0">CONTENT</p>
 
     @if (isLoaded && searchResult.items.length === 0) {

@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  h1 {
+    font: var(--mat-sys-display-large);
+    @apply mb-8 font-medium;
+  }
+
+  p {
+    @apply mb-3;
+  }
+}
+
 /* You can add global styles to this file, and also import other style files */
 
 html,
