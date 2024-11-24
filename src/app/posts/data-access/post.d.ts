@@ -6,6 +6,7 @@ export type Post = {
   urlAlt: string;
   title: string;
   slug: string;
+  summary: string;
   body: string;
   publish: string;
   created: string;

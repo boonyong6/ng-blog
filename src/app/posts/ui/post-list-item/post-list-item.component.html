@@ -20,9 +20,7 @@
       }
     </p>
     <p class="my-4 pl-3 opacity-70">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
-      corrupti mollitia at animi voluptates quam ipsa delectus est magnam
-      incidunt.
+      {{ post.summary }}
     </p>
     <a [routerLink]="postUrl" [state]="{ apiUrl: post.url }" mat-button
       ><mat-icon>arrow_forward</mat-icon>Read more</a
