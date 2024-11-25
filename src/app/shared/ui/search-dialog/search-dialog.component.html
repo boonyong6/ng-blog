@@ -1,19 +1,22 @@
-<!-- TODO: Use Angular Material theme's CSS variables to set the color. -->
 <div #dialogContainer class="min-h-[20rem] md:min-w-[35rem]">
-  <div class="border-b border-white/40 flex items-center gap-3 p-4">
+  <div class="border-b border-[--mat-sys-outline] flex items-center gap-3 p-4">
     <mat-icon>search</mat-icon>
     <input
-      class="flex-1 bg-inherit border-2 border-white/40 py-1 px-3 focus:outline-none focus:border-[#00dddd]"
+      class="flex-1 bg-inherit border-2 border-[--mat-sys-outline] py-1 px-3 focus:outline-none focus:border-[--mat-sys-primary]"
       type="search"
       placeholder="Search..."
       cdkFocusInitial
       [formControl]="searchInput"
     />
-    <span class="text-xs border rounded px-1 opacity-70">ESC</span>
+    <span class="text-xs border border-[--mat-sys-outline] rounded px-1"
+      >ESC</span
+    >
   </div>
 
   <mat-dialog-content class="!p-0 !pb-6">
-    <p class="text-[#00dddd] font-medium px-4 pt-4 pb-2 !m-0">CONTENT</p>
+    <p class="text-[--mat-sys-primary] font-medium px-4 pt-4 pb-2 !m-0">
+      CONTENT
+    </p>
 
     @if (isLoaded && searchResult.items.length === 0) {
       <p class="text-base px-4">No results.</p>
@@ -21,14 +24,16 @@
 
     <ul>
       @for (item of searchResult.items; track $index) {
-        <li class="hover:bg-blue-600 px-4 py-2">
-          <a [routerLink]="item.url" mat-dialog-close>
+        <a [routerLink]="item.url" mat-dialog-close>
+          <li
+            class="hover:bg-[--mat-sys-secondary] hover:text-[--mat-sys-on-secondary] px-4 py-2"
+          >
             <div class="text-xs opacity-70">
               {{ item.date | date: "EEE, MMM, d, yyyy" }}
             </div>
             <div class="text-base">{{ item.title }}</div>
-          </a>
-        </li>
+          </li>
+        </a>
       }
 
       @if (!isLoaded) {
