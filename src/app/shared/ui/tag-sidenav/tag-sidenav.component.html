@@ -1,12 +1,21 @@
-<mat-card appearance="raised">
+<mat-card class="max-h-screen overflow-auto" appearance="raised">
   <mat-card-header>
-    <mat-card-title>ALL POSTS</mat-card-title>
+    <mat-card-title
+      [ngClass]="{ 'text-[--mat-sys-primary]': selectedTag === '' }"
+    >
+      ALL POSTS
+    </mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <ul>
       @for (tag of tags; track $index) {
-        <li>
-          <app-tag-link [tagName]="tag.name" [tagCount]="tag.count" />
+        <li class="mb-2">
+          <app-tag-link
+            class="hover:text-[--mat-sys-primary]"
+            [ngClass]="{ 'text-[--mat-sys-primary]': selectedTag === tag.slug }"
+            [tagName]="tag.name"
+            [tagCount]="tag.count"
+          />
         </li>
       }
     </ul>

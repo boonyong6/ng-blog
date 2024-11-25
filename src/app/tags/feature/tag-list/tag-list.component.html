@@ -3,7 +3,7 @@
 >
   <div>
     <h1
-      class="pl-2 !text-3xl !font-medium !mb-0 md:!text-5xl md:pr-6 md:border-r-2 md:border-[--mat-sys-outline]"
+      class="!text-3xl !font-medium !mb-0 md:!text-5xl md:pr-6 md:border-r-2 md:border-[--mat-sys-outline]"
     >
       Tags
     </h1>
@@ -11,9 +11,15 @@
   </div>
   <div class="md:pl-6 md:max-w-lg">
     @if (tagPage$ | async; as tagPage) {
-      @for (tag of this.tags; track $index) {
-        <app-tag-link [tagName]="tag.name" [tagCount]="tag.count" />
-      }
+      <div class="flex flex-wrap gap-4">
+        @for (tag of this.tags; track $index) {
+          <app-tag-link
+            class="link"
+            [tagName]="tag.name"
+            [tagCount]="tag.count"
+          />
+        }
+      </div>
     }
   </div>
 </div>

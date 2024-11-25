@@ -1,6 +1,6 @@
-<a [routerLink]="['/tags', tagSlug, 'page', 1]" mat-button
-  >{{ tagName | uppercase }}
+<a class="label-lg" [routerLink]="['/tags', tagSlug, 'page', 1]">
+  {{ tagName | uppercase }}
   @if (tagCount) {
-    ({{ tagCount }})
+    <span class="text-[--mat-sys-on-surface]">({{ tagCount }})</span>
   }
 </a>

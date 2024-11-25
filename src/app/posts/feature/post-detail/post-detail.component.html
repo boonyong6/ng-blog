@@ -13,40 +13,50 @@
   <div class="flex flex-col md:flex-row">
     <div class="flex-none order-last md:w-56 md:order-first">
       <hr class="my-8 md:hidden" />
-      <div class="pl-3 mb-2 text-xs font-medium opacity-70">TAGS</div>
-      @for (tag of post.tags; track $index) {
-        <app-tag-link [tagName]="tag" />
-      }
-      <hr class="hidden my-6 md:block" />
-      <!-- TODO: Styling -->
-      <div class="pl-3 mb-2 text-xs font-medium opacity-70">SIMILAR POSTS</div>
-      <ul>
-        @for (similarPost of similarPostPage.results; track $index) {
-          <li>
-            <a
-              mat-button
-              [routerLink]="UrlHelper.populatePostUrl(similarPost)"
-              >{{ similarPost.title }}</a
-            >
-          </li>
+      <div class="mb-8">
+        <div class="mb-2 text-xs font-medium opacity-70">TAGS</div>
+        @for (tag of post.tags; track $index) {
+          <app-tag-link class="mr-2 link" [tagName]="tag" />
         }
-      </ul>
+      </div>
       <hr class="hidden my-6 md:block" />
-      <!-- TODO: Styling -->
-      @if (post.previous) {
-        <div class="pl-3 mb-2 text-xs font-medium opacity-70">
-          PREVIOUS POST
-        </div>
-        <a mat-button [routerLink]="UrlHelper.populatePostUrl(post.previous)">{{
-          post.previous.title
-        }}</a>
-      }
-      @if (post.next) {
-        <div class="pl-3 mb-2 text-xs font-medium opacity-70">NEXT POST</div>
-        <a mat-button [routerLink]="UrlHelper.populatePostUrl(post.next)">{{
-          post.next.title
-        }}</a>
-      }
+      <div class="mb-8">
+        <div class="text-xs font-medium opacity-70">SIMILAR POSTS</div>
+        <ul class="list-disc list-inside">
+          @for (similarPost of similarPostPage.results; track $index) {
+            <li class="mb-2">
+              <a
+                class="label-lg link"
+                [routerLink]="UrlHelper.populatePostUrl(similarPost)"
+                >{{ similarPost.title }}</a
+              >
+            </li>
+          }
+        </ul>
+      </div>
+      <hr class="hidden my-6 md:block" />
+      <div class="flex md:flex-col gap-x-2">
+        @if (post.previous) {
+          <div class="flex-1">
+            <div class="text-xs font-medium opacity-70">PREVIOUS POST</div>
+            <a
+              class="label-lg link"
+              [routerLink]="UrlHelper.populatePostUrl(post.previous)"
+              >{{ post.previous.title }}</a
+            >
+          </div>
+        }
+        @if (post.next) {
+          <div class="flex-1">
+            <div class="text-xs font-medium opacity-70 md:mt-6">NEXT POST</div>
+            <a
+              class="label-lg link"
+              [routerLink]="UrlHelper.populatePostUrl(post.next)"
+              >{{ post.next.title }}</a
+            >
+          </div>
+        }
+      </div>
       <hr class="hidden my-6 md:block" />
       <div class="mt-4">
         <a routerLink="/blog/page/1" mat-button

@@ -3,26 +3,27 @@
   [ngClass]="{ 'md:flex-col': !isFullWidth }"
 >
   <div class="flex-initial w-64">
-    <p
-      class="opacity-70 !mb-1 pl-3 md:pl-0"
-      [ngClass]="{ 'md:pl-3': !isFullWidth }"
-    >
+    <p class="opacity-70 !mb-1 md:pl-0">
       {{ post.publish | date: "MMM dd, y" }}
     </p>
   </div>
   <div class="flex-1">
-    <p class="text-2xl font-medium !mb-0 pl-3">
+    <p class="text-2xl font-medium mb-1">
       <a [routerLink]="postUrl">{{ post.title }}</a>
     </p>
     <p>
       @for (tag of post.tags; track tag) {
-        <app-tag-link [tagName]="tag" />
+        <app-tag-link class="mr-2 link" [tagName]="tag" />
       }
     </p>
-    <p class="my-4 pl-3 opacity-70">
+    <p class="my-4 opacity-70">
       {{ post.summary }}
     </p>
-    <a [routerLink]="postUrl" [state]="{ apiUrl: post.url }" mat-button
+    <a
+      class="absolute -left-4"
+      [routerLink]="postUrl"
+      [state]="{ apiUrl: post.url }"
+      mat-button
       ><mat-icon>arrow_forward</mat-icon>Read more</a
     >
   </div>
