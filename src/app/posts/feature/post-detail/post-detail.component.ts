@@ -2,7 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Post } from '../../data-access/types';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PostService } from '../../data-access/post.service';
-import { Observable, Subject, takeUntil, tap } from 'rxjs';
+import {
+  debounceTime,
+  fromEvent,
+  Observable,
+  Subject,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import { AsyncPipe, DatePipe, ViewportScroller } from '@angular/common';
 import { TagLinkComponent } from '../../../tags/ui/tag-link/tag-link.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -35,6 +42,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   destroyed = new Subject<void>();
   readonly clipboardButton = ClipboardButtonComponent;
   readonly UrlHelper = UrlHelper;
+  isScrolling = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -66,6 +74,17 @@ export class PostDetailComponent implements OnInit, OnDestroy {
       .subscribe((urlFragment) => {
         this.urlFragment = urlFragment;
       });
+
+    fromEvent(window, 'scroll')
+      .pipe(takeUntil(this.destroyed), debounceTime(300))
+      .subscribe(() => {
+        if (window.scrollY === 0) {
+          this.isScrolling = false;
+          return;
+        }
+
+        this.isScrolling = true;
+      });
   }
 
   ngOnDestroy(): void {
@@ -78,5 +97,9 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.viewportScroller.scrollToAnchor(this.urlFragment ?? '');
     }, 100);
+  }
+
+  scrollToTop() {
+    this.viewportScroller.scrollToPosition([0, 0]);
   }
 }
