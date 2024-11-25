@@ -9,7 +9,9 @@
   </div>
 
   <div class="flex-1 md:pt-6 md:pl-20">
-    <h1 class="text-3xl font-medium mt-4 mb-8 md:hidden">All Posts</h1>
+    <h1 class="text-3xl font-medium mt-4 mb-8 md:hidden">
+      {{ (this.tagName ? this.tagName : "All Posts") | uppercase }}
+    </h1>
     @if (postPage$ | async; as postPage) {
       @for (post of postPage.results; track post.id) {
         <app-post-list-item [post]="post" [isFullWidth]="false" />

@@ -5,15 +5,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { Post } from '../../data-access/types';
 import { PostService } from '../../data-access/post.service';
-import { AsyncPipe, ViewportScroller } from '@angular/common';
+import { AsyncPipe, UpperCasePipe, ViewportScroller } from '@angular/common';
 import { PostListItemComponent } from '../../ui/post-list-item/post-list-item.component';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-post-list',
   imports: [
-    AsyncPipe,
     RouterLink,
+    AsyncPipe,
+    UpperCasePipe,
     MatButtonModule,
     TagSidenavComponent,
     PostListItemComponent,
@@ -24,6 +25,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 export class PostListComponent implements OnInit, OnDestroy {
   curPage: number = 1;
   tagSlug?: string;
+  tagName: string = '';
   prevPageUrl: string | null = null;
   nextPageUrl: string | null = null;
 
@@ -42,6 +44,7 @@ export class PostListComponent implements OnInit, OnDestroy {
     this.route.params.pipe(takeUntil(this.destroyed)).subscribe((params) => {
       this.curPage = +params['pageNum'] || 1;
       this.tagSlug = params['tagSlug'];
+      this.tagName = this.tagSlug ? this.tagSlug.replaceAll('-', ' ') : '';
 
       const basePageUrl = this.tagSlug
         ? `/tags/${this.tagSlug}/page`
@@ -63,7 +66,7 @@ export class PostListComponent implements OnInit, OnDestroy {
         );
     });
 
-    this._loadTags();
+    this.loadTags();
   }
 
   ngOnDestroy(): void {
@@ -79,10 +82,10 @@ export class PostListComponent implements OnInit, OnDestroy {
     if (this.tagsNextUrl == null) {
       return;
     }
-    this._loadTags(this.tagsNextUrl);
+    this.loadTags(this.tagsNextUrl);
   }
 
-  private _loadTags(url: string = '') {
+  private loadTags(url: string = '') {
     this.postService
       .getTags({ url })
       .pipe(takeUntil(this.destroyed))
