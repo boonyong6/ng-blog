@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Post } from '../../data-access/post';
+import { Post } from '../../data-access/types';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PostService } from '../../data-access/post.service';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
@@ -15,18 +15,18 @@ import { Page } from '../../../shared/data-access/types';
 import { UrlHelper } from '../../utils/url-helper';
 
 @Component({
-    selector: 'app-post-detail',
-    imports: [
-        RouterLink,
-        AsyncPipe,
-        DatePipe,
-        MatButtonModule,
-        MatIconModule,
-        MarkdownComponent,
-        TagLinkComponent,
-    ],
-    templateUrl: './post-detail.component.html',
-    styleUrl: './post-detail.component.css'
+  selector: 'app-post-detail',
+  imports: [
+    RouterLink,
+    AsyncPipe,
+    DatePipe,
+    MatButtonModule,
+    MatIconModule,
+    MarkdownComponent,
+    TagLinkComponent,
+  ],
+  templateUrl: './post-detail.component.html',
+  styleUrl: './post-detail.component.css',
 })
 export class PostDetailComponent implements OnInit, OnDestroy {
   urlFragment: string | null = null;

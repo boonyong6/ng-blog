@@ -13,95 +13,63 @@ import {
   RouterLink,
   RouterOutlet,
 } from '@angular/router';
+import { AsyncPipe, CommonModule, NgOptimizedImage } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { AsyncPipe, CommonModule, NgOptimizedImage } from '@angular/common';
-import { MediaMatcher } from '@angular/cdk/layout';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
-import { map, Observable, Subject, takeUntil } from 'rxjs';
-import { LoadingService } from './shared/data-access/loading.service';
-import { LoadingOverlayComponent } from './shared/ui/loading-overlay/loading-overlay.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
+import { LoadingOverlayComponent } from './shared/ui/loading-overlay/loading-overlay.component';
 import {
   SearchResult,
   SearchResultItem,
 } from './shared/ui/search-dialog/types';
 import { SearchDialogComponent } from './shared/ui/search-dialog/search-dialog.component';
-import { PostService } from './posts/data-access/post.service';
 import { UrlHelper } from './posts/utils/url-helper';
+import { PostService } from './posts/data-access/post.service';
+import { LoadingService } from './shared/data-access/loading.service';
+import { ThemeService } from './shared/data-access/theme.service';
+import { ThemeMode } from './shared/data-access/types';
+import { siteMetadata } from './site-metadata';
 
 @Component({
-    selector: 'app-root',
-    imports: [
-        RouterLink,
-        RouterOutlet,
-        NgOptimizedImage,
-        CommonModule,
-        AsyncPipe,
-        MatButtonModule,
-        MatIconModule,
-        MatToolbarModule,
-        MatSidenavModule,
-        LoadingOverlayComponent,
-    ],
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.css'
+  selector: 'app-root',
+  imports: [
+    RouterLink,
+    RouterOutlet,
+    NgOptimizedImage,
+    CommonModule,
+    AsyncPipe,
+    MatButtonModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatMenuModule,
+    LoadingOverlayComponent,
+  ],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   title = 'ng-blog';
-  isDarkMode;
-  socialLinks = [
-    {
-      url: 'https://github.com/boonyong6/ng-blog/',
-      logoUrl: 'icons/github.svg',
-      description: 'GitHub link',
-    },
-    {
-      url: 'https://www.linkedin.com/in/boonyongkang/',
-      logoUrl: 'icons/linkedin.svg',
-      description: 'LinkedIn link',
-    },
-  ];
-  menuItems = [
-    {
-      name: 'Home',
-      url: '/',
-    },
-    {
-      name: 'Blog',
-      url: '/blog/page/1',
-    },
-    {
-      name: 'Tags',
-      url: '/tags',
-    },
-    {
-      name: 'Projects',
-      url: '/projects',
-    },
-    {
-      name: 'About',
-      url: '/about',
-    },
-  ];
+  socialLinks = siteMetadata.socialLinks;
+  menuItems = siteMetadata.menuItems;
+  ThemeMode = ThemeMode;
 
   @ViewChild(MatDrawer) drawer!: MatDrawer;
   private destroyed = new Subject<void>();
   public isSearchDialogOpened = false;
 
   constructor(
-    mediaMatcher: MediaMatcher,
+    public themeService: ThemeService,
     private router: Router,
     public loadingService: LoadingService,
     private changeDetectorRef: ChangeDetectorRef,
     private dialogService: MatDialog,
     private postService: PostService,
-  ) {
-    this.isDarkMode = mediaMatcher.matchMedia(
-      '(prefers-color-scheme: dark)',
-    ).matches;
-  }
+  ) {}
 
   ngOnInit() {
     this.router.events.pipe(takeUntil(this.destroyed)).subscribe((event) => {

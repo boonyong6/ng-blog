@@ -15,11 +15,23 @@
       rel="stylesheet"
     />
     <script>
-      document.documentElement.dataset.themeMode =
-        localStorage.getItem("themeMode") ||
-        window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light";
+      if (isDarkMode()) {
+        document.documentElement.dataset.themeMode = "dark";
+      }
+
+      function isDarkMode() {
+        const themeMode = localStorage.getItem("themeMode")?.toLowerCase();
+
+        if (themeMode === "dark") {
+          return true;
+        }
+
+        if (themeMode === "light") {
+          return false;
+        }
+
+        return window.matchMedia("(prefers-color-scheme: dark)").matches;
+      }
     </script>
   </head>
   <body>

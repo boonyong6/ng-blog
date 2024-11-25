@@ -4,22 +4,22 @@ import { Observable } from 'rxjs';
 import { Page } from '../../shared/data-access/types';
 import { AsyncPipe } from '@angular/common';
 import { PostListItemComponent } from '../../posts/ui/post-list-item/post-list-item.component';
-import { Post } from '../../posts/data-access/post';
+import { Post } from '../../posts/data-access/types';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 
 @Component({
-    selector: 'app-home',
-    imports: [
-        AsyncPipe,
-        MatButtonModule,
-        MatIconModule,
-        RouterLink,
-        PostListItemComponent,
-    ],
-    templateUrl: './home.component.html',
-    styleUrl: './home.component.css'
+  selector: 'app-home',
+  imports: [
+    AsyncPipe,
+    MatButtonModule,
+    MatIconModule,
+    RouterLink,
+    PostListItemComponent,
+  ],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.css',
 })
 export class HomeComponent {
   posts$!: Observable<Page<Post>>;

@@ -1,4 +1,4 @@
-import { Post, PostPreview } from '../data-access/post';
+import { Post, PostPreview } from '../data-access/types';
 
 export class UrlHelper {
   public static populatePostUrl(post: PostPreview) {

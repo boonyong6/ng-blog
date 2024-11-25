@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Page, Tag } from '../../shared/data-access/types';
 import { Observable } from 'rxjs';
-import { Post } from './post';
+import { Post } from './types';
 import { environment as env } from '../../../environments/environment';
 
 type ListParams = {

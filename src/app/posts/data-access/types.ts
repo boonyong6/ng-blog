@@ -16,7 +16,7 @@ export type Post = {
   next: PostPreview | null;
 };
 
-type PostPreview = Pick<
+export type PostPreview = Pick<
   Post,
   'url' | 'urlAlt' | 'id' | 'title' | 'slug' | 'publish'
 >;

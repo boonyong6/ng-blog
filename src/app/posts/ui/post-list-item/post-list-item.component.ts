@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Post } from '../../data-access/post';
+import { Post } from '../../data-access/types';
 import { DatePipe, NgClass } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
@@ -8,17 +8,17 @@ import { UrlHelper } from '../../utils/url-helper';
 import { TagLinkComponent } from '../../../tags/ui/tag-link/tag-link.component';
 
 @Component({
-    selector: 'app-post-list-item',
-    imports: [
-        RouterLink,
-        NgClass,
-        DatePipe,
-        MatButtonModule,
-        MatIconModule,
-        TagLinkComponent,
-    ],
-    templateUrl: './post-list-item.component.html',
-    styleUrl: './post-list-item.component.css'
+  selector: 'app-post-list-item',
+  imports: [
+    RouterLink,
+    NgClass,
+    DatePipe,
+    MatButtonModule,
+    MatIconModule,
+    TagLinkComponent,
+  ],
+  templateUrl: './post-list-item.component.html',
+  styleUrl: './post-list-item.component.css',
 })
 export class PostListItemComponent implements OnInit {
   @Input() post!: Post;

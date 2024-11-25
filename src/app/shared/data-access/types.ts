@@ -11,3 +11,14 @@ export type Tag = {
   name: string;
   slug: string;
 };
+
+export enum ThemeMode {
+  System = 'system',
+  Light = 'light',
+  Dark = 'dark',
+}
+
+export type Theme = {
+  mode: ThemeMode;
+  isDarkMode: boolean;
+};

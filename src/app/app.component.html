@@ -58,18 +58,35 @@
         <mat-icon>search</mat-icon>
       </button>
 
-      <!-- TODO: (Improvement) Color scheme switch. -->
       <button
         mat-icon-button
+        [matMenuTriggerFor]="themeModeMenu"
         class="icon-button"
         aria-label="icon-button with color scheme icon"
       >
-        @if (isDarkMode) {
-          <mat-icon>dark_mode</mat-icon>
-        } @else {
-          <mat-icon>light_mode</mat-icon>
+        @switch (themeService.getTheme().mode) {
+          @case (ThemeMode.Light) {
+            <mat-icon>light_mode</mat-icon>
+          }
+          @case (ThemeMode.Dark) {
+            <mat-icon>dark_mode</mat-icon>
+          }
+          @case (ThemeMode.System) {
+            <mat-icon>contrast</mat-icon>
+          }
         }
       </button>
+      <mat-menu #themeModeMenu="matMenu" xPosition="before">
+        <button mat-menu-item (click)="themeService.setMode(ThemeMode.Light)">
+          <mat-icon>light_mode</mat-icon><span>Light</span>
+        </button>
+        <button mat-menu-item (click)="themeService.setMode(ThemeMode.Dark)">
+          <mat-icon>dark_mode</mat-icon><span>Dark</span>
+        </button>
+        <button mat-menu-item (click)="themeService.setMode(ThemeMode.System)">
+          <mat-icon>contrast</mat-icon><span>System</span>
+        </button>
+      </mat-menu>
 
       <button
         mat-icon-button
@@ -87,12 +104,14 @@
   </main>
 
   <footer class="pt-12">
+    @let theme = themeService.getTheme();
+
     <div class="flex justify-center">
       @for (link of socialLinks; track $index) {
         <div class="mx-2">
           <a href="{{ link.url }}" target="_blank">
             <img
-              class="dark:invert"
+              [ngClass]="{ invert: theme.isDarkMode }"
               ngSrc="{{ link.logoUrl }}"
               alt="{{ link.description }}"
               width="24"
@@ -105,7 +124,7 @@
     <div class="mt-2 flex justify-center items-center mb-4 opacity-60">
       <span class="mr-1">Boon Yong · &copy; 2024 · Created with</span>
       <img
-        class="dark:invert"
+        [ngClass]="{ invert: theme.isDarkMode }"
         ngSrc="icons/angular.svg"
         alt="Angular logo"
         width="16"
