@@ -8,16 +8,16 @@
   <h1 class="text-center !text-3xl !font-medium md:!text-5xl">
     {{ post.title }}
   </h1>
-  <hr class="opacity-40 mb-8" />
+  <hr class="mb-8" />
 
   <div class="flex flex-col md:flex-row">
     <div class="flex-none order-last md:w-56 md:order-first">
-      <hr class="opacity-40 my-8 md:hidden" />
+      <hr class="my-8 md:hidden" />
       <div class="pl-3 mb-2 text-xs font-medium opacity-70">TAGS</div>
       @for (tag of post.tags; track $index) {
         <app-tag-link [tagName]="tag" />
       }
-      <hr class="hidden opacity-40 my-6 md:block" />
+      <hr class="hidden my-6 md:block" />
       <!-- TODO: Styling -->
       <div class="pl-3 mb-2 text-xs font-medium opacity-70">SIMILAR POSTS</div>
       <ul>
@@ -31,7 +31,7 @@
           </li>
         }
       </ul>
-      <hr class="hidden opacity-40 my-6 md:block" />
+      <hr class="hidden my-6 md:block" />
       <!-- TODO: Styling -->
       @if (post.previous) {
         <div class="pl-3 mb-2 text-xs font-medium opacity-70">
@@ -47,7 +47,7 @@
           post.next.title
         }}</a>
       }
-      <hr class="hidden opacity-40 my-6 md:block" />
+      <hr class="hidden my-6 md:block" />
       <div class="mt-4">
         <a routerLink="/blog/page/1" mat-button
           ><mat-icon>arrow_back</mat-icon> Back to the blog</a

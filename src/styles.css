@@ -11,6 +11,10 @@
   p {
     @apply mb-3;
   }
+
+  hr {
+    @apply border-[--mat-sys-outline];
+  }
 }
 
 /* You can add global styles to this file, and also import other style files */
