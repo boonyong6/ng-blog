@@ -1,40 +1,35 @@
 <mat-card class="md:max-w-[30rem]" appearance="outlined">
   <!-- 16/9 container -->
-  <div class="relative w-full" style="padding-top: 56.25%">
+  <div
+    class="relative w-full cursor-pointer"
+    style="padding-top: 56.25%"
+    (click)="goToUrl(project.link)"
+  >
     <div class="absolute top-0 left-0 w-full h-full rounded-t-xl">
       <img
         class="object-cover"
         mat-card-image
-        ngSrc="https://material.angular.io/assets/img/examples/shiba2.jpg"
+        [ngSrc]="project.thumbnail"
         fill
         priority
-        alt="Photo of a Shiba Inu"
+        alt="Project thumbnail"
       />
     </div>
   </div>
 
   <mat-card-header>
-    <mat-card-title>Project Name</mat-card-title>
+    <mat-card-title class="cursor-pointer" (click)="goToUrl(project.link)">{{
+      project.title
+    }}</mat-card-title>
   </mat-card-header>
-  <mat-card-content>
+  <mat-card-content class="h-28 overflow-hidden">
     <p class="mt-4">
-      Project Description. Lorem ipsum, dolor sit amet consectetur adipisicing
-      elit. Repudiandae autem voluptatum molestiae facilis, corporis deleniti
-      repellendus inventore quaerat quis nulla?
+      {{ project.description }}
     </p>
   </mat-card-content>
   <mat-card-actions>
-    <!-- TODO: Replace it with value from API. -->
-    @let projectLink = "https://google.com";
-
-    @if (isInternalLink(projectLink)) {
-      <a [routerLink]="projectLink" mat-button>
-        <mat-icon>arrow_forward</mat-icon>Learn more
-      </a>
-    } @else {
-      <a [href]="projectLink" mat-button>
-        <mat-icon>arrow_forward</mat-icon>Learn more
-      </a>
-    }
+    <a mat-button (click)="goToUrl(project.link)">
+      <mat-icon>arrow_forward</mat-icon>Learn more
+    </a>
   </mat-card-actions>
 </mat-card>
