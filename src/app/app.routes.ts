@@ -5,6 +5,7 @@ import { AboutComponent } from './about/feature/about.component';
 import { PostListComponent } from './posts/feature/post-list/post-list.component';
 import { TagListComponent } from './tags/feature/tag-list/tag-list.component';
 import { PostDetailComponent } from './posts/feature/post-detail/post-detail.component';
+import { ProjectListComponent } from './projects/feature/project-list/project-list.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, title: 'Home' },
@@ -29,6 +30,11 @@ export const routes: Routes = [
     path: 'not-found',
     component: NotFoundComponent,
     title: 'Not Found',
+  },
+  {
+    path: 'projects',
+    component: ProjectListComponent,
+    title: 'Projects',
   },
   {
     path: '**',

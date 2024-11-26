@@ -4,8 +4,7 @@
 
 @layer base {
   h1 {
-    font: var(--mat-sys-display-large);
-    @apply mb-8 font-medium;
+    @apply display-lg;
   }
 
   p {
@@ -18,6 +17,11 @@
 }
 
 @layer components {
+  .display-lg {
+    font: var(--mat-sys-display-large);
+    @apply mb-8 font-medium;
+  }
+
   .label-lg {
     font: var(--mat-sys-label-large);
   }

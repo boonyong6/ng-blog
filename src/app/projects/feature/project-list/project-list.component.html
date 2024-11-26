@@ -1,0 +1,9 @@
+<h1 class="text-3xl md:display-lg">Projects</h1>
+<hr class="mb-12" />
+
+<div class="mb-8 md:flex md:flex-wrap md:gap-8">
+  <!-- TODO: Fetch project list using API. -->
+  @for (i of [1, 2, 3]; track $index) {
+    <app-project-list-item />
+  }
+</div>
