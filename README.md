@@ -1,13 +1,13 @@
 # NgBlog
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.11.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version ~~18.2.11~~ 19.0.0.
 
 ## TODO
 
 - [x] Search dialog component - https://material.angular.io/components/dialog/overview
 - [ ] Serve Google Font locally?
-- [ ] Color scheme switch (light/dark)
-- [ ] Save chosen theme
+- [x] Color scheme switch (light/dark)
+- [x] Save chosen theme
 
 ## Notes
 

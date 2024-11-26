@@ -1,13 +1,18 @@
 <h1>Latest</h1>
-<hr class="mb-12" />
+<hr class="mb-10" />
 
 @if (posts$ | async; as posts) {
   @for (post of posts.results; track post.id) {
-    <app-post-list-item [post]="post" />
+    <div class="mb-8">
+      <app-post-list-item [post]="post" />
+    </div>
+    @if (!$last) {
+      <hr class="mb-10" />
+    }
   }
   <div class="text-right">
-    <a mat-button routerLink="/blog/page/1"
-      ><mat-icon>arrow_forward</mat-icon>All Posts</a
-    >
+    <a mat-button routerLink="/blog/page/1">
+      <mat-icon>arrow_forward</mat-icon>All Posts
+    </a>
   </div>
 }

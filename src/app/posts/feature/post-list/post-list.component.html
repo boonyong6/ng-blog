@@ -14,7 +14,9 @@
     </h1>
     @if (postPage$ | async; as postPage) {
       @for (post of postPage.results; track post.id) {
-        <app-post-list-item [post]="post" [isFullWidth]="false" />
+        <div class="mb-12">
+          <app-post-list-item [post]="post" [isFullWidth]="false" />
+        </div>
       }
       <div class="flex items-center">
         <div class="flex-1">

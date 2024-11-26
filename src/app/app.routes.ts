@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/feature/home.component';
-import { PageNotFoundComponent } from './page-not-found/feature/page-not-found.component';
+import { NotFoundComponent } from './not-found/feature/not-found/not-found.component';
 import { AboutComponent } from './about/feature/about.component';
 import { PostListComponent } from './posts/feature/post-list/post-list.component';
 import { TagListComponent } from './tags/feature/tag-list/tag-list.component';
@@ -27,7 +27,7 @@ export const routes: Routes = [
   { path: 'about', component: AboutComponent, title: 'About' },
   {
     path: 'not-found',
-    component: PageNotFoundComponent,
+    component: NotFoundComponent,
     title: 'Not Found',
   },
   {
