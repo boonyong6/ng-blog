@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { Project } from '../../data-access/types';
+import { environment as env } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-project-list-item',
@@ -23,9 +24,13 @@ export class ProjectListItemComponent {
     // Navigate to a route (internal URL).
     if (url.host === window.location.host) {
       const searchParams = new URLSearchParams(url.search);
-      this.router.navigate([url.pathname.substring(1)], {
+      // `substring(1)` removes the leading `/`.
+      const path = url.pathname.replace(env.subdirectoryPath, '').substring(1);
+
+      this.router.navigate([path], {
         queryParams: searchParams,
       });
+
       return;
     }
 
