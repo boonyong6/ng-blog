@@ -34,12 +34,12 @@ export function markedOptionsFactory(): MarkedOptions {
   renderer.code = (code: string, info: string) => {
     const languageClass = info ? `language-${info}` : 'language-none';
     return `<pre class="${languageClass} !my-6" tabIndex="0"><code class="${languageClass}">${encodeHTML(
-      code
+      code,
     )}</code></pre>`;
   };
 
   renderer.codespan = (text: string) => {
-    return `<span class="font-mono text-blue-500">\`${text}\`</span>`;
+    return `<span class="font-mono bg-[--mat-sys-surface-container-highest] text-[--mat-sys-secondary] px-1 rounded">${text}</span>`;
   };
 
   renderer.list = (body: string, ordered: boolean, start: number | '') => {
@@ -65,7 +65,7 @@ export function markedOptionsFactory(): MarkedOptions {
   };
 
   renderer.link = (href: string, title: string | null, text: string) => {
-    return `<a class="mat-mdc-button !px-0 underline underline-offset-4" href="${href}" target="_blank">${text}</a>`;
+    return `<a class="link !px-0 underline underline-offset-4" href="${href}" target="_blank">${text}</a>`;
   };
 
   renderer.blockquote = (quote: string) => {
@@ -85,12 +85,12 @@ export function markedOptionsFactory(): MarkedOptions {
   };
 
   renderer.tablerow = (content: string) => {
-    return `<tr class="text-left border-b border-white/40">${content}</tr>`;
+    return `<tr class="text-left border-b border-[--mat-sys-outline]">${content}</tr>`;
   };
 
   renderer.tablecell = (
     content: string,
-    flags: { header: boolean; align: 'center' | 'left' | 'right' | null }
+    flags: { header: boolean; align: 'center' | 'left' | 'right' | null },
   ) => {
     return `<td class="py-2 ${flags.header ? 'font-bold' : ''} ${
       flags.align ? `text-${flags.align}` : ''
