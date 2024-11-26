@@ -1,10 +1,16 @@
 <h1 class="text-3xl md:display-lg">Projects</h1>
 <hr class="mb-12" />
 
-@if (projectPage$ | async; as projectPage) {
-  <div class="grid gap-8 md:grid-cols-2">
-    @for (project of projectPage.results; track $index) {
-      <app-project-list-item [project]="project" />
-    }
+<div class="grid gap-8 md:grid-cols-2">
+  @for (project of projects; track $index) {
+    <app-project-list-item [project]="project" />
+  }
+</div>
+
+@if (projectsNextUrl) {
+  <div class="text-end mt-4">
+    <button mat-button (click)="loadMoreProjects()">
+      <mat-icon>arrow_forward</mat-icon>More
+    </button>
   </div>
 }
