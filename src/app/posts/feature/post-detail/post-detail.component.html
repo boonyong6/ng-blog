@@ -23,7 +23,7 @@
       <div class="mb-8">
         <div class="text-xs font-medium opacity-70">SIMILAR POSTS</div>
         <ul class="list-disc list-inside">
-          @for (similarPost of similarPostPage.results; track $index) {
+          @for (similarPost of similarPostPage.results; track similarPost.id) {
             <li class="mb-2">
               <a
                 class="label-lg link"

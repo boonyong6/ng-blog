@@ -8,7 +8,7 @@
   </mat-card-header>
   <mat-card-content>
     <ul>
-      @for (tag of tags; track $index) {
+      @for (tag of tags; track tag.id) {
         <li class="mb-2">
           <app-tag-link
             class="hover:text-[--mat-sys-primary]"

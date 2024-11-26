@@ -12,7 +12,7 @@
   <div class="md:pl-6 md:max-w-lg">
     @if (tagPage$ | async; as tagPage) {
       <div class="flex flex-wrap gap-4">
-        @for (tag of this.tags; track $index) {
+        @for (tag of this.tags; track tag.id) {
           <app-tag-link
             class="link"
             [tagName]="tag.name"

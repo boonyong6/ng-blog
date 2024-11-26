@@ -6,6 +6,7 @@ export type Page<Type> = {
 };
 
 export type Tag = {
+  id: number;
   url: string;
   count: number;
   name: string;

@@ -2,7 +2,7 @@
 <hr class="mb-12" />
 
 <div class="grid gap-8 md:grid-cols-2">
-  @for (project of projects; track $index) {
+  @for (project of projects; track project.id) {
     <app-project-list-item [project]="project" />
   }
 </div>
