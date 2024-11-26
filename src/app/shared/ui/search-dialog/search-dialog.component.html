@@ -23,7 +23,7 @@
     }
 
     <ul>
-      @for (item of searchResult.items; track $index) {
+      @for (item of searchResult.items; track item.url) {
         <a [routerLink]="item.url" mat-dialog-close>
           <li
             class="hover:bg-[--mat-sys-secondary] hover:text-[--mat-sys-on-secondary] px-4 py-2"

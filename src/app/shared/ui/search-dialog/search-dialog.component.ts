@@ -17,16 +17,16 @@ import { SearchResult } from './types';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-search-dialog',
-    imports: [
-        DatePipe,
-        RouterLink,
-        ReactiveFormsModule,
-        MatDialogModule,
-        MatIconModule,
-    ],
-    templateUrl: './search-dialog.component.html',
-    styleUrl: './search-dialog.component.css'
+  selector: 'app-search-dialog',
+  imports: [
+    DatePipe,
+    RouterLink,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatIconModule,
+  ],
+  templateUrl: './search-dialog.component.html',
+  styleUrl: './search-dialog.component.css',
 })
 export class SearchDialogComponent implements OnInit, OnDestroy {
   searchResult: SearchResult = { items: [], next: null };
@@ -100,11 +100,8 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
 
     searchResult$.pipe(takeUntil(this.destroyed)).subscribe({
       next: (response) => {
-        this.searchResult = {
-          ...response,
-          items: [...this.searchResult.items, ...response.items],
-        };
-
+        this.searchResult.next = response.next;
+        this.searchResult.items.push(...response.items);
         this.isLoaded = true;
       },
       error: (err) => {
@@ -115,7 +112,8 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
   }
 
   private resetSearch() {
-    this.searchResult = { items: [], next: null };
+    this.searchResult.items = [];
+    this.searchResult.next = null;
     this.resetIntersectionObserver();
   }
 }
