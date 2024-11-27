@@ -3,7 +3,6 @@ import {
   provideRouter,
   TitleStrategy,
   withComponentInputBinding,
-  withInMemoryScrolling,
 } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -22,11 +21,7 @@ import { TemplatePageTitleStrategy } from './shared/utils/template-page-title-st
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(
-      routes,
-      withComponentInputBinding(),
-      withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
-    ),
+    provideRouter(routes, withComponentInputBinding()),
     { provide: TitleStrategy, useClass: TemplatePageTitleStrategy },
     provideAnimationsAsync(),
     provideHttpClient(
