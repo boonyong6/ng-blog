@@ -46,6 +46,7 @@
       }
 
       @if (isLoaded && searchResult.next) {
+        <!-- TODO: Use a custom directive to perform callback on rendered. (ngAfterViewInit) -->
         <li #skeletonLoader class="px-4 py-2 animate-pulse list-none">
           <div class="h-3 w-28 bg-slate-700 rounded mb-3"></div>
           <div class="h-4 w-72 md:w-96 bg-slate-700 rounded"></div>

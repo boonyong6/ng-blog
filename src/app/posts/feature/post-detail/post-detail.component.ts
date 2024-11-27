@@ -1,15 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Post } from '../../data-access/types';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PostService } from '../../data-access/post.service';
-import {
-  debounceTime,
-  fromEvent,
-  Observable,
-  Subject,
-  takeUntil,
-  tap,
-} from 'rxjs';
+import { debounceTime, fromEvent, Observable, tap } from 'rxjs';
 import { AsyncPipe, DatePipe, ViewportScroller } from '@angular/common';
 import { TagLinkComponent } from '../../../tags/ui/tag-link/tag-link.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -35,11 +29,10 @@ import { UrlHelper } from '../../utils/url-helper';
   templateUrl: './post-detail.component.html',
   styleUrl: './post-detail.component.css',
 })
-export class PostDetailComponent implements OnInit, OnDestroy {
+export class PostDetailComponent implements OnInit {
   urlFragment: string | null = null;
   post$!: Observable<Post>;
   similarPostPage$!: Observable<Page<Post>>;
-  destroyed = new Subject<void>();
   readonly clipboardButton = ClipboardButtonComponent;
   readonly UrlHelper = UrlHelper;
   isScrolling = false;
@@ -48,35 +41,40 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private postService: PostService,
     private viewportScroller: ViewportScroller,
+    private destroyRef: DestroyRef,
     public titleService: Title,
   ) {}
 
   ngOnInit(): void {
-    this.route.params.pipe(takeUntil(this.destroyed)).subscribe((params) => {
-      const getParams = {
-        year: params['year'],
-        month: params['month'],
-        day: params['day'],
-        slug: params['slug'],
-      };
+    this.route.params
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params) => {
+        const getParams = {
+          year: params['year'],
+          month: params['month'],
+          day: params['day'],
+          slug: params['slug'],
+        };
 
-      this.post$ = this.postService.getPost(getParams).pipe(
-        tap((post) => {
-          this.titleService.setTitle(`${post.title}${env.documentTitleSuffix}`);
-        }),
-      );
+        this.post$ = this.postService.getPost(getParams).pipe(
+          tap((post) => {
+            this.titleService.setTitle(
+              `${post.title}${env.documentTitleSuffix}`,
+            );
+          }),
+        );
 
-      this.similarPostPage$ = this.postService.getSimilarPosts(getParams);
-    });
+        this.similarPostPage$ = this.postService.getSimilarPosts(getParams);
+      });
 
     this.route.fragment
-      .pipe(takeUntil(this.destroyed))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((urlFragment) => {
         this.urlFragment = urlFragment;
       });
 
     fromEvent(window, 'scroll')
-      .pipe(takeUntil(this.destroyed), debounceTime(300))
+      .pipe(takeUntilDestroyed(this.destroyRef), debounceTime(300))
       .subscribe(() => {
         if (window.scrollY === 0) {
           this.isScrolling = false;
@@ -85,11 +83,6 @@ export class PostDetailComponent implements OnInit, OnDestroy {
 
         this.isScrolling = true;
       });
-  }
-
-  ngOnDestroy(): void {
-    this.destroyed.next();
-    this.destroyed.complete();
   }
 
   scrollToFragment() {

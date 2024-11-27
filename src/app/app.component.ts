@@ -2,11 +2,12 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   HostListener,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   NavigationEnd,
   Router,
@@ -20,7 +21,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
-import { map, Observable, Subject, takeUntil } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { LoadingOverlayComponent } from './shared/ui/loading-overlay/loading-overlay.component';
 import {
   SearchResult,
@@ -52,47 +53,45 @@ import { siteMetadata } from './site-metadata';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
-  title = 'ng-blog';
+export class AppComponent implements OnInit, AfterViewInit {
   socialLinks = siteMetadata.socialLinks;
   menuItems = siteMetadata.menuItems;
   ThemeMode = ThemeMode;
 
   @ViewChild(MatDrawer) drawer!: MatDrawer;
-  private destroyed = new Subject<void>();
   public isSearchDialogOpened = false;
 
   constructor(
+    public loadingService: LoadingService,
     public themeService: ThemeService,
     private router: Router,
-    public loadingService: LoadingService,
     private changeDetectorRef: ChangeDetectorRef,
+    private destroyRef: DestroyRef,
     private dialogService: MatDialog,
     private postService: PostService,
   ) {}
 
   ngOnInit() {
-    this.router.events.pipe(takeUntil(this.destroyed)).subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.drawer.close();
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.destroyed.next();
-    this.destroyed.complete();
+    this.router.events
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          this.drawer.close();
+        }
+      });
   }
 
   ngAfterViewInit() {
     // Subscribe to loading changes to trigger manual detection
     this.loadingService.isLoading$
-      .pipe(takeUntil(this.destroyed))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         this.changeDetectorRef.detectChanges();
       });
   }
 
+  // TODO: Extract to SearchDialogService?
+  // E.g. openSearchDialog(callback: (params: SearchResultParams) => Observable<SearchResult>)
   openSearchDialog() {
     if (this.isSearchDialogOpened) {
       return;

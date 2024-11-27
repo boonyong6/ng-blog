@@ -1,18 +1,19 @@
-import { DatePipe } from '@angular/common';
 import {
   afterRender,
   Component,
+  DestroyRef,
   ElementRef,
   EventEmitter,
-  OnDestroy,
   OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DatePipe } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
+import { debounceTime, Observable } from 'rxjs';
 import { SearchResult } from './types';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
@@ -28,11 +29,10 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './search-dialog.component.html',
   styleUrl: './search-dialog.component.css',
 })
-export class SearchDialogComponent implements OnInit, OnDestroy {
+export class SearchDialogComponent implements OnInit {
   searchResult: SearchResult = { items: [], next: null };
   // Using `LoadingService` causes UI flickering due to its global loading state tracking.
   isLoaded = false;
-  destroyed = new Subject<void>();
   searchInput = new FormControl('');
   @Output() searchInputChanged = new EventEmitter<string>();
   @Output() nextPageTriggered = new EventEmitter<string>();
@@ -42,9 +42,13 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
   intersectionObserver?: IntersectionObserver;
   isIntersectionObserverSet = false;
 
-  constructor() {
+  constructor(private destroyRef: DestroyRef) {
     afterRender(() => {
       this.setupIntersectionObserver();
+    });
+
+    destroyRef.onDestroy(() => {
+      this.resetSearch();
     });
   }
 
@@ -88,17 +92,10 @@ export class SearchDialogComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
-    this.resetSearch();
-
-    this.destroyed.next();
-    this.destroyed.complete();
-  }
-
   appendSearchResult(searchResult$: Observable<SearchResult>) {
     this.isLoaded = false;
 
-    searchResult$.pipe(takeUntil(this.destroyed)).subscribe({
+    searchResult$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (response) => {
         this.searchResult.next = response.next;
         this.searchResult.items.push(...response.items);

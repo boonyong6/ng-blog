@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ProjectListItemComponent } from '../../ui/project-list-item/project-list-item.component';
 import { ProjectService } from '../../data-access/project.service';
-import { Subject, takeUntil } from 'rxjs';
 import { Project } from '../../data-access/types';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,20 +12,17 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './project-list.component.html',
   styleUrl: './project-list.component.css',
 })
-export class ProjectListComponent implements OnInit, OnDestroy {
-  private destroyed = new Subject<void>();
+export class ProjectListComponent implements OnInit {
   projects: Project[] = [];
   projectsNextUrl: string | null = null;
 
-  constructor(private projectService: ProjectService) {}
+  constructor(
+    private destroyRef: DestroyRef,
+    private projectService: ProjectService,
+  ) {}
 
   ngOnInit(): void {
     this.loadProjects();
-  }
-
-  ngOnDestroy(): void {
-    this.destroyed.next();
-    this.destroyed.complete();
   }
 
   loadMoreProjects() {
@@ -38,7 +35,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   private loadProjects(url?: string): void {
     this.projectService
       .getProjects({ url })
-      .pipe(takeUntil(this.destroyed))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((projectPage) => {
         this.projects.push(...projectPage.results);
         this.projectsNextUrl = projectPage.next;

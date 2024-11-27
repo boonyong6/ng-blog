@@ -1,30 +1,27 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Subject, takeUntil, timer } from 'rxjs';
+import { timer } from 'rxjs';
 
 @Component({
-    selector: 'app-clipboard-button',
-    imports: [MatButtonModule, MatIconModule],
-    templateUrl: './clipboard-button.component.html',
-    styleUrl: './clipboard-button.component.css'
+  selector: 'app-clipboard-button',
+  imports: [MatButtonModule, MatIconModule],
+  templateUrl: './clipboard-button.component.html',
+  styleUrl: './clipboard-button.component.css',
 })
-export class ClipboardButtonComponent implements OnDestroy {
-  private destroyed = new Subject<void>();
+export class ClipboardButtonComponent {
   isCopied = false;
+
+  constructor(private destroyRef: DestroyRef) {}
 
   onClick() {
     this.isCopied = true;
 
     timer(2000)
-      .pipe(takeUntil(this.destroyed))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         this.isCopied = false;
       });
-  }
-
-  ngOnDestroy(): void {
-    this.destroyed.next();
-    this.destroyed.complete();
   }
 }
