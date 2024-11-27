@@ -14,6 +14,8 @@ import { Title } from '@angular/platform-browser';
 import { environment as env } from '../../../../environments/environment';
 import { Page } from '../../../shared/data-access/types';
 import { UrlHelper } from '../../utils/url-helper';
+import { CommentListComponent } from '../../../comments/ui/comment-list/comment-list.component';
+import { CommentFormComponent } from '../../../comments/ui/comment-form/comment-form.component';
 
 @Component({
   selector: 'app-post-detail',
@@ -25,6 +27,8 @@ import { UrlHelper } from '../../utils/url-helper';
     MatIconModule,
     MarkdownComponent,
     TagLinkComponent,
+    CommentListComponent,
+    CommentFormComponent,
   ],
   templateUrl: './post-detail.component.html',
   styleUrl: './post-detail.component.css',
@@ -38,11 +42,11 @@ export class PostDetailComponent implements OnInit {
   isScrolling = false;
 
   constructor(
+    public titleService: Title,
+    public viewportScroller: ViewportScroller,
     private route: ActivatedRoute,
     private postService: PostService,
-    private viewportScroller: ViewportScroller,
     private destroyRef: DestroyRef,
-    public titleService: Title,
   ) {}
 
   ngOnInit(): void {
@@ -90,9 +94,5 @@ export class PostDetailComponent implements OnInit {
     setTimeout(() => {
       this.viewportScroller.scrollToAnchor(this.urlFragment ?? '');
     }, 100);
-  }
-
-  scrollToTop() {
-    this.viewportScroller.scrollToPosition([0, 0]);
   }
 }

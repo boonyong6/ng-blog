@@ -1,0 +1,28 @@
+<!-- name, email, body, comment button -->
+<!-- <p class="title-lg">Add a new comment</p> -->
+
+<form [formGroup]="commentForm" (ngSubmit)="addComment()">
+  <div class="md:flex md:gap-4">
+    <mat-form-field class="w-full md:flex-none md:w-56 md:h-[6.5rem]">
+      <mat-label>Name</mat-label>
+      <input formControlName="name" matInput placeholder="Full name" value="" />
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Comment</mat-label>
+      <textarea
+        formControlName="body"
+        matInput
+        placeholder="Add a comment..."
+      ></textarea>
+      @if (body?.hasError("required") && body?.touched) {
+        <mat-error>Comment is <strong>required</strong></mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <div class="text-end flex-1">
+    <button type="submit" [disabled]="!commentForm.valid" mat-flat-button>
+      Comment
+    </button>
+  </div>
+</form>

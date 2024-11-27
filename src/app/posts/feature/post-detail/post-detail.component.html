@@ -72,16 +72,31 @@
         [disableSanitizer]="true"
         (ready)="scrollToFragment()"
       ></markdown>
+
+      <hr class="my-10" />
+
+      <div class="mb-10">
+        <app-comment-list id="comment-list" />
+      </div>
+      <app-comment-form />
     </div>
   </div>
 
   @if (isScrolling) {
     <button
-      class="!hidden !fixed bottom-8 right-8 md:!inline"
+      class="!hidden !fixed bottom-20 right-8 md:!inline"
       mat-icon-button
-      (click)="scrollToTop()"
+      (click)="viewportScroller.scrollToPosition([0, 0])"
     >
       <mat-icon>arrow_upward</mat-icon>
+    </button>
+
+    <button
+      class="!hidden !fixed bottom-8 right-8 md:!inline"
+      mat-icon-button
+      (click)="viewportScroller.scrollToAnchor('comment-list')"
+    >
+      <mat-icon>comment</mat-icon>
     </button>
   }
 }
