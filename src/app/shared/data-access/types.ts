@@ -1,5 +1,6 @@
 export type Page<Type> = {
   count: number;
+  pageSize: number;
   next: string | null;
   previous: string | null;
   results: Type[];
