@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Post } from '../../data-access/types';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -16,6 +16,7 @@ import { Page } from '../../../shared/data-access/types';
 import { UrlHelper } from '../../utils/url-helper';
 import { CommentListComponent } from '../../../comments/ui/comment-list/comment-list.component';
 import { CommentFormComponent } from '../../../comments/ui/comment-form/comment-form.component';
+import { Comment } from '../../../comments/data-access/types';
 
 @Component({
   selector: 'app-post-detail',
@@ -37,9 +38,10 @@ export class PostDetailComponent implements OnInit {
   urlFragment: string | null = null;
   post$!: Observable<Post>;
   similarPostPage$!: Observable<Page<Post>>;
+  isScrolling = false;
+  @ViewChild(CommentListComponent) commentList!: CommentListComponent;
   readonly clipboardButton = ClipboardButtonComponent;
   readonly UrlHelper = UrlHelper;
-  isScrolling = false;
 
   constructor(
     public titleService: Title,
@@ -94,5 +96,9 @@ export class PostDetailComponent implements OnInit {
     setTimeout(() => {
       this.viewportScroller.scrollToAnchor(this.urlFragment ?? '');
     }, 100);
+  }
+
+  addCommentToList(comment: Comment) {
+    this.commentList.addComment(comment);
   }
 }

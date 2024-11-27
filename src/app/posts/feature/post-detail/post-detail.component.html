@@ -76,9 +76,12 @@
       <hr class="my-10" />
 
       <div class="mb-10">
-        <app-comment-list id="comment-list" />
+        <app-comment-list id="comment-list" [postId]="post.id" />
       </div>
-      <app-comment-form />
+      <app-comment-form
+        [postId]="post.id"
+        (commentCreated)="addCommentToList($event)"
+      />
     </div>
   </div>
 
@@ -90,13 +93,13 @@
     >
       <mat-icon>arrow_upward</mat-icon>
     </button>
-
-    <button
-      class="!hidden !fixed bottom-8 right-8 md:!inline"
-      mat-icon-button
-      (click)="viewportScroller.scrollToAnchor('comment-list')"
-    >
-      <mat-icon>comment</mat-icon>
-    </button>
   }
+
+  <button
+    class="!hidden !fixed bottom-8 right-8 md:!inline"
+    mat-icon-button
+    (click)="viewportScroller.scrollToAnchor('comment-list')"
+  >
+    <mat-icon>comment</mat-icon>
+  </button>
 }
