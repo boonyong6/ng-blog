@@ -16,7 +16,9 @@ export class PostService {
     return this.http.get<Page<Post>>(`${env.apiBaseUrl}/posts/latest/`);
   }
 
-  getPosts({ url, page = 1, tagSlug }: ListParams): Observable<Page<Post>> {
+  getPosts({ url, page = 1, tagSlug }: ListParams = {}): Observable<
+    Page<Post>
+  > {
     let endpoint = `${env.apiBaseUrl}/posts/?page=${page}`;
 
     if (tagSlug) {

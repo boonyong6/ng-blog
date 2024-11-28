@@ -126,7 +126,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     let postPage$ =
       searchQuery || url
         ? this.postService.searchPosts({ url, query: searchQuery })
-        : this.postService.getLatestPosts();
+        : this.postService.getPosts();
 
     return postPage$.pipe(
       map((postPage) => {
