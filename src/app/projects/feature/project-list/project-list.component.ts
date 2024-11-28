@@ -1,10 +1,12 @@
 import { Component, DestroyRef, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { Observable } from 'rxjs';
 import { ProjectListItemComponent } from '../../ui/project-list-item/project-list-item.component';
 import { ProjectService } from '../../data-access/project.service';
 import { Project } from '../../data-access/types';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { Paginator } from '../../../shared/utils/paginator';
+import { Page } from '../../../shared/data-access/types';
 
 @Component({
   selector: 'app-project-list',
@@ -13,32 +15,30 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './project-list.component.css',
 })
 export class ProjectListComponent implements OnInit {
-  projects: Project[] = [];
-  projectsNextUrl: string | null = null;
+  paginator!: Paginator<Project>;
 
   constructor(
-    private destroyRef: DestroyRef,
     private projectService: ProjectService,
-  ) {}
+    destroyRef: DestroyRef,
+  ) {
+    destroyRef.onDestroy(() => {
+      this.paginator.destroy();
+    });
+  }
+
+  get projects(): Project[] {
+    return this.paginator.data;
+  }
 
   ngOnInit(): void {
-    this.loadProjects();
+    this.paginator = new Paginator(this.getProjectPage$());
   }
 
-  loadMoreProjects() {
-    if (this.projectsNextUrl == null) {
-      return;
-    }
-    this.loadProjects(this.projectsNextUrl);
+  loadMoreProjects(): void {
+    this.paginator.loadNext((nextUrl) => this.getProjectPage$(nextUrl ?? ''));
   }
 
-  private loadProjects(url?: string): void {
-    this.projectService
-      .getProjects({ url })
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((projectPage) => {
-        this.projects.push(...projectPage.results);
-        this.projectsNextUrl = projectPage.next;
-      });
+  private getProjectPage$(url?: string): Observable<Page<Project>> {
+    return this.projectService.getProjects({ url });
   }
 }

@@ -1,42 +1,43 @@
-import { Component, OnInit } from '@angular/core';
-import { PostService } from '../../../posts/data-access/post.service';
-import { map, Observable } from 'rxjs';
-import { Page, Tag } from '../../../shared/data-access/types';
-import { AsyncPipe } from '@angular/common';
+import { Component, DestroyRef, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { Observable } from 'rxjs';
 import { TagLinkComponent } from '../../ui/tag-link/tag-link.component';
+import { PostService } from '../../../posts/data-access/post.service';
+import { Page, Tag } from '../../../shared/data-access/types';
+import { Paginator } from '../../../shared/utils/paginator';
 
 @Component({
-    selector: 'app-tag-list',
-    imports: [AsyncPipe, MatButtonModule, MatIconModule, TagLinkComponent],
-    templateUrl: './tag-list.component.html',
-    styleUrl: './tag-list.component.css'
+  selector: 'app-tag-list',
+  imports: [MatButtonModule, MatIconModule, TagLinkComponent],
+  templateUrl: './tag-list.component.html',
+  styleUrl: './tag-list.component.css',
 })
 export class TagListComponent implements OnInit {
-  tagPage$!: Observable<Page<Tag>>;
-  tags: Tag[] = [];
-  tagsNextUrl: string | null = null;
-  curPage: number = 1;
+  paginator!: Paginator<Tag>;
 
-  constructor(private postService: PostService) {}
+  constructor(
+    private postService: PostService,
+    destroyRef: DestroyRef,
+  ) {
+    destroyRef.onDestroy(() => {
+      this.paginator.destroy();
+    });
+  }
+
+  get tags(): Tag[] {
+    return this.paginator.data;
+  }
 
   ngOnInit(): void {
-    this.loadTags();
+    this.paginator = new Paginator(this.getTagPage$());
   }
 
-  public loadTags(page: number = 1) {
-    this.tagPage$ = this.postService.getTags({ page }).pipe(
-      map((tagPage) => {
-        this.tags.push(...tagPage.results);
-        this.tagsNextUrl = tagPage.next;
-        return tagPage;
-      })
-    );
+  loadMoreTags(): void {
+    this.paginator.loadNext((nextUrl) => this.getTagPage$(nextUrl ?? ''));
   }
 
-  public loadMoreTags() {
-    this.curPage++;
-    this.loadTags(this.curPage);
+  private getTagPage$(url?: string): Observable<Page<Tag>> {
+    return this.postService.getTags({ url });
   }
 }

@@ -1,36 +1,54 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, DestroyRef, Input, OnInit } from '@angular/core';
-import { Comment } from '../../data-access/types';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { Observable } from 'rxjs';
 import { CommentService } from '../../data-access/comment.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Comment } from '../../data-access/types';
+import { Paginator } from '../../../shared/utils/paginator';
+import { Page } from '../../../shared/data-access/types';
 
 @Component({
   selector: 'app-comment-list',
-  imports: [CommonModule, DatePipe],
+  imports: [CommonModule, DatePipe, MatButtonModule, MatIconModule],
   templateUrl: './comment-list.component.html',
   styleUrl: './comment-list.component.css',
 })
 export class CommentListComponent implements OnInit {
   @Input() postId!: number;
-  comments: Comment[] = [];
-  commentsNextUrl: string | null = null;
+  paginator!: Paginator<Comment>;
 
   constructor(
     private commentService: CommentService,
     private destroyRef: DestroyRef,
-  ) {}
+  ) {
+    this.destroyRef.onDestroy(() => {
+      this.paginator.destroy();
+    });
+  }
+
+  get comments(): Comment[] {
+    return this.paginator.data;
+  }
 
   ngOnInit(): void {
-    this.commentService
-      .getComments({ postId: this.postId })
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((commentPage) => {
-        this.comments.push(...commentPage.results);
-        this.commentsNextUrl = commentPage.next;
-      });
+    this.paginator = new Paginator(this.getCommentPage$());
   }
 
   addComment(comment: Comment) {
-    this.comments.push(comment);
+    this.paginator.count++;
+
+    const isLastPage = !this.paginator.hasNext();
+    if (isLastPage) {
+      this.paginator.data.push(comment);
+    }
+  }
+
+  loadMoreComments(): void {
+    this.paginator.loadNext((nextUrl) => this.getCommentPage$(nextUrl ?? ''));
+  }
+
+  private getCommentPage$(url?: string): Observable<Page<Comment>> {
+    return this.commentService.getComments({ url, postId: this.postId });
   }
 }

@@ -1,48 +1,50 @@
-<div class="content flex">
-  <div class="hidden flex-initial w-72 md:inline-block">
-    <app-tag-sidenav
-      [tags]="tags"
-      [more]="tagsNextUrl !== null"
-      [loadMore]="loadMoreTags.bind(this)"
-      [selectedTag]="tagSlug ?? ''"
-    />
-  </div>
+@if (tagPaginator) {
+  <div class="content flex">
+    <div class="hidden flex-initial w-72 md:inline-block">
+      <app-tag-sidenav
+        [tags]="tags"
+        [more]="tagPaginator.hasNext()"
+        [loadMore]="loadMoreTags.bind(this)"
+        [selectedTag]="tagSlug ?? ''"
+      />
+    </div>
 
-  <div class="flex-1 md:pt-6 md:pl-20">
-    <h1 class="text-3xl font-medium mt-4 mb-8 md:hidden">
-      {{ (this.tagName ? this.tagName : "All Posts") | uppercase }}
-    </h1>
-    @if (postPage$ | async; as postPage) {
-      @for (post of postPage.results; track post.id) {
-        <div class="mb-12">
-          <app-post-list-item [post]="post" [isFullWidth]="false" />
+    <div class="flex-1 md:pt-6 md:pl-20">
+      <h1 class="text-3xl font-medium mt-4 mb-8 md:hidden">
+        {{ (this.tagName ? this.tagName : "All Posts") | uppercase }}
+      </h1>
+      @if (postPage$ | async; as postPage) {
+        @for (post of postPage.results; track post.id) {
+          <div class="mb-12">
+            <app-post-list-item [post]="post" [isFullWidth]="false" />
+          </div>
+        }
+        <div class="flex items-center">
+          <div class="flex-1">
+            <a
+              class="absolute -left-4"
+              [routerLink]="prevPageUrl"
+              mat-button
+              [disabled]="!postPage.previous"
+              >Previous</a
+            >
+          </div>
+          <!-- TODO: (Improvement) Link for page numbers. E.g. 1, 2, 3 -->
+          <div>
+            {{ this.curPage }} of
+            {{ this.calculateTotalPage(postPage.count, postPage.pageSize) }}
+          </div>
+          <div class="flex-1 text-right">
+            <a
+              class="absolute left-4"
+              [routerLink]="nextPageUrl"
+              mat-button
+              [disabled]="!postPage.next"
+              >Next</a
+            >
+          </div>
         </div>
       }
-      <div class="flex items-center">
-        <div class="flex-1">
-          <a
-            class="absolute -left-4"
-            [routerLink]="prevPageUrl"
-            mat-button
-            [disabled]="!postPage.previous"
-            >Previous</a
-          >
-        </div>
-        <!-- TODO: (Improvement) Link for page numbers. E.g. 1, 2, 3 -->
-        <div>
-          {{ this.curPage }} of
-          {{ this.calculateTotalPage(postPage.count, postPage.pageSize) }}
-        </div>
-        <div class="flex-1 text-right">
-          <a
-            class="absolute left-4"
-            [routerLink]="nextPageUrl"
-            mat-button
-            [disabled]="!postPage.next"
-            >Next</a
-          >
-        </div>
-      </div>
-    }
+    </div>
   </div>
-</div>
+}

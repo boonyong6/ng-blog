@@ -1,14 +1,15 @@
 import { Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TagSidenavComponent } from '../../../shared/ui/tag-sidenav/tag-sidenav.component';
-import { Page, Tag } from '../../../shared/data-access/types';
+import { AsyncPipe, UpperCasePipe, ViewportScroller } from '@angular/common';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { Observable, tap } from 'rxjs';
+import { PostListItemComponent } from '../../ui/post-list-item/post-list-item.component';
 import { Post } from '../../data-access/types';
 import { PostService } from '../../data-access/post.service';
-import { AsyncPipe, UpperCasePipe, ViewportScroller } from '@angular/common';
-import { PostListItemComponent } from '../../ui/post-list-item/post-list-item.component';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { TagSidenavComponent } from '../../../shared/ui/tag-sidenav/tag-sidenav.component';
+import { Page, Tag } from '../../../shared/data-access/types';
+import { Paginator } from '../../../shared/utils/paginator';
 
 @Component({
   selector: 'app-post-list',
@@ -30,8 +31,7 @@ export class PostListComponent implements OnInit {
   prevPageUrl: string | null = null;
   nextPageUrl: string | null = null;
 
-  tags: Tag[] = [];
-  tagsNextUrl: string | null = null;
+  tagPaginator!: Paginator<Tag>;
   postPage$!: Observable<Page<Post>>;
 
   constructor(
@@ -39,7 +39,15 @@ export class PostListComponent implements OnInit {
     private postService: PostService,
     private viewportScroller: ViewportScroller,
     private destroyRef: DestroyRef,
-  ) {}
+  ) {
+    this.destroyRef.onDestroy(() => {
+      this.tagPaginator.destroy();
+    });
+  }
+
+  get tags(): Tag[] {
+    return this.tagPaginator.data;
+  }
 
   ngOnInit(): void {
     this.route.params
@@ -68,27 +76,18 @@ export class PostListComponent implements OnInit {
           );
       });
 
-    this.loadTags();
+    this.tagPaginator = new Paginator(this.getTagPage$());
   }
 
-  public calculateTotalPage(totalCount: number, pageSize: number) {
+  public calculateTotalPage(totalCount: number, pageSize: number): number {
     return Math.ceil(totalCount / pageSize);
   }
 
-  public loadMoreTags() {
-    if (this.tagsNextUrl == null) {
-      return;
-    }
-    this.loadTags(this.tagsNextUrl);
+  public loadMoreTags(): void {
+    this.tagPaginator.loadNext((nextUrl) => this.getTagPage$(nextUrl ?? ''));
   }
 
-  private loadTags(url: string = '') {
-    this.postService
-      .getTags({ url })
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        this.tags.push(...value.results);
-        this.tagsNextUrl = value.next;
-      });
+  private getTagPage$(url?: string): Observable<Page<Tag>> {
+    return this.postService.getTags({ url });
   }
 }

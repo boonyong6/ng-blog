@@ -1,16 +1,16 @@
-<div
-  class="flex-col md:flex md:flex-row md:justify-center md:items-center md:mt-20 md:mb-4"
->
-  <div>
-    <h1
-      class="!text-3xl !font-medium !mb-0 md:!text-5xl md:pr-6 md:border-r-2 md:border-[--mat-sys-outline]"
-    >
-      Tags
-    </h1>
-    <hr class="mt-7 mb-3 md:hidden" />
-  </div>
-  <div class="md:pl-6 md:max-w-lg">
-    @if (tagPage$ | async; as tagPage) {
+@if (paginator) {
+  <div
+    class="flex-col md:flex md:flex-row md:justify-center md:items-center md:mt-20 md:mb-4"
+  >
+    <div>
+      <h1
+        class="!text-3xl !font-medium !mb-0 md:!text-5xl md:pr-6 md:border-r-2 md:border-[--mat-sys-outline]"
+      >
+        Tags
+      </h1>
+      <hr class="mt-7 mb-3 md:hidden" />
+    </div>
+    <div class="md:pl-6 md:max-w-lg">
       <div class="flex flex-wrap gap-4">
         @for (tag of this.tags; track tag.id) {
           <app-tag-link
@@ -20,14 +20,14 @@
           />
         }
       </div>
-    }
+    </div>
   </div>
-</div>
 
-@if (tagsNextUrl) {
-  <div class="text-center mt-4">
-    <button mat-button (click)="loadMoreTags()">
-      <mat-icon>arrow_forward</mat-icon>More
-    </button>
-  </div>
+  @if (paginator.hasNext()) {
+    <div class="text-center mt-4">
+      <button mat-button (click)="loadMoreTags()">
+        <mat-icon>arrow_forward</mat-icon>More
+      </button>
+    </div>
+  }
 }
