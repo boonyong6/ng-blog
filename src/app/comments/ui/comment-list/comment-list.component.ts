@@ -2,7 +2,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component, DestroyRef, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Observable, tap } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 import { CommentService } from '../../data-access/comment.service';
 import { Comment } from '../../data-access/types';
 import { Paginator } from '../../../shared/utils/paginator';
@@ -22,6 +22,7 @@ import {
 export class CommentListComponent implements OnInit {
   @Input() postId!: number;
   paginator!: Paginator<Comment>;
+  isLoaded = false;
 
   constructor(
     private commentService: CommentService,
@@ -38,7 +39,6 @@ export class CommentListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(disable());
     this.paginator = new Paginator(this.getCommentPage$());
   }
 
@@ -56,8 +56,14 @@ export class CommentListComponent implements OnInit {
   }
 
   private getCommentPage$(url?: string): Observable<Page<Comment>> {
-    return this.commentService
-      .getComments({ url, postId: this.postId })
-      .pipe(tap(() => this.store.dispatch(enable())));
+    this.store.dispatch(disable());
+    this.isLoaded = false;
+
+    return this.commentService.getComments({ url, postId: this.postId }).pipe(
+      finalize(() => {
+        this.store.dispatch(enable());
+        this.isLoaded = true;
+      }),
+    );
   }
 }
