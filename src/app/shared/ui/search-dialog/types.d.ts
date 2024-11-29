@@ -8,3 +8,8 @@ export type SearchResultItem = {
   title: string;
   url: string;
 };
+
+export type GetSearchResultParams = {
+  searchQuery?: string;
+  url?: string;
+};

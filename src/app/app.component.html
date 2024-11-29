@@ -134,7 +134,7 @@
   </footer>
 
   @if (loadingService.isLoading$ | async) {
-    @if (!isSearchDialogOpened) {
+    @if (!searchDialogService.isOpened) {
       <app-loading-overlay />
     }
   }

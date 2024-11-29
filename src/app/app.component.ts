@@ -19,15 +19,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
-import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { map, Observable } from 'rxjs';
 import { LoadingOverlayComponent } from './shared/ui/loading-overlay/loading-overlay.component';
 import {
+  GetSearchResultParams,
   SearchResult,
   SearchResultItem,
 } from './shared/ui/search-dialog/types';
-import { SearchDialogComponent } from './shared/ui/search-dialog/search-dialog.component';
+import { SearchDialogService } from './shared/ui/search-dialog/search-dialog.service';
 import { UrlHelper } from './posts/utils/url-helper';
 import { PostService } from './posts/data-access/post.service';
 import { LoadingService } from './shared/data-access/loading.service';
@@ -57,17 +57,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   socialLinks = siteMetadata.socialLinks;
   menuItems = siteMetadata.menuItems;
   ThemeMode = ThemeMode;
-
   @ViewChild(MatDrawer) drawer!: MatDrawer;
-  public isSearchDialogOpened = false;
 
   constructor(
     public loadingService: LoadingService,
     public themeService: ThemeService,
+    public searchDialogService: SearchDialogService,
     private router: Router,
     private changeDetectorRef: ChangeDetectorRef,
     private destroyRef: DestroyRef,
-    private dialogService: MatDialog,
     private postService: PostService,
   ) {}
 
@@ -90,36 +88,12 @@ export class AppComponent implements OnInit, AfterViewInit {
       });
   }
 
-  // TODO: Extract to SearchDialogService?
-  // E.g. openSearchDialog(callback: (params: SearchResultParams) => Observable<SearchResult>)
   openSearchDialog() {
-    if (this.isSearchDialogOpened) {
-      return;
-    }
-
-    const dialogRef = this.dialogService.open(SearchDialogComponent);
-    this.isSearchDialogOpened = true;
-
-    const dialogComponent = dialogRef.componentInstance;
-    dialogComponent.appendSearchResult(this.getSearchResult());
-
-    dialogComponent.searchInputChanged.subscribe((searchQuery: string) => {
-      dialogComponent.appendSearchResult(this.getSearchResult({ searchQuery }));
-    });
-
-    dialogComponent.nextPageTriggered.subscribe((nextUrl) => {
-      dialogComponent.appendSearchResult(
-        this.getSearchResult({ url: nextUrl }),
-      );
-    });
-
-    dialogRef.beforeClosed().subscribe(() => {
-      this.isSearchDialogOpened = false;
-    });
+    this.searchDialogService.open((params) => this.getSearchResult$(params));
   }
 
-  private getSearchResult(
-    params: { searchQuery?: string; url?: string } = {},
+  private getSearchResult$(
+    params: GetSearchResultParams,
   ): Observable<SearchResult> {
     const { searchQuery, url } = params;
 
