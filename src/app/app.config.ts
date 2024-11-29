@@ -17,6 +17,7 @@ import { loadingInterceptor } from './shared/data-access/loading.interceptor';
 import { commonErrorHandlingInterceptor } from './shared/data-access/common-error-handling.interceptor';
 import { markedOptionsFactory } from './posts/utils/marked-options-factory';
 import { TemplatePageTitleStrategy } from './shared/utils/template-page-title-strategy.service';
+import { provideStore } from '@ngrx/store';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -39,5 +40,6 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
+    provideStore(),
   ],
 };
