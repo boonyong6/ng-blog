@@ -18,6 +18,7 @@ import { commonErrorHandlingInterceptor } from './shared/data-access/common-erro
 import { markedOptionsFactory } from './posts/utils/marked-options-factory';
 import { TemplatePageTitleStrategy } from './shared/utils/template-page-title-strategy.service';
 import { provideStore } from '@ngrx/store';
+import { loadingOverlayReducer } from './shared/data-access/loading-overlay.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -40,6 +41,6 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
-    provideStore(),
+    provideStore({ showLoadingOverlay: loadingOverlayReducer }),
   ],
 };

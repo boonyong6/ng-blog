@@ -2,11 +2,16 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component, DestroyRef, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { CommentService } from '../../data-access/comment.service';
 import { Comment } from '../../data-access/types';
 import { Paginator } from '../../../shared/utils/paginator';
 import { Page } from '../../../shared/data-access/types';
+import { Store } from '@ngrx/store';
+import {
+  enable,
+  disable,
+} from '../../../shared/data-access/loading-overlay.actions';
 
 @Component({
   selector: 'app-comment-list',
@@ -21,6 +26,7 @@ export class CommentListComponent implements OnInit {
   constructor(
     private commentService: CommentService,
     private destroyRef: DestroyRef,
+    private store: Store,
   ) {
     this.destroyRef.onDestroy(() => {
       this.paginator.destroy();
@@ -32,6 +38,7 @@ export class CommentListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(disable());
     this.paginator = new Paginator(this.getCommentPage$());
   }
 
@@ -49,6 +56,8 @@ export class CommentListComponent implements OnInit {
   }
 
   private getCommentPage$(url?: string): Observable<Page<Comment>> {
-    return this.commentService.getComments({ url, postId: this.postId });
+    return this.commentService
+      .getComments({ url, postId: this.postId })
+      .pipe(tap(() => this.store.dispatch(enable())));
   }
 }
