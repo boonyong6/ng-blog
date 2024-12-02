@@ -31,8 +31,10 @@ export class AutoScrollService {
         }),
         takeUntilDestroyed(destroyRef),
       )
-      .subscribe((position) => {
-        viewportScroller.scrollToPosition(position || [0, 0]);
+      .subscribe({
+        next: (position) => {
+          viewportScroller.scrollToPosition(position || [0, 0]);
+        },
       });
   }
 }
