@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { loadingOverlayFeature } from '../../data-access/loading-overlay.reducer';
 
 @Component({
   selector: 'app-loading-overlay',
@@ -11,9 +12,9 @@ import { Observable } from 'rxjs';
   styleUrl: './loading-overlay.component.css',
 })
 export class LoadingOverlayComponent {
-  show$: Observable<boolean>;
+  enable$: Observable<boolean>;
 
-  constructor(store: Store<{ showLoadingOverlay: boolean }>) {
-    this.show$ = store.select('showLoadingOverlay');
+  constructor(store: Store) {
+    this.enable$ = store.select(loadingOverlayFeature.selectEnable);
   }
 }

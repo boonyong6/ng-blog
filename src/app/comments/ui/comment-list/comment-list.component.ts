@@ -8,10 +8,7 @@ import { Comment } from '../../data-access/types';
 import { Paginator } from '../../../shared/utils/paginator';
 import { Page } from '../../../shared/data-access/types';
 import { Store } from '@ngrx/store';
-import {
-  enable,
-  disable,
-} from '../../../shared/data-access/loading-overlay.actions';
+import { CommentListActions } from '../../data-access/comment-list.actions';
 
 @Component({
   selector: 'app-comment-list',
@@ -56,12 +53,12 @@ export class CommentListComponent implements OnInit {
   }
 
   private getCommentPage$(url?: string): Observable<Page<Comment>> {
-    this.store.dispatch(disable());
+    this.store.dispatch(CommentListActions.load());
     this.isLoaded = false;
 
     return this.commentService.getComments({ url, postId: this.postId }).pipe(
       finalize(() => {
-        this.store.dispatch(enable());
+        this.store.dispatch(CommentListActions.loaded());
         this.isLoaded = true;
       }),
     );

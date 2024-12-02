@@ -1,10 +1,19 @@
-import { createReducer, on } from '@ngrx/store';
-import { enable, disable } from './loading-overlay.actions';
+import { createFeature, createReducer, on } from '@ngrx/store';
+import { CommentListActions } from '../../comments/data-access/comment-list.actions';
 
-export const showLoadingOverlay = true;
+interface State {
+  enable: boolean;
+}
 
-export const loadingOverlayReducer = createReducer(
-  showLoadingOverlay,
-  on(enable, () => true),
-  on(disable, () => false),
-);
+export const initialState: State = {
+  enable: true,
+};
+
+export const loadingOverlayFeature = createFeature({
+  name: 'loadingOverlay',
+  reducer: createReducer(
+    initialState,
+    on(CommentListActions.load, (state) => ({ ...state, enable: false })),
+    on(CommentListActions.loaded, (state) => ({ ...state, enable: true })),
+  ),
+});

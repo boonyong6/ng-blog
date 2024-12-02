@@ -1,11 +1,12 @@
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {
   provideRouter,
   TitleStrategy,
   withComponentInputBinding,
 } from '@angular/router';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideState, provideStore } from '@ngrx/store';
 import {
   CLIPBOARD_OPTIONS,
   ClipboardButtonComponent,
@@ -13,12 +14,11 @@ import {
   provideMarkdown,
 } from 'ngx-markdown';
 import { routes } from './app.routes';
-import { loadingInterceptor } from './shared/data-access/loading.interceptor';
-import { commonErrorHandlingInterceptor } from './shared/data-access/common-error-handling.interceptor';
 import { markedOptionsFactory } from './posts/utils/marked-options-factory';
+import { commonErrorHandlingInterceptor } from './shared/data-access/common-error-handling.interceptor';
+import { loadingOverlayFeature } from './shared/data-access/loading-overlay.reducer';
+import { loadingInterceptor } from './shared/data-access/loading.interceptor';
 import { TemplatePageTitleStrategy } from './shared/utils/template-page-title-strategy.service';
-import { provideStore } from '@ngrx/store';
-import { loadingOverlayReducer } from './shared/data-access/loading-overlay.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -41,6 +41,7 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
-    provideStore({ showLoadingOverlay: loadingOverlayReducer }),
+    provideStore(),
+    provideState(loadingOverlayFeature),
   ],
 };
