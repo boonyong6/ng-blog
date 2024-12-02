@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './home/feature/home.component';
-import { NotFoundComponent } from './not-found/feature/not-found/not-found.component';
 import { AboutComponent } from './about/feature/about.component';
-import { PostListComponent } from './posts/feature/post-list/post-list.component';
-import { TagListComponent } from './tags/feature/tag-list/tag-list.component';
+import { NotFoundComponent } from './errors/feature/not-found/not-found.component';
+import { HomeComponent } from './home/feature/home.component';
 import { PostDetailComponent } from './posts/feature/post-detail/post-detail.component';
+import { PostListComponent } from './posts/feature/post-list/post-list.component';
 import { ProjectListComponent } from './projects/feature/project-list/project-list.component';
+import { TagListComponent } from './tags/feature/tag-list/tag-list.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, title: 'Home' },
