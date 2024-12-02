@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
-import { PostService } from '../../posts/data-access/post.service';
-import { Observable } from 'rxjs';
-import { Page } from '../../shared/data-access/types';
 import { AsyncPipe } from '@angular/common';
-import { PostListItemComponent } from '../../posts/ui/post-list-item/post-list-item.component';
-import { Post } from '../../posts/data-access/types';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
+import { Observable } from 'rxjs';
+import { PostService } from '../../posts/data-access/post.service';
+import { Post } from '../../posts/data-access/types';
+import { PostListItemComponent } from '../../posts/ui/post-list-item/post-list-item.component';
+import { Page } from '../../shared/data-access/types';
+import { RestoreScrollPositionDirective } from '../../shared/utils/directives/restore-scroll-position.directive';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +18,7 @@ import { RouterLink } from '@angular/router';
     MatIconModule,
     RouterLink,
     PostListItemComponent,
+    RestoreScrollPositionDirective,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',

@@ -1,22 +1,23 @@
+import { AsyncPipe, DatePipe, ViewportScroller } from '@angular/common';
 import { Component, DestroyRef, OnInit, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Post } from '../../data-access/types';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { PostService } from '../../data-access/post.service';
-import { debounceTime, fromEvent, Observable, tap } from 'rxjs';
-import { AsyncPipe, DatePipe, ViewportScroller } from '@angular/common';
-import { TagLinkComponent } from '../../../tags/ui/tag-link/tag-link.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MarkdownComponent } from 'ngx-markdown';
-import { ClipboardButtonComponent } from '../../../shared/ui/clipboard-button/clipboard-button.component';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { MarkdownComponent } from 'ngx-markdown';
+import { debounceTime, fromEvent, Observable, tap, timer } from 'rxjs';
 import { environment as env } from '../../../../environments/environment';
-import { Page } from '../../../shared/data-access/types';
-import { UrlHelper } from '../../utils/url-helper';
-import { CommentListComponent } from '../../../comments/ui/comment-list/comment-list.component';
-import { CommentFormComponent } from '../../../comments/ui/comment-form/comment-form.component';
 import { Comment } from '../../../comments/data-access/types';
+import { CommentFormComponent } from '../../../comments/ui/comment-form/comment-form.component';
+import { CommentListComponent } from '../../../comments/ui/comment-list/comment-list.component';
+import { Page } from '../../../shared/data-access/types';
+import { ClipboardButtonComponent } from '../../../shared/ui/clipboard-button/clipboard-button.component';
+import { RestoreScrollPositionDirective } from '../../../shared/utils/directives/restore-scroll-position.directive';
+import { TagLinkComponent } from '../../../tags/ui/tag-link/tag-link.component';
+import { PostService } from '../../data-access/post.service';
+import { Post } from '../../data-access/types';
+import { UrlHelper } from '../../utils/url-helper';
 
 @Component({
   selector: 'app-post-detail',
@@ -30,6 +31,7 @@ import { Comment } from '../../../comments/data-access/types';
     TagLinkComponent,
     CommentListComponent,
     CommentFormComponent,
+    RestoreScrollPositionDirective,
   ],
   templateUrl: './post-detail.component.html',
   styleUrl: './post-detail.component.css',
@@ -39,6 +41,7 @@ export class PostDetailComponent implements OnInit {
   post$!: Observable<Post>;
   similarPostPage$!: Observable<Page<Post>>;
   isScrolling = false;
+  restoreScrollPositionDelay$ = timer(100);
   @ViewChild(CommentListComponent) commentList!: CommentListComponent;
   readonly clipboardButton = ClipboardButtonComponent;
   readonly UrlHelper = UrlHelper;

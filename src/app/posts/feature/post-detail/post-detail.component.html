@@ -2,6 +2,9 @@
 @let similarPostPage = similarPostPage$ | async;
 
 @if (post && similarPostPage) {
+  @if ((restoreScrollPositionDelay$ | async) === 0) {
+    <span appRestoreScrollPosition></span>
+  }
   <p class="text-center opacity-70 !mb-1">
     {{ post.publish | date: "EEEE, MMM, d, yyyy" }}
   </p>

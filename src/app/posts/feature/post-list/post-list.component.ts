@@ -1,15 +1,16 @@
+import { AsyncPipe, UpperCasePipe } from '@angular/common';
 import { Component, DestroyRef, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AsyncPipe, UpperCasePipe, ViewportScroller } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { Observable, tap } from 'rxjs';
-import { PostListItemComponent } from '../../ui/post-list-item/post-list-item.component';
-import { Post } from '../../data-access/types';
-import { PostService } from '../../data-access/post.service';
-import { TagSidenavComponent } from '../../../shared/ui/tag-sidenav/tag-sidenav.component';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Observable } from 'rxjs';
 import { Page, Tag } from '../../../shared/data-access/types';
+import { TagSidenavComponent } from '../../../shared/ui/tag-sidenav/tag-sidenav.component';
+import { RestoreScrollPositionDirective } from '../../../shared/utils/directives/restore-scroll-position.directive';
 import { Paginator } from '../../../shared/utils/paginator';
+import { PostService } from '../../data-access/post.service';
+import { Post } from '../../data-access/types';
+import { PostListItemComponent } from '../../ui/post-list-item/post-list-item.component';
 
 @Component({
   selector: 'app-post-list',
@@ -20,6 +21,7 @@ import { Paginator } from '../../../shared/utils/paginator';
     MatButtonModule,
     TagSidenavComponent,
     PostListItemComponent,
+    RestoreScrollPositionDirective,
   ],
   templateUrl: './post-list.component.html',
   styleUrl: './post-list.component.css',
@@ -37,7 +39,6 @@ export class PostListComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private postService: PostService,
-    private viewportScroller: ViewportScroller,
     private destroyRef: DestroyRef,
   ) {
     this.destroyRef.onDestroy(() => {
@@ -63,17 +64,10 @@ export class PostListComponent implements OnInit {
         this.prevPageUrl = `${basePageUrl}/${this.curPage - 1}`;
         this.nextPageUrl = `${basePageUrl}/${this.curPage + 1}`;
 
-        this.postPage$ = this.postService
-          .getPosts({
-            page: this.curPage,
-            tagSlug: this.tagSlug,
-          })
-          .pipe(
-            tap(() => {
-              // TODO: Restore scroll position on back navigation.
-              this.viewportScroller.scrollToPosition([0, 0]);
-            }),
-          );
+        this.postPage$ = this.postService.getPosts({
+          page: this.curPage,
+          tagSlug: this.tagSlug,
+        });
       });
 
     this.tagPaginator = new Paginator(this.getTagPage$());

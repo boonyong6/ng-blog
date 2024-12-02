@@ -14,6 +14,7 @@
         {{ (this.tagName ? this.tagName : "All Posts") | uppercase }}
       </h1>
       @if (postPage$ | async; as postPage) {
+        <span appRestoreScrollPosition></span>
         @for (post of postPage.results; track post.id) {
           <div class="mb-12">
             <app-post-list-item [post]="post" [isFullWidth]="false" />
