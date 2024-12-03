@@ -1,32 +1,32 @@
 import { TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from './app.component';
+import { PostService } from './posts/data-access/post.service';
 
 describe('AppComponent', () => {
+  let postServiceSpy: jasmine.SpyObj<PostService>;
+
   beforeEach(async () => {
+    const _postServiceSpy = jasmine.createSpyObj<PostService>([
+      'searchPosts',
+      'getPosts',
+    ]);
+
     await TestBed.configureTestingModule({
-      imports: [AppComponent],
+      imports: [AppComponent, BrowserAnimationsModule],
+      providers: [
+        { provide: PostService, useValue: _postServiceSpy },
+        { provide: ActivatedRoute, useValue: {} as ActivatedRoute },
+      ],
     }).compileComponents();
+
+    postServiceSpy = TestBed.inject(PostService) as jasmine.SpyObj<PostService>;
   });
 
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  // ! `app` doesn't have `title` property anymore.
-  // it(`should have the 'ng-blog' title`, () => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   const app = fixture.componentInstance;
-  //   expect(app.title).toEqual('ng-blog');
-  // });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain(
-      'Hello, ng-blog',
-    );
   });
 });

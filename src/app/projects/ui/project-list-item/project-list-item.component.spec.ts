@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { Project } from '../../data-access/types';
 import { ProjectListItemComponent } from './project-list-item.component';
 
 describe('ProjectListItemComponent', () => {
@@ -8,12 +9,12 @@ describe('ProjectListItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProjectListItemComponent]
-    })
-    .compileComponents();
+      imports: [ProjectListItemComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ProjectListItemComponent);
     component = fixture.componentInstance;
+    component.project = { thumbnail: 'src' } as Project;
     fixture.detectChanges();
   });
 

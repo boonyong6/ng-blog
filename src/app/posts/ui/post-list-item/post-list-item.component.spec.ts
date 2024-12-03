@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ActivatedRoute } from '@angular/router';
+import { Post } from '../../data-access/types';
 import { PostListItemComponent } from './post-list-item.component';
 
 describe('PostListItemComponent', () => {
@@ -8,12 +9,13 @@ describe('PostListItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PostListItemComponent]
-    })
-    .compileComponents();
+      imports: [PostListItemComponent],
+      providers: [{ provide: ActivatedRoute, useValue: {} as ActivatedRoute }],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PostListItemComponent);
     component = fixture.componentInstance;
+    component.post = {} as Post;
     fixture.detectChanges();
   });
 
