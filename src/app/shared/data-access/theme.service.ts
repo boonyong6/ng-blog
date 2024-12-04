@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable } from '@angular/core';
 import { BrowserStorageService } from './browser-storage.service';
 import { Theme, ThemeMode } from './types';
 
@@ -13,6 +14,7 @@ export class ThemeService {
   constructor(
     private browserStorageService: BrowserStorageService,
     private mediaMatcher: MediaMatcher,
+    @Inject(DOCUMENT) private doc: Document,
   ) {
     const mode = this.getMode();
     const isDarkMode = this.isDarkMode(mode);
@@ -36,11 +38,11 @@ export class ThemeService {
     this.browserStorageService.set(this.THEME_MODE_KEY, this.theme.mode);
 
     if (this.theme.isDarkMode) {
-      document.documentElement.dataset[this.THEME_MODE_KEY] = 'dark';
+      this.doc.documentElement.dataset[this.THEME_MODE_KEY] = 'dark';
       return;
     }
 
-    delete document.documentElement.dataset[this.THEME_MODE_KEY];
+    delete this.doc.documentElement.dataset[this.THEME_MODE_KEY];
   }
 
   private getMode(): ThemeMode {
