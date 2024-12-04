@@ -15,6 +15,8 @@ describe('ThemeService', () => {
   beforeEach(() => {
     const _browserStorageServiceSpy =
       jasmine.createSpyObj<BrowserStorageService>(['get', 'set']);
+    _browserStorageServiceSpy.get.and.returnValue('system');
+
     const _mediaMatcherSpy = jasmine.createSpyObj<MediaMatcher>(['matchMedia']);
     // Mock `(prefers-color-scheme: dark)` matches value, and set it to `true`.
     _mediaMatcherSpy.matchMedia.and.returnValue({

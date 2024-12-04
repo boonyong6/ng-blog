@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import {
   afterRender,
   Component,
@@ -9,13 +10,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DatePipe } from '@angular/common';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { debounceTime, Observable } from 'rxjs';
 import { SearchResult } from './types';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-search-dialog',
@@ -92,7 +92,7 @@ export class SearchDialogComponent implements OnInit {
       });
   }
 
-  appendSearchResult(searchResult$: Observable<SearchResult>) {
+  appendSearchResult(searchResult$: Observable<SearchResult>): void {
     this.isLoaded = false;
 
     searchResult$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({

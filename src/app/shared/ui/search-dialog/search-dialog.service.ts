@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { SearchDialogComponent } from './search-dialog.component';
 import { Observable } from 'rxjs';
+import { SearchDialogComponent } from './search-dialog.component';
 import { GetSearchResultParams, SearchResult } from './types';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class SearchDialogService {
     getSearchResult$: (
       params: GetSearchResultParams,
     ) => Observable<SearchResult>,
-  ) {
+  ): void {
     if (this.isOpened) {
       return;
     }
