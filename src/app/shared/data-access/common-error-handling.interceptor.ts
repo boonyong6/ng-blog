@@ -17,10 +17,10 @@ export const commonErrorHandlingInterceptor: HttpInterceptorFn = (
     catchError((err: HttpErrorResponse) => {
       if (err.status === HttpStatusCode.NotFound) {
         router.navigate(['not-found'], { replaceUrl: true });
+      } else {
+        // TODO: Handle no network connection error.
+        router.navigate(['server-error'], { replaceUrl: true });
       }
-
-      // TODO: Handle no network connection error.
-      router.navigate(['server-error'], { replaceUrl: true });
 
       return throwError(() => err);
     }),

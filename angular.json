@@ -33,8 +33,10 @@
               "node_modules/prismjs/prism.js",
               "node_modules/prismjs/components/prism-javascript.min.js",
               "node_modules/prismjs/components/prism-typescript.min.js",
+              "node_modules/prismjs/components/prism-json.min.js",
               "node_modules/prismjs/components/prism-python.min.js",
               "node_modules/prismjs/components/prism-scss.min.js",
+              "node_modules/prismjs/components/prism-bash.min.js",
               "node_modules/clipboard/dist/clipboard.min.js"
             ]
           },
@@ -98,7 +100,9 @@
               "@angular/material/prebuilt-themes/cyan-orange.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "codeCoverage": true,
+            "karmaConfig": "karma.conf.js"
           }
         },
         "deploy": {

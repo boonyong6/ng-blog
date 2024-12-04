@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Page, Tag } from '../../shared/data-access/types';
 import { Observable } from 'rxjs';
-import { Post } from './types';
 import { environment as env } from '../../../environments/environment';
+import { Page, Tag } from '../../shared/data-access/types';
+import { Post } from './types';
 
 // TODO: Implement error handling.
 @Injectable({
@@ -48,7 +48,7 @@ export class PostService {
     );
   }
 
-  getTags({ url, page = 1 }: ListParams): Observable<Page<Tag>> {
+  getTags({ url, page = 1 }: ListParams = {}): Observable<Page<Tag>> {
     return this.http.get<Page<Tag>>(
       url ? url : `${env.apiBaseUrl}/tags/?page=${page}`,
     );

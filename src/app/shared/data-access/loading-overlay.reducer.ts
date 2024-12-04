@@ -1,7 +1,7 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { CommentListActions } from '../../comments/data-access/comment-list.actions';
 
-interface State {
+export interface State {
   enable: boolean;
 }
 
