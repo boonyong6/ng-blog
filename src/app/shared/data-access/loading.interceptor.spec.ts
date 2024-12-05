@@ -10,7 +10,7 @@ import {
 } from '@angular/common/http/testing';
 import { Provider } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { firstValueFrom } from 'rxjs';
+import { catchError, firstValueFrom, of } from 'rxjs';
 import { loadingInterceptor } from './loading.interceptor';
 import { LoadingService } from './loading.service';
 
@@ -49,7 +49,7 @@ describe('loadingInterceptor', () => {
   it('should set loading state based on request progress', () => {
     const url = 'https://example.com/';
 
-    firstValueFrom(http.get(url));
+    firstValueFrom(http.get(url).pipe(catchError(() => of('Handle error...'))));
 
     const req = httpTesting.expectOne(url);
     expect(loadingServiceSpy.startLoading).toHaveBeenCalled();

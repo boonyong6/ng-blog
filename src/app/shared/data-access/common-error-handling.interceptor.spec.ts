@@ -13,7 +13,7 @@ import {
 import { Provider } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+import { catchError, firstValueFrom, of } from 'rxjs';
 import { commonErrorHandlingInterceptor } from './common-error-handling.interceptor';
 
 describe('commonErrorHandlingInterceptor', () => {
@@ -52,7 +52,7 @@ describe('commonErrorHandlingInterceptor', () => {
   it('should navigate to not-found route when error response status is 404', () => {
     const url = 'https://example.com/';
 
-    firstValueFrom(http.get(url));
+    firstValueFrom(http.get(url).pipe(catchError(() => of('Handle error...'))));
 
     const req = httpTesting.expectOne(url, 'Any URL');
     req.flush('Not Found!', {
@@ -68,7 +68,7 @@ describe('commonErrorHandlingInterceptor', () => {
   it('should navigate to server-error route when error response status is other than 404', () => {
     const url = 'https://example.com/';
 
-    firstValueFrom(http.get(url));
+    firstValueFrom(http.get(url).pipe(catchError(() => of('Handle error...'))));
 
     const req = httpTesting.expectOne(url, 'Any URL');
     req.flush('Unknown!', {
