@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/boonyong6/ng-blog/graph/badge.svg?token=SP5TLIPGDN)](https://codecov.io/gh/boonyong6/ng-blog)
+
 # NgBlog
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version ~~18.2.11~~ 19.0.0.
