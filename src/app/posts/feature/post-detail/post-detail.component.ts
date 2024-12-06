@@ -1,5 +1,11 @@
 import { AsyncPipe, DatePipe, ViewportScroller } from '@angular/common';
-import { Component, DestroyRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,6 +20,7 @@ import { CommentListComponent } from '../../../comments/ui/comment-list/comment-
 import { Page } from '../../../shared/data-access/types';
 import { ClipboardButtonComponent } from '../../../shared/ui/clipboard-button/clipboard-button.component';
 import { RestoreScrollPositionDirective } from '../../../shared/utils/directives/restore-scroll-position.directive';
+import { WINDOW } from '../../../shared/utils/injection-tokens';
 import { TagLinkComponent } from '../../../tags/ui/tag-link/tag-link.component';
 import { PostService } from '../../data-access/post.service';
 import { Post } from '../../data-access/types';
@@ -52,6 +59,7 @@ export class PostDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private postService: PostService,
     private destroyRef: DestroyRef,
+    @Inject(WINDOW) private window: Window,
   ) {}
 
   ngOnInit(): void {
@@ -82,10 +90,10 @@ export class PostDetailComponent implements OnInit {
         this.urlFragment = urlFragment;
       });
 
-    fromEvent(window, 'scroll')
-      .pipe(takeUntilDestroyed(this.destroyRef), debounceTime(300))
+    fromEvent(this.window, 'scroll')
+      .pipe(debounceTime(300), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-        if (window.scrollY === 0) {
+        if (this.window.scrollY === 0) {
           this.isScrolling = false;
           return;
         }

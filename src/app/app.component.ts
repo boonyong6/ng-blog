@@ -1,3 +1,4 @@
+import { AsyncPipe, CommonModule, NgOptimizedImage } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -8,31 +9,30 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import {
   NavigationEnd,
   Router,
   RouterLink,
   RouterOutlet,
 } from '@angular/router';
-import { AsyncPipe, CommonModule, NgOptimizedImage } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
-import { MatMenuModule } from '@angular/material/menu';
 import { map, Observable } from 'rxjs';
+import { PostService } from './posts/data-access/post.service';
+import { UrlHelper } from './posts/utils/url-helper';
+import { LoadingService } from './shared/data-access/loading.service';
+import { ThemeService } from './shared/data-access/theme.service';
+import { ThemeMode } from './shared/data-access/types';
 import { LoadingOverlayComponent } from './shared/ui/loading-overlay/loading-overlay.component';
+import { SearchDialogService } from './shared/ui/search-dialog/search-dialog.service';
 import {
   GetSearchResultParams,
   SearchResult,
   SearchResultItem,
 } from './shared/ui/search-dialog/types';
-import { SearchDialogService } from './shared/ui/search-dialog/search-dialog.service';
-import { UrlHelper } from './posts/utils/url-helper';
-import { PostService } from './posts/data-access/post.service';
-import { LoadingService } from './shared/data-access/loading.service';
-import { ThemeService } from './shared/data-access/theme.service';
-import { ThemeMode } from './shared/data-access/types';
 import { siteMetadata } from './site-metadata';
 
 @Component({

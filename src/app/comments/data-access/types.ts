@@ -2,8 +2,8 @@ export type Comment = {
   url: string;
   id: number;
   postId: number;
-  created: Date;
-  updated: Date;
+  created: string;
+  updated: string;
   name: string;
   email: string;
   body: string;

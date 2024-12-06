@@ -31,7 +31,15 @@ describe('CommentListComponent', () => {
     ) as jasmine.SpyObj<CommentService>;
     store = TestBed.inject(MockStore);
 
-    commentServiceSpy.getComments.and.returnValue(of({} as Page<Comment>));
+    commentServiceSpy.getComments.and.returnValue(
+      of({
+        count: 1,
+        pageSize: 10,
+        previous: null,
+        next: 'https://example.com/?page=2',
+        results: [{ id: 1, postId: 1, body: 'First comment' } as Comment],
+      } satisfies Page<Comment>),
+    );
 
     fixture = TestBed.createComponent(CommentListComponent);
     component = fixture.componentInstance;
@@ -40,5 +48,42 @@ describe('CommentListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('#addComment should increment comment counts', () => {
+    const comment = {
+      id: 2,
+      postId: 2,
+      body: 'Second comment',
+    } as Comment;
+    spyOn(component.paginator, 'hasNext').and.returnValue(false);
+
+    component.addComment(comment);
+
+    expect(component.paginator.count).toBe(2);
+    const comments = component.paginator.data;
+    expect(comments[comments.length - 1]).toBe(comment);
+  });
+
+  it('should load more comments on "More" button clicked', () => {
+    const elt: HTMLElement = fixture.nativeElement;
+    const comment = {
+      id: 3,
+      postId: 3,
+      body: 'Comment from next page',
+    } as Comment;
+    commentServiceSpy.getComments.and.returnValue(
+      of({
+        count: 2,
+        pageSize: 10,
+        previous: null,
+        next: null,
+        results: [comment],
+      } satisfies Page<Comment>),
+    );
+
+    elt.querySelector('button')?.click();
+
+    expect(component.paginator.data.length).toBe(2);
   });
 });

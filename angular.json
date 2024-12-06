@@ -103,7 +103,18 @@
             "scripts": [],
             "codeCoverage": true,
             "karmaConfig": "karma.conf.js"
-          }
+          },
+          "configurations": {
+            "testing": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.testing.ts"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": "testing"
         },
         "deploy": {
           "builder": "angular-cli-ghpages:deploy"
