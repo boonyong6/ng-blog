@@ -33,7 +33,9 @@
           <!-- TODO: (Improvement) Link for page numbers. E.g. 1, 2, 3 -->
           <div>
             {{ this.curPage }} of
-            {{ this.calculateTotalPage(postPage.count, postPage.pageSize) }}
+            <span data-testid="total-page">{{
+              this.calculateTotalPage(postPage.count, postPage.pageSize)
+            }}</span>
           </div>
           <div class="flex-1 text-right">
             <a

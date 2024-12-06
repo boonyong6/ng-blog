@@ -2,11 +2,11 @@ import { Component, DestroyRef, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
-import { ProjectListItemComponent } from '../../ui/project-list-item/project-list-item.component';
+import { Page } from '../../../shared/data-access/types';
+import { Paginator } from '../../../shared/utils/paginator';
 import { ProjectService } from '../../data-access/project.service';
 import { Project } from '../../data-access/types';
-import { Paginator } from '../../../shared/utils/paginator';
-import { Page } from '../../../shared/data-access/types';
+import { ProjectListItemComponent } from '../../ui/project-list-item/project-list-item.component';
 
 @Component({
   selector: 'app-project-list',
@@ -35,7 +35,7 @@ export class ProjectListComponent implements OnInit {
   }
 
   loadMoreProjects(): void {
-    this.paginator.loadNext((nextUrl) => this.getProjectPage$(nextUrl ?? ''));
+    this.paginator.loadNext((nextUrl) => this.getProjectPage$(nextUrl));
   }
 
   private getProjectPage$(url?: string): Observable<Page<Project>> {

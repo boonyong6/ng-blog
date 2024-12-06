@@ -12,8 +12,8 @@ export class Paginator<T> {
     this.loadData(page$);
   }
 
-  loadNext(callback: (nextUrl: string | null) => Observable<Page<T>>) {
-    if (!this.hasNext()) {
+  loadNext(callback: (nextUrl: string) => Observable<Page<T>>) {
+    if (!this.nextUrl) {
       return;
     }
 

@@ -2,10 +2,10 @@ import { Component, DestroyRef, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
-import { TagLinkComponent } from '../../ui/tag-link/tag-link.component';
 import { PostService } from '../../../posts/data-access/post.service';
 import { Page, Tag } from '../../../shared/data-access/types';
 import { Paginator } from '../../../shared/utils/paginator';
+import { TagLinkComponent } from '../../ui/tag-link/tag-link.component';
 
 @Component({
   selector: 'app-tag-list',
@@ -34,7 +34,7 @@ export class TagListComponent implements OnInit {
   }
 
   loadMoreTags(): void {
-    this.paginator.loadNext((nextUrl) => this.getTagPage$(nextUrl ?? ''));
+    this.paginator.loadNext((nextUrl) => this.getTagPage$(nextUrl));
   }
 
   private getTagPage$(url?: string): Observable<Page<Tag>> {

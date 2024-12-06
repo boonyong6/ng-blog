@@ -78,7 +78,7 @@ export class PostListComponent implements OnInit {
   }
 
   public loadMoreTags(): void {
-    this.tagPaginator.loadNext((nextUrl) => this.getTagPage$(nextUrl ?? ''));
+    this.tagPaginator.loadNext((nextUrl) => this.getTagPage$(nextUrl));
   }
 
   private getTagPage$(url?: string): Observable<Page<Tag>> {

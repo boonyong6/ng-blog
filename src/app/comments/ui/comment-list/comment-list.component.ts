@@ -2,13 +2,13 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component, DestroyRef, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { Store } from '@ngrx/store';
 import { finalize, Observable } from 'rxjs';
+import { Page } from '../../../shared/data-access/types';
+import { Paginator } from '../../../shared/utils/paginator';
+import { CommentListActions } from '../../data-access/comment-list.actions';
 import { CommentService } from '../../data-access/comment.service';
 import { Comment } from '../../data-access/types';
-import { Paginator } from '../../../shared/utils/paginator';
-import { Page } from '../../../shared/data-access/types';
-import { Store } from '@ngrx/store';
-import { CommentListActions } from '../../data-access/comment-list.actions';
 
 @Component({
   selector: 'app-comment-list',
@@ -49,7 +49,7 @@ export class CommentListComponent implements OnInit {
   }
 
   loadMoreComments(): void {
-    this.paginator.loadNext((nextUrl) => this.getCommentPage$(nextUrl ?? ''));
+    this.paginator.loadNext((nextUrl) => this.getCommentPage$(nextUrl));
   }
 
   private getCommentPage$(url?: string): Observable<Page<Comment>> {

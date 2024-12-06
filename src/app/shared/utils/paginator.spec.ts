@@ -35,5 +35,6 @@ describe('Paginator', () => {
     paginator.loadNext(() => of()); // Previous `loadNext()` indicates no next page, hence return early.
 
     expect(paginator.data).toEqual(['a', 'b', 'c', 'd']);
+    expect(paginator.hasNext()).toBe(false);
   });
 });
