@@ -81,12 +81,12 @@
       <div #commentList id="comment-list" class="mb-10">
         @defer (on viewport(commentList)) {
           <app-comment-list [postId]="post.id" />
+          <app-comment-form
+            [postId]="post.id"
+            (commentCreated)="addCommentToList($event)"
+          />
         }
       </div>
-      <app-comment-form
-        [postId]="post.id"
-        (commentCreated)="addCommentToList($event)"
-      />
     </div>
   </div>
 
