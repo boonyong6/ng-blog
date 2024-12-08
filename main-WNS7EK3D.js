@@ -70,7 +70,7 @@ Please report this to https://github.com/markedjs/marked.`,i){let r="<p>An error
           >
             <mat-icon class="mat-icon notranslate material-icons mat-ligature-font mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">link</mat-icon>
           </a>
-          ${t}
+          <div>${t}</div>
         </h${e}>`},paragraph({tokens:i}){return`<p class="mb-5">${this.parser.parseInline(i)}</p>`},code({text:i,lang:e}){let t=e?`language-${e}`:"language-none";return`<pre class="${t} !my-6" tabIndex="0"><code class="${t}">${ku(i)}</code></pre>`},codespan({text:i}){return`<span class="font-mono bg-[--mat-sys-surface-container-highest] text-[--mat-sys-secondary] px-1 rounded">${ku(i)}</span>`},list({items:i,ordered:e,start:t}){let r="pl-6 leading-8",o=e?`ol class="list-decimal ${r}" start="${t}"`:`ul class="list-disc ${r}"`,s="";for(let a of i)s+=this.listitem(a);return`
         <${o}>
           ${s}
