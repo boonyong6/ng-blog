@@ -24,7 +24,7 @@ export function markedOptionsFactory(): MarkedOptions {
           >
             <mat-icon class="mat-icon notranslate material-icons mat-ligature-font mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">link</mat-icon>
           </a>
-          ${text}
+          <div>${text}</div>
         </h${depth}>`;
     },
     paragraph({ tokens }: Tokens.Paragraph) {
