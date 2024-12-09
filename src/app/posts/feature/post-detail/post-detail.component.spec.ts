@@ -15,8 +15,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ActivatedRoute } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { MarkdownComponent } from 'ngx-markdown';
 import { of } from 'rxjs';
 import { CommentService } from '../../../comments/data-access/comment.service';
@@ -38,11 +37,6 @@ describe('PostDetailComponent', () => {
   let comments: Comment[];
 
   beforeEach(async () => {
-    const activatedRouteMock = {
-      params: of({}),
-      fragment: of(null),
-    } as ActivatedRoute;
-
     post = { id: 1, title: 'Post 1' } as Post;
     const _postServiceSpy = jasmine.createSpyObj<PostService>([
       'getPost',
@@ -61,14 +55,11 @@ describe('PostDetailComponent', () => {
     );
 
     await TestBed.configureTestingModule({
-      imports: [PostDetailComponent, BrowserAnimationsModule],
+      imports: [PostDetailComponent],
       providers: [
+        provideRouter([]),
         { provide: PostService, useValue: _postServiceSpy } as Provider,
         { provide: CommentService, useValue: _commentServiceSpy } as Provider,
-        {
-          provide: ActivatedRoute,
-          useValue: activatedRouteMock as ActivatedRoute,
-        } as Provider,
         { provide: WINDOW, useValue: window } as Provider,
       ],
     })

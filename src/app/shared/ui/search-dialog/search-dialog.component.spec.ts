@@ -1,12 +1,11 @@
+import { EventEmitter } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
   TestBed,
   tick,
 } from '@angular/core/testing';
-
-import { EventEmitter } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { SearchDialogComponent } from './search-dialog.component';
 import { SearchResult, SearchResultItem } from './types';
@@ -18,7 +17,7 @@ describe('SearchDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SearchDialogComponent],
-      providers: [{ provide: ActivatedRoute, useValue: {} as ActivatedRoute }],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SearchDialogComponent);

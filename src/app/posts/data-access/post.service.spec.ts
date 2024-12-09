@@ -6,7 +6,7 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 import { environment as env } from '../../../environments/environment';
-import { TestHelper } from '../../tests/test-helper';
+import { assertRequestWasMadeToGivenUrl } from '../../tests/test-helper';
 import { PostService } from './post.service';
 
 describe('PostService', () => {
@@ -55,7 +55,7 @@ describe('PostService', () => {
   });
 
   it('#getPosts should make GET request to given url', () => {
-    TestHelper.assertRequestWasMadeToGivenUrl(
+    assertRequestWasMadeToGivenUrl(
       (url) => service.getPosts({ url }),
       httpTesting,
       'GET',
@@ -74,7 +74,7 @@ describe('PostService', () => {
   });
 
   it('#getPost should make GET request to given url', () => {
-    TestHelper.assertRequestWasMadeToGivenUrl(
+    assertRequestWasMadeToGivenUrl(
       (url) => service.getPost({ url }),
       httpTesting,
       'GET',
@@ -93,7 +93,7 @@ describe('PostService', () => {
   });
 
   it('#getSimilarPosts should make GET request to given url', () => {
-    TestHelper.assertRequestWasMadeToGivenUrl(
+    assertRequestWasMadeToGivenUrl(
       (url) => service.getSimilarPosts({ url }),
       httpTesting,
       'GET',
@@ -108,7 +108,7 @@ describe('PostService', () => {
   });
 
   it('#getTags should make GET request to given url', () => {
-    TestHelper.assertRequestWasMadeToGivenUrl(
+    assertRequestWasMadeToGivenUrl(
       (url) => service.getTags({ url }),
       httpTesting,
       'GET',
@@ -127,7 +127,7 @@ describe('PostService', () => {
   });
 
   it('#searchPosts should make GET request to given url', () => {
-    TestHelper.assertRequestWasMadeToGivenUrl(
+    assertRequestWasMadeToGivenUrl(
       (url) => service.searchPosts({ url }),
       httpTesting,
       'GET',

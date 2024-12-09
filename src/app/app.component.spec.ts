@@ -1,6 +1,6 @@
 import { Component, Provider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { firstValueFrom, of } from 'rxjs';
@@ -35,9 +35,10 @@ describe('AppComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      imports: [AppComponent, BrowserAnimationsModule],
+      imports: [AppComponent],
       providers: [
         provideRouter([{ path: '**', component: DummyComponent }]),
+        provideAnimationsAsync(),
         { provide: PostService, useValue: _postServiceSpy } as Provider,
         {
           provide: SearchDialogService,

@@ -6,7 +6,7 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 import { environment as env } from '../../../environments/environment';
-import { TestHelper } from '../../tests/test-helper';
+import { assertRequestWasMadeToGivenUrl } from '../../tests/test-helper';
 import { ProjectService } from './project.service';
 
 describe('ProjectService', () => {
@@ -37,7 +37,7 @@ describe('ProjectService', () => {
   });
 
   it('#getProjects should make GET request to given url', () => {
-    TestHelper.assertRequestWasMadeToGivenUrl(
+    assertRequestWasMadeToGivenUrl(
       (url) => service.getProjects({ url }),
       httpTesting,
       'GET',

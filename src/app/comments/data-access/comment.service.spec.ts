@@ -6,7 +6,7 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 import { environment as env } from '../../../environments/environment';
-import { TestHelper } from '../../tests/test-helper';
+import { assertRequestWasMadeToGivenUrl } from '../../tests/test-helper';
 import { CommentService } from './comment.service';
 
 describe('CommentService', () => {
@@ -52,7 +52,7 @@ describe('CommentService', () => {
   });
 
   it('#getComments should make GET request to given url', () => {
-    TestHelper.assertRequestWasMadeToGivenUrl(
+    assertRequestWasMadeToGivenUrl(
       (url) => service.getComments({ url }),
       httpTesting,
       'GET',

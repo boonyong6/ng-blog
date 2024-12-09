@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { TagLinkComponent } from './tag-link.component';
 
 describe('TagLinkComponent', () => {
@@ -9,7 +9,7 @@ describe('TagLinkComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TagLinkComponent],
-      providers: [{ provide: ActivatedRoute, useValue: {} as ActivatedRoute }],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TagLinkComponent);

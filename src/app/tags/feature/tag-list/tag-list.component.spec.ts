@@ -1,6 +1,6 @@
 import { Provider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 import { PostService } from '../../../posts/data-access/post.service';
 import { Page, Tag } from '../../../shared/data-access/types';
@@ -16,8 +16,8 @@ describe('TagListComponent', () => {
     await TestBed.configureTestingModule({
       imports: [TagListComponent],
       providers: [
+        provideRouter([]),
         { provide: PostService, useValue: _postServiceSpy } as Provider,
-        { provide: ActivatedRoute, useValue: {} } as Provider,
       ],
     }).compileComponents();
 
