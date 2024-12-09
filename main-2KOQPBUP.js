@@ -77,7 +77,7 @@ Please report this to https://github.com/markedjs/marked.`,i){let r="<p>An error
         </${o}>`},listitem({tokens:i,task:e,checked:t}){let r=e?this.checkbox({checked:!!t}):"";return r+=this.parser.parse(i).replace("mb-5","!mb-0"),`
         <li class="${e?"list-none flex gap-2":""}">
           ${r}
-        </li>`},image({href:i,text:e}){return`<img class="my-8" src="${i}" alt="${e}" />`},link({href:i,text:e}){return`<a class="link !px-0 underline underline-offset-4" href="${i}" target="_blank">${e}</a>`},blockquote({tokens:i}){return`
+        </li>`},image({href:i,text:e}){return`<img class="my-8" src="${i}" alt="${e}" />`},link({href:i,text:e}){let t="";return i.startsWith("#")&&(t=`${window.location.origin}${window.location.pathname}`),`<a class="link !px-0 underline underline-offset-4" href="${t}${i}" target="${t?"":"_blank"}">${e}</a>`},blockquote({tokens:i}){return`
         <div class="flex italic">
           <span class="border-l-4 opacity-70 mb-5 mr-4"></span>
           ${this.parser.parse(i)}
