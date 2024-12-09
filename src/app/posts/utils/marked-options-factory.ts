@@ -71,7 +71,11 @@ export function markedOptionsFactory(): MarkedOptions {
       return `<img class="my-8" src="${href}" alt="${text}" />`;
     },
     link({ href, text }: Tokens.Link) {
-      return `<a class="link !px-0 underline underline-offset-4" href="${href}" target="_blank">${text}</a>`;
+      let baseUrl = '';
+      if (href.startsWith('#')) {
+        baseUrl = `${window.location.origin}${window.location.pathname}`;
+      }
+      return `<a class="link !px-0 underline underline-offset-4" href="${baseUrl}${href}" target="${baseUrl ? '' : '_blank'}">${text}</a>`;
     },
     blockquote({ tokens }: Tokens.Blockquote) {
       const text = this.parser.parse(tokens);
