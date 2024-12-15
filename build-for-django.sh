@@ -18,16 +18,16 @@ if [ -z "$API_PROJECT_ROOT" ]; then
 fi
 
 echo '=> Removing any existing build artifacts...'
-rm -r "$API_PROJECT_ROOT/public/static/dist/"
+rm -r "$API_PROJECT_ROOT/public/dist/"
 echo '=> End remove.'
 echo
 
 echo '=> Creating directories for build artifacts if not exist...'
-mkdir -p "$API_PROJECT_ROOT/public/static/"
+mkdir -p "$API_PROJECT_ROOT/public/"
 echo '=> End create.'
 echo
 
 echo '=> Copying build artifacts...'
-cp -r ./dist "$API_PROJECT_ROOT/public/static/"
+cp -r ./dist "$API_PROJECT_ROOT/public/"
 echo '=> End copy.'
 echo
