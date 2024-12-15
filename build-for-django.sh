@@ -1,5 +1,5 @@
 #!/bin/bash
-ng build --deploy-url static/ --configuration staging
+npx ng build --deploy-url static/ --configuration staging
 mv dist/ng-blog/browser/static/* dist/ng-blog/browser/
 rm -r dist/ng-blog/browser/static/
 
