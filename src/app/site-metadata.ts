@@ -2,12 +2,12 @@ export const siteMetadata = {
   socialLinks: [
     {
       url: 'https://github.com/boonyong6/ng-blog/',
-      logoUrl: 'icons/github.svg',
+      logoUrl: 'static/icons/github.svg',
       description: 'GitHub link',
     },
     {
       url: 'https://www.linkedin.com/in/boonyongkang/',
-      logoUrl: 'icons/linkedin.svg',
+      logoUrl: 'static/icons/linkedin.svg',
       description: 'LinkedIn link',
     },
   ],

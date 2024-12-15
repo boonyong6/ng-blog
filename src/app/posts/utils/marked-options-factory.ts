@@ -107,6 +107,7 @@ export function markedOptionsFactory(): MarkedOptions {
           ${text}
         </table>`;
     },
+    // TODO: [Bug] tokens (e.g. codespan, <strong>) can't be parsed properly.
     tablecell({ tokens, header, align }: Tokens.TableCell) {
       const text = this.parser.parse(tokens).replace('mb-5', '!mb-0');
       return `<td class="py-2 ${header ? 'font-bold' : ''} ${

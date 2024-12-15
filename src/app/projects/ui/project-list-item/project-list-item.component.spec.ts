@@ -33,7 +33,7 @@ describe('ProjectListItemComponent', () => {
 
     fixture = TestBed.createComponent(ProjectListItemComponent);
     component = fixture.componentInstance;
-    component.project = { thumbnail: 'logo.png' } as Project;
+    component.project = { thumbnail: 'static/logo.png' } as Project;
     fixture.detectChanges();
   });
 

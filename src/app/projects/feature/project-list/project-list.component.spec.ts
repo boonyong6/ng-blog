@@ -29,7 +29,9 @@ describe('ProjectListComponent', () => {
         pageSize: 10,
         previous: null,
         next: 'https://example.com/?page=2',
-        results: [{ id: 1, title: 'blog', thumbnail: 'logo.png' } as Project],
+        results: [
+          { id: 1, title: 'blog', thumbnail: 'static/logo.png' } as Project,
+        ],
       } satisfies Page<Project>),
     );
 
@@ -47,7 +49,7 @@ describe('ProjectListComponent', () => {
     const project = {
       id: 1,
       title: 'untitled',
-      thumbnail: 'logo.png',
+      thumbnail: 'static/logo.png',
     } as Project;
     projectServiceSpy.getProjects.and.returnValue(
       of({
