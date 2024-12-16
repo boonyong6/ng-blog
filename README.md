@@ -23,15 +23,15 @@
 
 [![Project screenshot][project-screenshot]](https://boonyong.serv00.net/tags/angular/page/1)
 
-This is a single-page application (SPA) for a blog site, integrated with a backend REST API to fetch data. Content such as posts, tags, and projects is managed via the Django admin site. The blog site is fully responsive, working seamlessly on both desktop and mobile devices.
+This is a single-page application (SPA) for a blog site, integrated with a backend REST API to fetch data. Content such as posts, tags, and projects is managed via the Django admin site. The blog site is fully responsive, working on both desktop and mobile devices.
+
+See the **backend project** [here](https://github.com/boonyong6/blog-api).
 
 ### Built With
 
 - [![Angular][Angular.io]][Angular-url]
 - [![TypeScript][typescript]][typescript-url]
 - [![tailwindcss][tailwindcss]][tailwindcss-url]
-- [![Django][django]][django-url]
-- [![PostgreSQL][postgresql]][postgresql-url]
 
 <!-- FEATURES -->
 
@@ -81,10 +81,6 @@ This is a single-page application (SPA) for a blog site, integrated with a backe
 [project-screenshot]: https://boonyong.serv00.net/media/images/2024/12/16/blog-page.png
 [Angular.io]: https://img.shields.io/badge/Angular_19-DD0031?style=for-the-badge&logo=angular&logoColor=white
 [Angular-url]: https://angular.io/
-[django]: https://img.shields.io/badge/Django_5-092E20?style=for-the-badge&logo=django&logoColor=green
-[django-url]: https://www.djangoproject.com/
-[postgresql]: https://img.shields.io/badge/postgresql-4169e1?style=for-the-badge&logo=postgresql&logoColor=white
-[postgresql-url]: https://www.postgresql.org/
 [tailwindcss]: https://img.shields.io/badge/TailwindCSS-grey?style=for-the-badge&logo=tailwind-css&logoColor=38B2AC
 [tailwindcss-url]: https://tailwindcss.com/
 [typescript]: https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white
