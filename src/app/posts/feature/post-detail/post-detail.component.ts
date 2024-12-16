@@ -102,6 +102,11 @@ export class PostDetailComponent implements OnInit {
       });
   }
 
+  // TODO: [Enhancement] Add `handleMarkdownReady()`
+  // - Populate table of contents (table-of-contents-menu) based on headings
+  //   in markdown (with @ViewChild, element.nativeElement.querySelectorAll).
+  // - Scroll to URL fragment.
+
   scrollToFragment() {
     // Manually delay until markdown is fully rendered in the DOM.
     setTimeout(() => {
