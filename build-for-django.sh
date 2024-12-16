@@ -1,4 +1,10 @@
 #!/bin/bash
+
+echo '=> Pulling updates from the remote repository...'
+git pull
+echo '=> End pull.'
+echo
+
 echo '=> Building Angular app...'
 npx ng build --deploy-url static/ --configuration staging
 echo '=> End build.'
