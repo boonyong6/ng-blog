@@ -99,6 +99,9 @@
             },
             "development": {
               "buildTarget": "ng-blog:build:development"
+            },
+            "staging": {
+              "buildTarget": "ng-blog:build:staging"
             }
           },
           "defaultConfiguration": "development"

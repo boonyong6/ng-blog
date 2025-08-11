@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment as env } from '../../../environments/environment';
+import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
+import { environment as env } from '../../../environments/environment';
 import { Page } from '../../shared/data-access/types';
 import { Comment } from './types';
 
@@ -9,7 +10,10 @@ import { Comment } from './types';
   providedIn: 'root',
 })
 export class CommentService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private cookieService: CookieService,
+  ) {}
 
   getComments({ url, page = 1, postId }: ListParams = {}): Observable<
     Page<Comment>
@@ -30,7 +34,11 @@ export class CommentService {
       body,
       active: true,
     };
-    return this.http.post<Comment>(`${env.apiBaseUrl}/comments/`, requestBody);
+    return this.http.post<Comment>(`${env.apiBaseUrl}/comments/`, requestBody, {
+      headers: {
+        'X-CSRFToken': this.cookieService.get('csrftoken'),
+      },
+    });
   }
 }
 
