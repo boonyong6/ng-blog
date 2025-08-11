@@ -5,6 +5,11 @@ git pull
 echo '=> End pull.'
 echo
 
+echo '=> Installing node modules...'
+npm install
+echo '=> End install.'
+echo
+
 echo '=> Building Angular app...'
 npx ng build --deploy-url static/ --configuration staging
 echo '=> End build.'
